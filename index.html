@@ -402,7 +402,8 @@ async function loadDynamicQuestions() {
   var beruf = answers.beruf || 'Selbstst\u00e4ndige';
   var prompt = 'Du bist Brand-Designer. Eine Unternehmerin f\u00fcllt einen Marken-Fragebogen aus. Ihr Beruf: "' + beruf + '"\n\nErstelle auf Deutsch f\u00fcr JEDE der 4 Fragen genau 5 Antwortm\u00f6glichkeiten passend zu diesem Beruf. Jede Option hat einen kurzen Titel (max 8 W\u00f6rter, beginnend mit "Ich") und eine Beschreibung (max 12 W\u00f6rter).\n\nAntworte NUR mit validem JSON ohne Markdown:\n{"veraenderung":[{"val":"e1","label":"Ich ...","sub":"..."},{"val":"e2","label":"Ich ...","sub":"..."},{"val":"e3","label":"Ich ...","sub":"..."},{"val":"e4","label":"Ich ...","sub":"..."},{"val":"e5","label":"Ich ...","sub":"..."}],"zielgruppe":[{"val":"z1","label":"...","sub":"..."},{"val":"z2","label":"...","sub":"..."},{"val":"z3","label":"...","sub":"..."},{"val":"z4","label":"...","sub":"..."},{"val":"z5","label":"...","sub":"..."}],"nachtgedanken":[{"val":"n1","label":"...","sub":"..."},{"val":"n2","label":"...","sub":"..."},{"val":"n3","label":"...","sub":"..."},{"val":"n4","label":"...","sub":"..."},{"val":"n5","label":"...","sub":"..."}],"vorversuche":[{"val":"v1","label":"...","sub":"..."},{"val":"v2","label":"...","sub":"..."},{"val":"v3","label":"...","sub":"..."},{"val":"v4","label":"...","sub":"..."},{"val":"v5","label":"...","sub":"..."}]}';
   try {
-    var res = await fetch('https://api.anthropic.com/v1/messages',{
+    var res = await fetch('https://mela-api.webdesignbymela.workers.dev',{
+      method:'POST',
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1200,messages:[{role:'user',content:prompt}]})
