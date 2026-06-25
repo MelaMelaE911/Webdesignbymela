@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auswertung – Webdesign by Mela</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#2D6E6E;--teal-dark:#1E4E4E;--teal-soft:#E8F2F2;
+  --rose:#FD6484;--rose-soft:#FEE8ED;
+  --sand:#F5F0EB;--sand-dark:#EAE2D8;
+  --ink:#1C1917;--ink-muted:#6B5F58;--ink-light:#A8998F;
+  --white:#FFFFFF;--border:#DDD5CC;
+  --r-sm:8px;--r-md:14px;--r-lg:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--sand);color:var(--ink);min-height:100vh}
+.shell{max-width:660px;margin:0 auto;padding:3rem 1.25rem 6rem}
+.site-header{text-align:center;margin-bottom:2rem}
+.logo-pill{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--border);border-radius:100px;padding:6px 18px 6px 12px;font-size:11px;font-weight:500;color:var(--ink-muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:1rem}
+.logo-pip{width:8px;height:8px;border-radius:50%;background:var(--rose)}
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:2.5rem;box-shadow:0 4px 24px rgba(45,110,110,.06)}
+.result-hero{text-align:center;padding:.5rem 0 2rem;border-bottom:1px solid var(--border)}
+.result-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);background:var(--rose-soft);padding:4px 14px;border-radius:100px;margin-bottom:1rem}
+.result-icon{font-size:52px;display:block;margin-bottom:.75rem}
+.result-name{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--ink);margin-bottom:.5rem}
+.result-tagline{font-size:14px;color:var(--ink-muted);line-height:1.75;max-width:440px;margin:0 auto}
+.result-section{padding-top:1.75rem;margin-top:1.75rem;border-top:1px solid var(--border)}
+.rs-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:1.25rem}
+.arch-grid{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1rem}
+.arch-badge-sm{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px}
+.arch-pill-primary{display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:var(--white);padding:8px 18px;border-radius:100px;font-size:13px;font-weight:500}
+.arch-pill-secondary{display:inline-flex;align-items:center;gap:8px;background:var(--teal-soft);color:var(--teal);border:1px solid var(--teal);padding:8px 18px;border-radius:100px;font-size:13px;font-weight:500}
+.arch-reason{font-size:13px;color:var(--ink-muted);line-height:1.7;margin-top:10px;padding:12px 16px;background:var(--sand);border-radius:var(--r-sm)}
+.color-table{width:100%;border-collapse:collapse}
+.color-table tr{border-bottom:1px solid var(--sand-dark)}
+.color-table tr:last-child{border-bottom:none}
+.color-table td{padding:14px 12px;vertical-align:middle}
+.color-swatch-big{width:90px;height:72px;border-radius:var(--r-sm);box-shadow:0 2px 8px rgba(0,0,0,.10);display:flex;align-items:center;justify-content:center}
+.swatch-hex{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.05em}
+.color-name-role{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+.color-name{font-size:14px;font-weight:500;color:var(--ink)}
+.color-role{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-light)}
+.color-why{font-size:12px;color:var(--ink-muted);line-height:1.6}
+.font-list{display:flex;flex-direction:column;gap:12px}
+.font-card{background:var(--sand);border-radius:var(--r-md);padding:16px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.font-badge{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);background:var(--teal-soft);padding:4px 10px;border-radius:100px;white-space:nowrap;margin-top:2px}
+.font-name{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.font-why{font-size:12px;color:var(--ink-muted);line-height:1.55;margin-bottom:6px}
+.font-preview{font-size:18px;color:var(--ink)}
+.buyer-card{background:var(--sand);border-radius:var(--r-md);padding:16px;margin-bottom:10px}
+.buyer-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.buyer-badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:100px}
+.buyer-badge-p{background:var(--rose-soft);color:var(--rose)}
+.buyer-badge-s{background:var(--teal-soft);color:var(--teal)}
+.buyer-name{font-size:14px;font-weight:600;color:var(--ink)}
+.buyer-desc{font-size:13px;color:var(--ink-muted);line-height:1.65;margin-bottom:10px}
+.buyer-why{font-size:12px;color:var(--ink-muted);line-height:1.6;padding:10px 12px;background:var(--white);border-radius:var(--r-sm);border-left:2px solid var(--rose)}
+.buyer-tactics{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tactic{font-size:11px;font-weight:500;padding:4px 12px;border-radius:100px;background:var(--white);border:1px solid var(--border);color:var(--ink-muted)}
+.insight-box{background:linear-gradient(135deg,var(--teal-soft) 0%,var(--rose-soft) 100%);border:1px solid var(--border);border-radius:var(--r-md);padding:1.5rem;margin-top:1.5rem}
+.insight-box p{font-size:13px;color:var(--ink);line-height:1.75}
+.insight-box strong{color:var(--teal)}
+.error-state{text-align:center;padding:3rem 1rem;color:var(--ink-muted)}
+.site-footer{text-align:center;margin-top:2rem;font-size:12px;color:var(--ink-light)}
+@media(max-width:520px){.card{padding:1.5rem}.color-swatch-big{width:70px;height:58px}.arch-grid{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="site-header">
+    <div class="logo-pill"><div class="logo-pip"></div>Webdesign by Mela</div>
+  </div>
+  <div class="card" id="result-card">
+    <p style="text-align:center;color:var(--ink-muted);padding:2rem">Auswertung wird geladen &hellip;</p>
+  </div>
+  <p class="site-footer">Webdesign by Mela &middot; Alle Angaben werden vertraulich behandelt</p>
+</div>
+<script>
+function isLight(hex){
+  var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return (r*299+g*587+b*114)/1000>145;
+}
+
+function render(d) {
+  var palette = d.palette || [];
+  var fonts   = d.fonts   || {};
+  var name    = d.name    || 'Kundin';
+
+  var colorRows = '';
+  for(var i=0;i<palette.length;i++){
+    var c=palette[i];
+    var tc=isLight(c.hex)?'#1C1917':'#FFFFFF';
+    colorRows+='<tr><td><div class="color-swatch-big" style="background:'+c.hex+'"><span class="swatch-hex" style="color:'+tc+'">'+c.hex+'</span></div></td>'+
+      '<td><div class="color-name-role"><span class="color-name">'+c.name+'</span><span class="color-role">'+c.role+'</span></div>'+
+      '<div class="color-why">'+c.why+'</div></td></tr>';
+  }
+
+  var fontRoles=[{key:'headline',label:'Headline'},{key:'body',label:'Flie\u00dftext'},{key:'accent',label:'Akzent'}];
+  var fontCards='';
+  for(var j=0;j<fontRoles.length;j++){
+    var fr=fontRoles[j];var f=fonts[fr.key]||{};
+    fontCards+='<div class="font-card"><span class="font-badge">'+fr.label+'</span>'+
+      '<div><div class="font-name">'+(f.name||'')+'</div>'+
+      '<div class="font-why">'+(f.why||'')+'</div>'+
+      '<div class="font-preview">'+(f.preview||'')+'</div></div></div>';
+  }
+
+  var tP='',tS='';
+  var tp=d.buyer_primaer_tactics||[];
+  var ts=d.buyer_sekundaer_tactics||[];
+  for(var t=0;t<tp.length;t++) tP+='<span class="tactic">\u2192 '+tp[t]+'</span>';
+  for(var t2=0;t2<ts.length;t2++) tS+='<span class="tactic">\u2192 '+ts[t2]+'</span>';
+
+  document.getElementById('result-card').innerHTML =
+    '<div class="result-hero">'+
+      '<span class="result-tag">Auswertung f\u00fcr '+name+'</span>'+
+      '<span class="result-icon">'+(d.archetyp_primaer_icon||'')+'</span>'+
+      '<div class="result-name">'+(d.archetyp_primaer||'')+'</div>'+
+      '<p class="result-tagline">'+(d.archetyp_primaer_desc||'')+'</p>'+
+    '</div>'+
+    '<div class="result-section">'+
+      '<p class="rs-label">Marken-Archetyp</p>'+
+      '<div class="arch-grid">'+
+        '<div><div class="arch-badge-sm">Prim\u00e4r</div><div class="arch-pill-primary">'+(d.archetyp_primaer_icon||'')+' '+(d.archetyp_primaer||'')+'</div></div>'+
+        '<div><div class="arch-badge-sm">Sekund\u00e4r</div><div class="arch-pill-secondary">'+(d.archetyp_sekundaer_icon||'')+' '+(d.archetyp_sekundaer||'')+'</div></div>'+
+      '</div>'+
+      '<div class="arch-reason"><strong>Warum diese Archetypen?</strong><br>'+(d.arch_reason||'')+'</div>'+
+      '<div class="arch-reason" style="margin-top:8px"><strong>Sekund\u00e4r-Einfluss:</strong><br>'+(d.archetyp_sekundaer_desc||'')+'</div>'+
+    '</div>'+
+    '<div class="result-section">'+
+      '<p class="rs-label">Deine Farbpalette</p>'+
+      '<table class="color-table">'+colorRows+'</table>'+
+    '</div>'+
+    '<div class="result-section">'+
+      '<p class="rs-label">Schriftempfehlung</p>'+
+      '<div class="font-list">'+fontCards+'</div>'+
+    '</div>'+
+    '<div class="result-section">'+
+      '<p class="rs-label">K\u00e4ufertyp deiner Zielgruppe</p>'+
+      '<div class="buyer-card">'+
+        '<div class="buyer-header"><span class="buyer-badge buyer-badge-p">Prim\u00e4r</span><span class="buyer-name">'+(d.buyer_primaer||'')+'</span></div>'+
+        '<p class="buyer-desc">'+(d.buyer_primaer_desc||'')+'</p>'+
+        '<div class="buyer-why"><strong>Warum dieser Typ?</strong><br>'+(d.buyer_reason||'')+'</div>'+
+        '<div class="buyer-tactics">'+tP+'</div>'+
+      '</div>'+
+      '<div class="buyer-card">'+
+        '<div class="buyer-header"><span class="buyer-badge buyer-badge-s">Sekund\u00e4r</span><span class="buyer-name">'+(d.buyer_sekundaer||'')+'</span></div>'+
+        '<p class="buyer-desc">'+(d.buyer_sekundaer_desc||'')+'</p>'+
+        '<div class="buyer-tactics">'+tS+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="insight-box">'+
+      '<p><strong>Melas Empfehlung f\u00fcr '+name+':</strong> Deine Website braucht die Energie der <strong>'+(d.archetyp_primaer||'')+'</strong>, kombiniert mit einer Struktur die auf die <strong>'+(d.buyer_primaer||'')+'</strong> ausgerichtet ist. Dein Business \u201e'+(d.beruf||'')+'\u201c verdient eine Website, die genau widerspiegelt wer du wirklich bist.</p>'+
+    '</div>';
+}
+
+// URL-Parameter auslesen
+try {
+  var params = new URLSearchParams(window.location.search);
+  var encoded = params.get('d');
+  if(!encoded) throw new Error('Kein Datensatz gefunden.');
+  var data = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+  render(data);
+} catch(e) {
+  document.getElementById('result-card').innerHTML =
+    '<div class="error-state">'+
+      '<p style="font-size:32px;margin-bottom:1rem">\uD83D\uDE15</p>'+
+      '<p style="font-weight:500;margin-bottom:0.5rem">Auswertung konnte nicht geladen werden.</p>'+
+      '<p style="font-size:13px">Der Link ist m\u00f6glicherweise unvollst\u00e4ndig. Bitte den Link aus der E-Mail erneut \u00f6ffnen.</p>'+
+    '</div>';
+}
+</script>
+</body>
+</html>
