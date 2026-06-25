@@ -123,7 +123,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--sand);color:var(--ink);mi
   <div class="progress-wrap">
     <div class="progress-meta">
       <span class="progress-block" id="block-label">Block 1 &ndash; Einstieg</span>
-      <span class="progress-num" id="pct-label">1 / 19</span>
+      <span class="progress-num" id="pct-label">1 / 20</span>
     </div>
     <div class="progress-track"><div class="progress-fill" id="progress" style="width:5%"></div></div>
   </div>
@@ -168,6 +168,15 @@ var questions = [
    question:'Was machst du beruflich?',
    sub:'Ein kurzer Satz reicht \u2013 z.\u00a0B. \u201eIch bin Eltern-Coach\u201c oder \u201eIch fotografiere Familien\u201c.',
    placeholder:'Mein Business in einem Satz \u2026'},
+  {id:'zielgruppe_geschlecht',eyebrow:'Dein Business',
+   question:'Wer ist deine Zielgruppe?',
+   sub:'Das hilft mir, die Sprache und Antworten passend auszurichten.',
+   options:[
+     {val:'frauen',   label:'Hauptsächlich Frauen',          sub:'Deine Angebote richten sich vorwiegend an Frauen.'},
+     {val:'maenner',  label:'Hauptsächlich Männer',     sub:'Deine Angebote richten sich vorwiegend an Männer.'},
+     {val:'gemischt', label:'Gemischt – Frauen und Männer',sub:'Deine Zielgruppe ist bunt gemischt.'},
+     {val:'familien', label:'Familien und Eltern',                 sub:'Du arbeitest mit Familien oder Elternteilen.'}
+   ], other:true},
   {id:'dauer', eyebrow:'Dein Business',
    question:'Wie lange bist du schon selbst\u00e4ndig?',
    sub:'',
@@ -400,7 +409,9 @@ async function loadDynamicQuestions() {
   if(dynamicLoaded) return;
   showLoading(true);
   var beruf = answers.beruf || 'Selbstst\u00e4ndige';
-  var prompt = 'Du bist Brand-Designer. Eine Unternehmerin f\u00fcllt einen Marken-Fragebogen aus. Ihr Beruf: "' + beruf + '"\n\nErstelle auf Deutsch f\u00fcr JEDE der 4 Fragen genau 5 Antwortm\u00f6glichkeiten passend zu diesem Beruf. Jede Option hat einen kurzen Titel (max 8 W\u00f6rter, beginnend mit "Ich") und eine Beschreibung (max 12 W\u00f6rter).\n\nAntworte NUR mit validem JSON ohne Markdown:\n{"veraenderung":[{"val":"e1","label":"Ich ...","sub":"..."},{"val":"e2","label":"Ich ...","sub":"..."},{"val":"e3","label":"Ich ...","sub":"..."},{"val":"e4","label":"Ich ...","sub":"..."},{"val":"e5","label":"Ich ...","sub":"..."}],"zielgruppe":[{"val":"z1","label":"...","sub":"..."},{"val":"z2","label":"...","sub":"..."},{"val":"z3","label":"...","sub":"..."},{"val":"z4","label":"...","sub":"..."},{"val":"z5","label":"...","sub":"..."}],"nachtgedanken":[{"val":"n1","label":"...","sub":"..."},{"val":"n2","label":"...","sub":"..."},{"val":"n3","label":"...","sub":"..."},{"val":"n4","label":"...","sub":"..."},{"val":"n5","label":"...","sub":"..."}],"vorversuche":[{"val":"v1","label":"...","sub":"..."},{"val":"v2","label":"...","sub":"..."},{"val":"v3","label":"...","sub":"..."},{"val":"v4","label":"...","sub":"..."},{"val":"v5","label":"...","sub":"..."}]}';
+  var zg = {frauen:'Frauen',maenner:'M\u00e4nner',gemischt:'Frauen und M\u00e4nner',familien:'Familien und Eltern'};
+  var zielgruppeText = zg[answers.zielgruppe_geschlecht] || (answers.zielgruppe_geschlecht_other||'gemischt');
+  var prompt = 'Du bist Brand-Designer. Eine Unternehmerin f\u00fcllt einen Marken-Fragebogen aus. Ihr Beruf: "' + beruf + '", Zielgruppe: "' + zielgruppeText + '"\n\nErstelle auf Deutsch f\u00fcr JEDE der 4 Fragen genau 5 Antwortm\u00f6glichkeiten passend zu diesem Beruf. Jede Option hat einen kurzen Titel (max 8 W\u00f6rter, beginnend mit "Ich") und eine Beschreibung (max 12 W\u00f6rter).\n\nAntworte NUR mit validem JSON ohne Markdown:\n{"veraenderung":[{"val":"e1","label":"Ich ...","sub":"..."},{"val":"e2","label":"Ich ...","sub":"..."},{"val":"e3","label":"Ich ...","sub":"..."},{"val":"e4","label":"Ich ...","sub":"..."},{"val":"e5","label":"Ich ...","sub":"..."}],"zielgruppe":[{"val":"z1","label":"...","sub":"..."},{"val":"z2","label":"...","sub":"..."},{"val":"z3","label":"...","sub":"..."},{"val":"z4","label":"...","sub":"..."},{"val":"z5","label":"...","sub":"..."}],"nachtgedanken":[{"val":"n1","label":"...","sub":"..."},{"val":"n2","label":"...","sub":"..."},{"val":"n3","label":"...","sub":"..."},{"val":"n4","label":"...","sub":"..."},{"val":"n5","label":"...","sub":"..."}],"vorversuche":[{"val":"v1","label":"...","sub":"..."},{"val":"v2","label":"...","sub":"..."},{"val":"v3","label":"...","sub":"..."},{"val":"v4","label":"...","sub":"..."},{"val":"v5","label":"...","sub":"..."}]}';
   try {
     var res = await fetch('https://mela-api.webdesignbymela.workers.dev',{
       method:'POST',
@@ -416,14 +427,14 @@ async function loadDynamicQuestions() {
     questions[11].options = parsed.nachtgedanken || [];
     questions[12].options = parsed.vorversuche   || [];
   } catch(e) {
-    questions[3].options = [
+    questions[4].options = [
       {val:'e1',label:'Ich gebe ihnen Klarheit und Orientierung',         sub:'Sie wissen endlich, wo sie stehen und wohin sie wollen.'},
       {val:'e2',label:'Ich helfe ihnen, sich selbst wieder zu finden',    sub:'Sie kommen zur\u00fcck zu sich und ihrer eigenen Stimme.'},
       {val:'e3',label:'Ich bef\u00e4hige sie, etwas Neues aufzubauen',   sub:'Ein Business, ein Leben, eine neue Identit\u00e4t.'},
       {val:'e4',label:'Ich nehme ihnen Druck und schaffe Leichtigkeit',   sub:'Das Gef\u00fchl: Es darf auch einfach sein.'},
       {val:'e5',label:'Ich begleite sie durch eine schwierige Ver\u00e4nderung',sub:'Trennung, Verlust, Neuanfang \u2013 ich bin dabei.'}
     ];
-    questions[10].options = [
+    questions[11].options = [
       {val:'z1',label:'Menschen in beruflicher Neuorientierung',  sub:'Suchen Orientierung und neue Richtung.'},
       {val:'z2',label:'Frauen, die sich selbst verloren haben',   sub:'Zwischen Rollen und Erwartungen gefangen.'},
       {val:'z3',label:'Eltern im Alltagsstress',                  sub:'Brauchen Entlastung und klare Struktur.'},
