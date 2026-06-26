@@ -380,6 +380,7 @@ var BUYER_TYPES = {
 var answers = {};
 var currentStep = 0;
 var dynamicLoaded = false;
+var zielgruppeText = '';
 
 var kommLabels   = {warm:'warm und pers\u00f6nlich',direct:'klar und direkt',deep:'tiefgr\u00fcndig und ehrlich',playful:'leicht und humorvoll',inspiring:'inspirierend und bildhaft',calm:'ruhig und kompetent'};
 var repLabels    = {seen:'Sie hat mich wirklich verstanden und gesehen.',right:'Bei ihr wusste ich sofort, dass ich richtig bin.',possible:'Sie hat mir gezeigt, was wirklich m\u00f6glich ist.',best:'Sie ist die Beste in dem, was sie tut.',changed:'Mit ihr hat sich wirklich etwas ver\u00e4ndert.',courage:'Sie hat mir Mut gemacht, ich selbst zu sein.'};
@@ -432,7 +433,7 @@ async function loadDynamicQuestions() {
   showLoading(true);
   var beruf = answers.beruf || 'Selbstst\u00e4ndige';
   var zg = {frauen:'Frauen',maenner:'M\u00e4nner',gemischt:'Frauen und M\u00e4nner',familien:'Familien und Eltern'};
-  var zielgruppeText = zg[answers.zielgruppe_geschlecht] || (answers.zielgruppe_geschlecht_other||'gemischt');
+  zielgruppeText = zg[answers.zielgruppe_geschlecht] || (answers.zielgruppe_geschlecht_other||'gemischt');
   var prompt = 'Du bist Brand-Designer. Eine Unternehmerin f\u00fcllt einen Marken-Fragebogen aus. Ihr Beruf: "' + beruf + '", Zielgruppe: "' + zielgruppeText + '"\n\nErstelle auf Deutsch f\u00fcr JEDE der 4 Fragen genau 5 Antwortm\u00f6glichkeiten passend zu diesem Beruf. Jede Option hat einen kurzen Titel (max 8 W\u00f6rter, beginnend mit "Ich", kein "befähige") und eine Beschreibung (max 12 W\u00f6rter).\n\nAntworte NUR mit validem JSON ohne Markdown:\n{"veraenderung":[{"val":"e1","label":"Ich ...","sub":"..."},{"val":"e2","label":"Ich ...","sub":"..."},{"val":"e3","label":"Ich ...","sub":"..."},{"val":"e4","label":"Ich ...","sub":"..."},{"val":"e5","label":"Ich ...","sub":"..."}],"zielgruppe":[{"val":"z1","label":"...","sub":"..."},{"val":"z2","label":"...","sub":"..."},{"val":"z3","label":"...","sub":"..."},{"val":"z4","label":"...","sub":"..."},{"val":"z5","label":"...","sub":"..."}],"nachtgedanken":[{"val":"n1","label":"...","sub":"..."},{"val":"n2","label":"...","sub":"..."},{"val":"n3","label":"...","sub":"..."},{"val":"n4","label":"...","sub":"..."},{"val":"n5","label":"...","sub":"..."}],"vorversuche":[{"val":"v1","label":"...","sub":"..."},{"val":"v2","label":"...","sub":"..."},{"val":"v3","label":"...","sub":"..."},{"val":"v4","label":"...","sub":"..."},{"val":"v5","label":"...","sub":"..."}]}';
   try {
     var res = await fetch('https://mela-api.webdesignbymela.workers.dev',{
