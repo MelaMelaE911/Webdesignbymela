@@ -4,728 +4,1157 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Marken-Fragebogen – Webdesign by Mela</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --teal:#2D6E6E;--teal-dark:#1E4E4E;--teal-soft:#E8F2F2;
-  --rose:#FD6484;--rose-soft:#FEE8ED;
-  --sand:#F5F0EB;--sand-dark:#EAE2D8;
-  --ink:#1C1917;--ink-muted:#6B5F58;--ink-light:#A8998F;
-  --white:#FFFFFF;--border:#DDD5CC;
-  --r-sm:8px;--r-md:14px;--r-lg:20px;
+  --teal:#2D6E6E;
+  --teal-light:#3D8A8A;
+  --rose:#FD6484;
+  --sand:#F5F0EB;
+  --sand-dark:#EAE3DA;
+  --ink:#1C1917;
+  --ink-mid:#4A4542;
+  --ink-light:#8A8380;
+  --white:#FDFCFB;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',sans-serif;
 }
-*{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--sand);color:var(--ink);min-height:100vh}
-.shell{max-width:660px;margin:0 auto;padding:3rem 1.25rem 6rem}
-.site-header{text-align:center;margin-bottom:3rem}
-.logo-pill{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--border);border-radius:100px;padding:6px 18px 6px 12px;font-size:11px;font-weight:500;color:var(--ink-muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:1.5rem}
-.logo-pip{width:8px;height:8px;border-radius:50%;background:var(--rose)}
-.site-header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,42px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:1rem}
-.site-header h1 em{color:var(--teal);font-style:italic}
-.site-header p{font-size:15px;color:var(--ink-muted);line-height:1.75;max-width:460px;margin:0 auto}
-.progress-wrap{margin-bottom:2rem}
-.progress-meta{display:flex;justify-content:space-between;margin-bottom:8px}
-.progress-block{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-light)}
-.progress-num{font-family:'DM Mono',monospace;font-size:12px;color:var(--teal)}
-.progress-track{height:3px;background:var(--sand-dark);border-radius:2px;overflow:hidden}
-.progress-fill{height:3px;background:linear-gradient(90deg,var(--teal),var(--rose));border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
-.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:2.5rem;box-shadow:0 4px 24px rgba(45,110,110,.06)}
-.step{display:none}
-.step.active{display:block;animation:fadeUp .35s ease both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.step-eyebrow{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);background:var(--teal-soft);padding:4px 12px;border-radius:100px;margin-bottom:14px}
-.step-question{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3.5vw,26px);font-weight:600;line-height:1.35;color:var(--ink);margin-bottom:8px}
-.step-sub{font-size:14px;color:var(--ink-muted);line-height:1.75;margin-bottom:1.75rem}
-.options{display:flex;flex-direction:column;gap:9px;margin-bottom:2rem}
-.opt{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border:1.5px solid var(--border);border-radius:var(--r-md);cursor:pointer;transition:border-color .18s,background .18s,transform .12s;background:var(--white)}
-.opt:hover{border-color:var(--teal);background:var(--teal-soft);transform:translateX(3px)}
-.opt.selected{border-color:var(--teal);background:var(--teal-soft)}
-.radio{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .18s}
-.opt.selected .radio{border-color:var(--teal);background:var(--teal)}
-.radio-dot{width:7px;height:7px;border-radius:50%;background:var(--white);opacity:0;transition:opacity .18s}
-.opt.selected .radio-dot{opacity:1}
-.opt-label{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:3px}
-.opt-sub{font-size:12px;color:var(--ink-muted);line-height:1.5}
-.opt-other-input{width:100%;margin-top:8px;padding:8px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--white);outline:none;display:none;transition:border-color .18s}
-.opt-other-input:focus{border-color:var(--teal)}
-.opt.selected .opt-other-input{display:block}
-.text-input{width:100%;padding:14px 18px;border:1.5px solid var(--border);border-radius:var(--r-md);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--ink);background:var(--sand);outline:none;margin-bottom:1.75rem;transition:border-color .18s,background .18s}
-.text-input:focus{border-color:var(--teal);background:var(--white)}
-.text-input::placeholder{color:var(--ink-light)}
-.loading-state{display:none;text-align:center;padding:2rem 0}
-.loading-state.active{display:block}
-.spinner{width:32px;height:32px;border:2.5px solid var(--sand-dark);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1rem}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{font-size:14px;color:var(--ink-muted)}
-.loading-text em{font-style:italic;color:var(--teal)}
-.btn-row{display:flex;gap:10px;align-items:center;margin-top:.5rem}
-.btn{padding:12px 26px;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .18s;border:1.5px solid var(--border);background:var(--white);color:var(--ink-muted)}
-.btn:hover{background:var(--sand);color:var(--ink)}
-.btn:active{transform:scale(.98)}
-.btn-primary{background:var(--teal);border-color:var(--teal);color:var(--white)}
-.btn-primary:hover{background:var(--teal-dark);border-color:var(--teal-dark);color:var(--white)}
-.error-msg{font-size:13px;color:var(--rose);margin-top:10px;display:none}
-.result-hero{text-align:center;padding:.5rem 0 2rem;border-bottom:1px solid var(--border)}
-.result-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);background:var(--rose-soft);padding:4px 14px;border-radius:100px;margin-bottom:1rem}
-.result-icon{font-size:52px;display:block;margin-bottom:.75rem}
-.result-name{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--ink);margin-bottom:.5rem}
-.result-tagline{font-size:14px;color:var(--ink-muted);line-height:1.75;max-width:440px;margin:0 auto}
-.result-section{padding-top:1.75rem;margin-top:1.75rem;border-top:1px solid var(--border)}
-.rs-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:1.25rem}
-.arch-grid{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1rem}
-.arch-badge-sm{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px}
-.arch-pill-primary{display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:var(--white);padding:8px 18px;border-radius:100px;font-size:13px;font-weight:500}
-.arch-pill-secondary{display:inline-flex;align-items:center;gap:8px;background:var(--teal-soft);color:var(--teal);border:1px solid var(--teal);padding:8px 18px;border-radius:100px;font-size:13px;font-weight:500}
-.arch-reason{font-size:13px;color:var(--ink-muted);line-height:1.7;margin-top:10px;padding:12px 16px;background:var(--sand);border-radius:var(--r-sm)}
-.color-table{width:100%;border-collapse:collapse}
-.color-table tr{border-bottom:1px solid var(--sand-dark)}
-.color-table tr:last-child{border-bottom:none}
-.color-table td{padding:14px 12px;vertical-align:middle}
-.color-swatch-big{width:90px;height:72px;border-radius:var(--r-sm);flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.10);display:flex;align-items:center;justify-content:center}
-.swatch-hex{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.05em}
-.color-name-role{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
-.color-name{font-size:14px;font-weight:500;color:var(--ink)}
-.color-role{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-light)}
-.color-why{font-size:12px;color:var(--ink-muted);line-height:1.6}
-.font-list{display:flex;flex-direction:column;gap:12px}
-.font-card{background:var(--sand);border-radius:var(--r-md);padding:16px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
-.font-badge{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);background:var(--teal-soft);padding:4px 10px;border-radius:100px;white-space:nowrap;margin-top:2px}
-.font-name{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px}
-.font-why{font-size:12px;color:var(--ink-muted);line-height:1.55;margin-bottom:6px}
-.font-preview{font-size:18px;color:var(--ink)}
-.buyer-card{background:var(--sand);border-radius:var(--r-md);padding:16px;margin-bottom:10px}
-.buyer-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.buyer-badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:100px}
-.buyer-badge-p{background:var(--rose-soft);color:var(--rose)}
-.buyer-badge-s{background:var(--teal-soft);color:var(--teal)}
-.buyer-name{font-size:14px;font-weight:600;color:var(--ink)}
-.buyer-desc{font-size:13px;color:var(--ink-muted);line-height:1.65;margin-bottom:10px}
-.buyer-why{font-size:12px;color:var(--ink-muted);line-height:1.6;padding:10px 12px;background:var(--white);border-radius:var(--r-sm);border-left:2px solid var(--rose)}
-.buyer-tactics{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.tactic{font-size:11px;font-weight:500;padding:4px 12px;border-radius:100px;background:var(--white);border:1px solid var(--border);color:var(--ink-muted)}
-.insight-box{background:linear-gradient(135deg,var(--teal-soft) 0%,var(--rose-soft) 100%);border:1px solid var(--border);border-radius:var(--r-md);padding:1.5rem;margin-top:1.5rem}
-.insight-box p{font-size:13px;color:var(--ink);line-height:1.75}
-.insight-box strong{color:var(--teal)}
-.send-status{text-align:center;padding:1.25rem;font-size:13px;color:var(--ink-muted);margin-top:1rem}
-.send-ok{color:var(--teal);font-weight:500}
-.site-footer{text-align:center;margin-top:2rem;font-size:12px;color:var(--ink-light)}
-@media(max-width:520px){.card{padding:1.5rem}.color-swatch-big{width:70px;height:58px}.arch-grid{flex-direction:column}}
-
-@media print {
-  body{background:white}
-  .shell{padding:1rem}
-  .site-header{margin-bottom:1.5rem}
-  .site-header h1{font-size:28px}
-  .no-print{display:none!important}
-  .card{box-shadow:none;border:1px solid #ddd;page-break-inside:avoid}
-  .result-section{page-break-inside:avoid}
-  .color-swatch-big{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .arch-pill-primary{-webkit-print-color-adjust:exact;print-color-adjust:exact;background:#2D6E6E!important;color:white!important}
-  .arch-pill-secondary{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .buyer-badge-p{-webkit-print-color-adjust:exact;print-color-adjust:exact;background:#FEE8ED!important;color:#FD6484!important}
-  .buyer-badge-s{-webkit-print-color-adjust:exact;print-color-adjust:exact;background:#E8F2F2!important;color:#2D6E6E!important}
-  .insight-box{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .send-status{display:none}
-  .save-btn-wrap{display:none}
+body{
+  font-family:var(--sans);
+  background:var(--sand);
+  color:var(--ink);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:0;
 }
-.save-btn-wrap{text-align:center;margin-top:1.5rem}
-.save-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--teal);color:white;border:none;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .18s}
-.save-btn:hover{background:var(--teal-dark)}
-.save-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+
+/* HEADER */
+.header{
+  width:100%;
+  background:var(--white);
+  border-bottom:1px solid var(--sand-dark);
+  padding:1.2rem 2rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.logo{
+  font-family:var(--serif);
+  font-size:1.3rem;
+  font-weight:600;
+  color:var(--teal);
+  letter-spacing:0.02em;
+}
+.logo span{
+  color:var(--rose);
+}
+.progress-wrap{
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+}
+.progress-bar{
+  width:200px;
+  height:4px;
+  background:var(--sand-dark);
+  border-radius:2px;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--teal),var(--rose));
+  border-radius:2px;
+  transition:width 0.4s ease;
+  width:0%;
+}
+.progress-text{
+  font-size:0.75rem;
+  color:var(--ink-light);
+  font-weight:500;
+  min-width:40px;
+}
+
+/* MAIN */
+.main{
+  width:100%;
+  max-width:680px;
+  padding:3rem 1.5rem 6rem;
+}
+
+/* INTRO */
+.intro{
+  text-align:center;
+  margin-bottom:3rem;
+  animation:fadeUp 0.6s ease both;
+}
+.intro h1{
+  font-family:var(--serif);
+  font-size:2.8rem;
+  font-weight:400;
+  color:var(--teal);
+  line-height:1.2;
+  margin-bottom:0.75rem;
+}
+.intro h1 em{
+  font-style:italic;
+  color:var(--rose);
+}
+.intro p{
+  color:var(--ink-mid);
+  font-size:1rem;
+  line-height:1.7;
+  max-width:500px;
+  margin:0 auto;
+}
+
+/* BLOCK LABEL */
+.block-label{
+  font-size:0.7rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--rose);
+  font-weight:500;
+  margin-bottom:0.4rem;
+}
+
+/* QUESTION CARD */
+.question-card{
+  background:var(--white);
+  border-radius:16px;
+  padding:2rem 2.2rem;
+  margin-bottom:1.5rem;
+  border:1px solid var(--sand-dark);
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity 0.4s ease,transform 0.4s ease;
+  display:none;
+}
+.question-card.visible{
+  display:block;
+}
+.question-card.animated{
+  opacity:1;
+  transform:translateY(0);
+}
+.question-card.done{
+  border-color:var(--teal);
+  border-left:3px solid var(--teal);
+}
+
+.q-number{
+  font-size:0.7rem;
+  color:var(--ink-light);
+  font-weight:500;
+  margin-bottom:0.5rem;
+  letter-spacing:0.08em;
+}
+.q-text{
+  font-family:var(--serif);
+  font-size:1.35rem;
+  font-weight:400;
+  color:var(--ink);
+  line-height:1.4;
+  margin-bottom:0.3rem;
+}
+.q-hint{
+  font-size:0.82rem;
+  color:var(--ink-light);
+  margin-bottom:1.2rem;
+  line-height:1.5;
+}
+
+/* OPTIONS */
+.options{
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+}
+.option{
+  display:flex;
+  align-items:flex-start;
+  gap:0.7rem;
+  padding:0.65rem 0.9rem;
+  border:1.5px solid var(--sand-dark);
+  border-radius:10px;
+  cursor:pointer;
+  transition:all 0.15s ease;
+  background:var(--white);
+  font-size:0.92rem;
+  color:var(--ink-mid);
+  line-height:1.4;
+  text-align:left;
+}
+.option:hover{
+  border-color:var(--teal-light);
+  background:var(--sand);
+  color:var(--ink);
+}
+.option.selected{
+  border-color:var(--teal);
+  background:rgba(45,110,110,0.06);
+  color:var(--teal);
+  font-weight:500;
+}
+.option.multi.selected{
+  border-color:var(--rose);
+  background:rgba(253,100,132,0.06);
+  color:var(--rose);
+}
+.option-check{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:2px solid var(--sand-dark);
+  flex-shrink:0;
+  margin-top:1px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all 0.15s;
+}
+.option.selected .option-check{
+  background:var(--teal);
+  border-color:var(--teal);
+}
+.option.multi.selected .option-check{
+  background:var(--rose);
+  border-color:var(--rose);
+}
+.option-check::after{
+  content:'';
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:white;
+  opacity:0;
+  transition:opacity 0.15s;
+}
+.option.selected .option-check::after{
+  opacity:1;
+}
+
+/* TEXT INPUT */
+.text-input{
+  width:100%;
+  padding:0.75rem 1rem;
+  border:1.5px solid var(--sand-dark);
+  border-radius:10px;
+  font-family:var(--sans);
+  font-size:0.92rem;
+  color:var(--ink);
+  background:var(--white);
+  resize:none;
+  transition:border-color 0.15s;
+  outline:none;
+}
+.text-input:focus{
+  border-color:var(--teal);
+}
+.text-input::placeholder{
+  color:var(--ink-light);
+}
+
+/* FREITEXT nach Option */
+.freetext-wrap{
+  margin-top:0.5rem;
+  display:none;
+}
+.freetext-wrap.show{
+  display:block;
+}
+
+/* AI LOADING */
+.ai-loading{
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
+  padding:0.9rem;
+  color:var(--ink-light);
+  font-size:0.85rem;
+}
+.dot-pulse{
+  display:flex;
+  gap:4px;
+}
+.dot-pulse span{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--teal);
+  animation:pulse 1.2s infinite ease-in-out;
+}
+.dot-pulse span:nth-child(2){animation-delay:0.2s}
+.dot-pulse span:nth-child(3){animation-delay:0.4s}
+@keyframes pulse{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+
+/* NEXT BUTTON */
+.btn-next{
+  margin-top:1.2rem;
+  display:inline-flex;
+  align-items:center;
+  gap:0.4rem;
+  padding:0.65rem 1.5rem;
+  background:var(--teal);
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-family:var(--sans);
+  font-size:0.88rem;
+  font-weight:500;
+  cursor:pointer;
+  transition:background 0.15s,transform 0.1s;
+}
+.btn-next:hover{background:var(--teal-light);transform:translateY(-1px)}
+.btn-next:active{transform:translateY(0)}
+
+/* SUBMIT BUTTON */
+.btn-submit{
+  width:100%;
+  padding:1rem;
+  background:linear-gradient(135deg,var(--teal),var(--rose));
+  color:white;
+  border:none;
+  border-radius:12px;
+  font-family:var(--sans);
+  font-size:1rem;
+  font-weight:500;
+  cursor:pointer;
+  margin-top:2rem;
+  transition:opacity 0.15s,transform 0.1s;
+  display:none;
+}
+.btn-submit:hover{opacity:0.92;transform:translateY(-1px)}
+
+/* SUCCESS */
+.success-screen{
+  display:none;
+  text-align:center;
+  padding:4rem 2rem;
+  animation:fadeUp 0.6s ease both;
+}
+.success-screen h2{
+  font-family:var(--serif);
+  font-size:2.2rem;
+  color:var(--teal);
+  margin-bottom:1rem;
+}
+.success-screen p{
+  color:var(--ink-mid);
+  font-size:1rem;
+  line-height:1.7;
+}
+.success-icon{
+  font-size:3rem;
+  margin-bottom:1.5rem;
+}
+
+/* SECTION DIVIDER */
+.section-divider{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin:2rem 0 1rem;
+  opacity:0;
+  transition:opacity 0.4s;
+}
+.section-divider.visible{opacity:1}
+.divider-line{flex:1;height:1px;background:var(--sand-dark)}
+.divider-label{
+  font-size:0.68rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--teal);
+  font-weight:500;
+  white-space:nowrap;
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:600px){
+  .header{padding:1rem}
+  .progress-bar{width:120px}
+  .main{padding:2rem 1rem 5rem}
+  .intro h1{font-size:2rem}
+  .question-card{padding:1.5rem 1.2rem}
+}
 </style>
 </head>
 <body>
-<div class="shell">
-  <header class="site-header">
-    <div class="logo-pill"><div class="logo-pip"></div>Webdesign by Mela</div>
-    <h1>Bevor wir starten:<br><em>Wer bist du eigentlich?</em></h1>
-    <p>Dieser Fragebogen hilft mir, deine Website von Anfang an auf deine Marke, deine Pers&ouml;nlichkeit und deine Zielgruppe zuzuschneiden.</p>
-  </header>
+
+<header class="header">
+  <div class="logo">Webdesign by <span>Mela</span></div>
   <div class="progress-wrap">
-    <div class="progress-meta">
-      <span class="progress-block" id="block-label">Block 1 &ndash; Einstieg</span>
-      <span class="progress-num" id="pct-label">1 / 20</span>
-    </div>
-    <div class="progress-track"><div class="progress-fill" id="progress" style="width:5%"></div></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">0 / 20</div>
   </div>
-  <div class="card">
-    <div id="steps"></div>
-    <div class="loading-state" id="loading">
-      <div class="spinner"></div>
-      <p class="loading-text">Ich analysiere deinen Beruf und erstelle <em>passende Fragen f&uuml;r dich</em> &hellip;</p>
-    </div>
+</header>
+
+<main class="main" id="mainContent">
+
+  <div class="intro" id="introBlock">
+    <h1>Dein Marken-<em>Fragebogen</em></h1>
+    <p>20 Fragen, die wir gemeinsam beantworten – damit deine Website genau das widerspiegelt, was du bist und was deine Wunschkunden anzieht.</p>
   </div>
-  <p class="site-footer">Webdesign by Mela &middot; Alle Angaben werden vertraulich behandelt</p>
-</div>
+
+  <!-- ═══ BLOCK 1: Einstieg & Business ═══ -->
+  <div class="section-divider" id="div-block1">
+    <div class="divider-line"></div>
+    <div class="divider-label">Block 1 · Einstieg &amp; Business</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- F1 -->
+  <div class="question-card" id="q1">
+    <div class="block-label">Einstieg &amp; Business</div>
+    <div class="q-number">Frage 1 von 20</div>
+    <div class="q-text">Wie heißt du und wie heißt dein Business?</div>
+    <div class="q-hint">Damit ich dich und dein Angebot von Anfang an richtig anspreche.</div>
+    <textarea class="text-input" id="a1" rows="2" placeholder="z. B. Anna Müller – Praxis für Stressbewältigung"></textarea>
+    <button class="btn-next" onclick="next(1)">Weiter →</button>
+  </div>
+
+  <!-- F2 -->
+  <div class="question-card" id="q2">
+    <div class="block-label">Einstieg &amp; Business</div>
+    <div class="q-number">Frage 2 von 20</div>
+    <div class="q-text">Was machst du genau – was ist dein Beruf oder dein Angebot?</div>
+    <div class="q-hint">Beschreibe kurz, womit du Geld verdienst oder verdienen möchtest.</div>
+    <textarea class="text-input" id="a2" rows="2" placeholder="z. B. Ich bin Ernährungsberaterin und helfe Frauen..."></textarea>
+    <button class="btn-next" onclick="next(2)">Weiter →</button>
+  </div>
+
+  <!-- F3 -->
+  <div class="question-card" id="q3">
+    <div class="block-label">Einstieg &amp; Business</div>
+    <div class="q-number">Frage 3 von 20</div>
+    <div class="q-text">Wer sind deine Wunschkunden?</div>
+    <div class="q-hint">Alter, Beruf, Lebensphase, Thema – was auch immer dir einfällt.</div>
+    <textarea class="text-input" id="a3" rows="2" placeholder="z. B. Selbstständige Frauen zwischen 30 und 50, die..."></textarea>
+    <button class="btn-next" onclick="triggerAI(3)">Weiter →</button>
+  </div>
+
+  <!-- F4 – KI-generiert -->
+  <div class="question-card" id="q4">
+    <div class="block-label">Einstieg &amp; Business</div>
+    <div class="q-number">Frage 4 von 20</div>
+    <div class="q-text">Was ist dein größtes Problem mit deiner Website – oder warum hast du noch keine?</div>
+    <div class="q-hint">Hier gibt es kein Richtig oder Falsch.</div>
+    <div class="options" id="opts4">
+      <div class="ai-loading" id="ai-loading-4">
+        <div class="dot-pulse"><span></span><span></span><span></span></div>
+        <span>KI erstellt passende Antworten für dich…</span>
+      </div>
+    </div>
+    <button class="btn-next" onclick="next(4)" style="display:none" id="btn4">Weiter →</button>
+  </div>
+
+  <!-- F5 -->
+  <div class="question-card" id="q5">
+    <div class="block-label">Einstieg &amp; Business</div>
+    <div class="q-number">Frage 5 von 20</div>
+    <div class="q-text">Was soll deine Website vor allem leisten?</div>
+    <div class="q-hint">Mehrere Antworten möglich.</div>
+    <div class="options" id="opts5"></div>
+    <button class="btn-next" onclick="next(5)">Weiter →</button>
+  </div>
+
+  <!-- ═══ BLOCK 2: Marken-Persönlichkeit ═══ -->
+  <div class="section-divider" id="div-block2">
+    <div class="divider-line"></div>
+    <div class="divider-label">Block 2 · Marken-Persönlichkeit</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- F6 -->
+  <div class="question-card" id="q6">
+    <div class="block-label">Marken-Persönlichkeit</div>
+    <div class="q-number">Frage 6 von 20</div>
+    <div class="q-text">Wenn deine Marke eine Person wäre – wie wäre sie?</div>
+    <div class="q-hint">Wähle alles, was passt.</div>
+    <div class="options" id="opts6"></div>
+    <button class="btn-next" onclick="next(6)">Weiter →</button>
+  </div>
+
+  <!-- F7 -->
+  <div class="question-card" id="q7">
+    <div class="block-label">Marken-Persönlichkeit</div>
+    <div class="q-number">Frage 7 von 20</div>
+    <div class="q-text">Welche Werte sind dir für deine Marke am wichtigsten?</div>
+    <div class="q-hint">Bis zu 3 Antworten.</div>
+    <div class="options" id="opts7"></div>
+    <button class="btn-next" onclick="next(7)">Weiter →</button>
+  </div>
+
+  <!-- F8 -->
+  <div class="question-card" id="q8">
+    <div class="block-label">Marken-Persönlichkeit</div>
+    <div class="q-number">Frage 8 von 20</div>
+    <div class="q-text">Welches Marken-Archetypenpaar passt am besten zu dir?</div>
+    <div class="q-hint">Wähle eine Option – kein Richtig oder Falsch.</div>
+    <div class="options" id="opts8"></div>
+    <button class="btn-next" onclick="next(8)">Weiter →</button>
+  </div>
+
+  <!-- F9 -->
+  <div class="question-card" id="q9">
+    <div class="block-label">Marken-Persönlichkeit</div>
+    <div class="q-number">Frage 9 von 20</div>
+    <div class="q-text">Welches Marken-Archetypenpaar kommt als Zweites?</div>
+    <div class="q-hint">Dein sekundärer Archetyp gibt der Marke mehr Tiefe.</div>
+    <div class="options" id="opts9"></div>
+    <button class="btn-next" onclick="next(9)">Weiter →</button>
+  </div>
+
+  <!-- F10 -->
+  <div class="question-card" id="q10">
+    <div class="block-label">Marken-Persönlichkeit</div>
+    <div class="q-number">Frage 10 von 20</div>
+    <div class="q-text">Welche Tonalität soll deine Website haben?</div>
+    <div class="q-hint">Wähle ein bis zwei passende Stile.</div>
+    <div class="options" id="opts10"></div>
+    <button class="btn-next" onclick="next(10)">Weiter →</button>
+  </div>
+
+  <!-- ═══ BLOCK 3: Ästhetik & Stil ═══ -->
+  <div class="section-divider" id="div-block3">
+    <div class="divider-line"></div>
+    <div class="divider-label">Block 3 · Ästhetik &amp; Stil</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- F11 – KI-generiert -->
+  <div class="question-card" id="q11">
+    <div class="block-label">Ästhetik &amp; Stil</div>
+    <div class="q-number">Frage 11 von 20</div>
+    <div class="q-text">Welche Farbwelt zieht dich an?</div>
+    <div class="q-hint">Vertrau deinem Bauchgefühl – kein Richtig oder Falsch.</div>
+    <div class="options" id="opts11">
+      <div class="ai-loading" id="ai-loading-11">
+        <div class="dot-pulse"><span></span><span></span><span></span></div>
+        <span>KI erstellt passende Farbwelten…</span>
+      </div>
+    </div>
+    <button class="btn-next" onclick="next(11)" style="display:none" id="btn11">Weiter →</button>
+  </div>
+
+  <!-- F12 – KI-generiert -->
+  <div class="question-card" id="q12">
+    <div class="block-label">Ästhetik &amp; Stil</div>
+    <div class="q-number">Frage 12 von 20</div>
+    <div class="q-text">Welcher Bildstil passt zu deiner Marke?</div>
+    <div class="q-hint">So sollen sich Fotos und Grafiken auf deiner Website anfühlen.</div>
+    <div class="options" id="opts12">
+      <div class="ai-loading" id="ai-loading-12">
+        <div class="dot-pulse"><span></span><span></span><span></span></div>
+        <span>KI erstellt passende Bildstil-Optionen…</span>
+      </div>
+    </div>
+    <button class="btn-next" onclick="next(12)" style="display:none" id="btn12">Weiter →</button>
+  </div>
+
+  <!-- F13 – KI-generiert -->
+  <div class="question-card" id="q13">
+    <div class="block-label">Ästhetik &amp; Stil</div>
+    <div class="q-number">Frage 13 von 20</div>
+    <div class="q-text">Welches Designgefühl soll deine Website haben?</div>
+    <div class="q-hint">Denk an Websites, die du schön findest – welches Lebensgefühl transportieren sie?</div>
+    <div class="options" id="opts13">
+      <div class="ai-loading" id="ai-loading-13">
+        <div class="dot-pulse"><span></span><span></span><span></span></div>
+        <span>KI erstellt passende Design-Gefühle…</span>
+      </div>
+    </div>
+    <button class="btn-next" onclick="next(13)" style="display:none" id="btn13">Weiter →</button>
+  </div>
+
+  <!-- ═══ BLOCK 4: Zielgruppe ═══ -->
+  <div class="section-divider" id="div-block4">
+    <div class="divider-line"></div>
+    <div class="divider-label">Block 4 · Zielgruppe</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- F14 -->
+  <div class="question-card" id="q14">
+    <div class="block-label">Zielgruppe</div>
+    <div class="q-number">Frage 14 von 20</div>
+    <div class="q-text">Was bewegt deine Wunschkunden wirklich?</div>
+    <div class="q-hint">Welches Problem oder welchen Wunsch bringen sie mit?</div>
+    <textarea class="text-input" id="a14" rows="3" placeholder="z. B. Sie fühlen sich erschöpft und wissen nicht mehr, wer sie wirklich sind..."></textarea>
+    <button class="btn-next" onclick="next(14)">Weiter →</button>
+  </div>
+
+  <!-- F15 -->
+  <div class="question-card" id="q15">
+    <div class="block-label">Zielgruppe</div>
+    <div class="q-number">Frage 15 von 20</div>
+    <div class="q-text">Was ist das größte Hindernis deiner Wunschkunden?</div>
+    <div class="q-hint">Warum kaufen sie noch nicht, obwohl sie es bräuchten?</div>
+    <div class="options" id="opts15"></div>
+    <button class="btn-next" onclick="next(15)">Weiter →</button>
+  </div>
+
+  <!-- ═══ BLOCK 5: Käuferpsychologie ═══ -->
+  <div class="section-divider" id="div-block5">
+    <div class="divider-line"></div>
+    <div class="divider-label">Block 5 · Käuferpsychologie</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- F16 -->
+  <div class="question-card" id="q16">
+    <div class="block-label">Käuferpsychologie</div>
+    <div class="q-number">Frage 16 von 20</div>
+    <div class="q-text">Wie treffen deine Wunschkunden Kaufentscheidungen?</div>
+    <div class="q-hint">Wähle das, was am ehesten passt.</div>
+    <div class="options" id="opts16"></div>
+    <button class="btn-next" onclick="next(16)">Weiter →</button>
+  </div>
+
+  <!-- F17 -->
+  <div class="question-card" id="q17">
+    <div class="block-label">Käuferpsychologie</div>
+    <div class="q-number">Frage 17 von 20</div>
+    <div class="q-text">Was überzeugt deine Wunschkunden am Ende?</div>
+    <div class="q-hint">Mehrere Antworten möglich.</div>
+    <div class="options" id="opts17"></div>
+    <button class="btn-next" onclick="next(17)">Weiter →</button>
+  </div>
+
+  <!-- ═══ BLOCK 6: Website & Kommunikation ═══ -->
+  <div class="section-divider" id="div-block6">
+    <div class="divider-line"></div>
+    <div class="divider-label">Block 6 · Website &amp; Kommunikation</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- F18 -->
+  <div class="question-card" id="q18">
+    <div class="block-label">Website &amp; Kommunikation</div>
+    <div class="q-number">Frage 18 von 20</div>
+    <div class="q-text">Welche Seiten soll deine Website haben?</div>
+    <div class="q-hint">Wähle alles, was du brauchst.</div>
+    <div class="options" id="opts18"></div>
+    <button class="btn-next" onclick="next(18)">Weiter →</button>
+  </div>
+
+  <!-- F19 -->
+  <div class="question-card" id="q19">
+    <div class="block-label">Website &amp; Kommunikation</div>
+    <div class="q-number">Frage 19 von 20</div>
+    <div class="q-text">Was soll der Hauptaufruf zur Handlung auf deiner Website sein?</div>
+    <div class="q-hint">Was sollen Besucher als erstes tun?</div>
+    <div class="options" id="opts19"></div>
+    <button class="btn-next" onclick="next(19)">Weiter →</button>
+  </div>
+
+  <!-- F20 -->
+  <div class="question-card" id="q20">
+    <div class="block-label">Website &amp; Kommunikation</div>
+    <div class="q-number">Frage 20 von 20</div>
+    <div class="q-text">Gibt es noch etwas, das ich über dich oder deine Vision wissen sollte?</div>
+    <div class="q-hint">Alles, was dir wichtig ist – Wünsche, Ängste, Besonderheiten.</div>
+    <textarea class="text-input" id="a20" rows="4" placeholder="Schreib alles, was dir auf dem Herzen liegt…"></textarea>
+    <button class="btn-next" onclick="next(20)">Weiter →</button>
+  </div>
+
+  <button class="btn-submit" id="btnSubmit" onclick="submitForm()">
+    ✨ Fragebogen absenden
+  </button>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">🌿</div>
+    <h2>Danke, das war wunderschön!</h2>
+    <p>Deine Antworten sind bei mir angekommen. Ich melde mich bei dir innerhalb von 48 Stunden mit einem ersten Einblick in deine Markenidentität.</p>
+    <p style="margin-top:1rem;color:var(--ink-light);font-size:0.88rem">Bis bald,<br><strong>Mela ✦</strong></p>
+  </div>
+
+</main>
+
 <script>
-var BLOCKS = [
-  'Block 1 \u2013 Einstieg & Business',
-  'Block 1 \u2013 Einstieg & Business',
-  'Block 1 \u2013 Einstieg & Business',
-  'Block 1 \u2013 Einstieg & Business',
-  'Block 2 \u2013 Marken-Pers\u00f6nlichkeit',
-  'Block 2 \u2013 Marken-Pers\u00f6nlichkeit',
-  'Block 2 \u2013 Marken-Pers\u00f6nlichkeit',
-  'Block 3 \u2013 \u00c4sthetik & Stil',
-  'Block 3 \u2013 \u00c4sthetik & Stil',
-  'Block 3 \u2013 \u00c4sthetik & Stil',
-  'Block 4 \u2013 Zielgruppe',
-  'Block 4 \u2013 Zielgruppe',
-  'Block 4 \u2013 Zielgruppe',
-  'Block 5 \u2013 K\u00e4uferpsychologie',
-  'Block 5 \u2013 K\u00e4uferpsychologie',
-  'Block 5 \u2013 K\u00e4uferpsychologie',
-  'Block 6 \u2013 Website & Kommunikation',
-  'Block 6 \u2013 Website & Kommunikation',
-  'Block 6 \u2013 Website & Kommunikation'
-];
+// ═══════════════════════════════════════════════
+// DATEN
+// ═══════════════════════════════════════════════
+const WORKER_URL = 'https://mela-api.webdesignbymela.workers.dev';
 
-var questions = [
-  {id:'name', type:'text', eyebrow:'Herzlich Willkommen',
-   question:'Wie hei\u00dft du?',
-   sub:'Dein Vorname reicht v\u00f6llig. Ich m\u00f6chte dich pers\u00f6nlich ansprechen.',
-   placeholder:'Dein Vorname \u2026'},
-  {id:'beruf', type:'text', eyebrow:'Dein Business',
-   question:'Was machst du beruflich?',
-   sub:'Ein kurzer Satz reicht \u2013 z.\u00a0B. \u201eIch bin Eltern-Coach\u201c oder \u201eIch fotografiere Familien\u201c.',
-   placeholder:'Mein Business in einem Satz \u2026'},
-  {id:'zielgruppe_geschlecht',eyebrow:'Dein Business',
-   question:'Wer ist deine Zielgruppe?',
-   sub:'Das hilft mir, die Sprache und Antworten passend auszurichten.',
-   options:[
-     {val:'frauen',   label:'Hauptsächlich Frauen',          sub:'Deine Angebote richten sich vorwiegend an Frauen.'},
-     {val:'maenner',  label:'Hauptsächlich Männer',     sub:'Deine Angebote richten sich vorwiegend an Männer.'},
-     {val:'gemischt', label:'Gemischt – Frauen und Männer',sub:'Deine Zielgruppe ist bunt gemischt.'},
-     {val:'familien', label:'Familien und Eltern',                 sub:'Du arbeitest mit Familien oder Elternteilen.'}
-   ], other:true},
-  {id:'dauer', eyebrow:'Dein Business',
-   question:'Wie lange bist du schon selbst\u00e4ndig?',
-   sub:'',
-   options:[
-     {val:'pre',  label:'Ich stehe kurz vor dem Start',  sub:'Das Abenteuer beginnt gerade.'},
-     {val:'lt1',  label:'Weniger als 1 Jahr',             sub:'Noch ganz am Anfang.'},
-     {val:'1to3', label:'1\u20133 Jahre',                 sub:'Erste Erfahrungen gesammelt.'},
-     {val:'3to5', label:'3\u20135 Jahre',                 sub:'Bereits etabliert.'},
-     {val:'gt5',  label:'Mehr als 5 Jahre',               sub:'Viel Erfahrung im Gep\u00e4ck.'}
-   ], other:true},
-  {id:'veraenderung', eyebrow:'Dein Business',
-   question:'Was ist das Gr\u00f6\u00dfte, das du f\u00fcr deine Kundinnen ver\u00e4nderst?',
-   sub:'Nicht die Leistung \u2013 sondern das echte Ergebnis. Was ist danach anders in ihrem Leben?',
-   dynamic:true, options:[], other:true},
-  {id:'archetyp', eyebrow:'Marken-Pers\u00f6nlichkeit',
-   question:'Wenn deine Marke eine Person w\u00e4re \u2013 welche Beschreibung trifft am ehesten zu?',
-   sub:'W\u00e4hle die, bei der du innerlich nickst \u2013 nicht die, die du sein solltest.',
-   options:[
-     {val:'creator',   label:'Die Macherin & Vision\u00e4rin',     sub:'Kreativ, innovativ, geht neue Wege.'},
-     {val:'caregiver', label:'Die Sch\u00fctzerin & Begleiterin',  sub:'F\u00fcrsorglich, empathisch, immer da.'},
-     {val:'hero',      label:'Die K\u00e4mpferin & Antreiberin',   sub:'Mutig, l\u00f6sungsorientiert, packt an.'},
-     {val:'sage',      label:'Die Weise & Expertin',              sub:'Klar, kompetent, gibt Orientierung.'},
-     {val:'explorer',  label:'Die Entdeckerin & Freigeistin',     sub:'Unkonventionell, neugierig, authentisch.'},
-     {val:'innocent',  label:'Die Optimistin & Nahbare',          sub:'Ehrlich, positiv, vertrauensw\u00fcrdig.'}
-   ], other:true},
-  {id:'kommunikation', eyebrow:'Marken-Pers\u00f6nlichkeit',
-   question:'Wie kommunizierst du, wenn du ganz du selbst bist?',
-   sub:'Nicht wie du denkst, dass man als Unternehmerin reden sollte \u2013 sondern wie du wirklich bist.',
-   options:[
-     {val:'warm',      label:'Warm und pers\u00f6nlich',      sub:'Ich mache aus Fremden schnell Vertraute.'},
-     {val:'direct',    label:'Klar und direkt',               sub:'Ich respektiere die Zeit meines Gegen\u00fcbers.'},
-     {val:'deep',      label:'Tiefgr\u00fcndig und ehrlich',  sub:'Ich gehe dorthin, wo andere h\u00f6flich bleiben.'},
-     {val:'playful',   label:'Leicht und humorvoll',          sub:'Ich nehme das Thema ernst, aber nicht mich selbst.'},
-     {val:'inspiring', label:'Inspirierend und bildhaft',     sub:'Wenn ich rede, entstehen Bilder im Kopf.'},
-     {val:'calm',      label:'Ruhig und kompetent',           sub:'Meine Ruhe strahlt Sicherheit aus.'}
-   ], other:true},
-  {id:'reputation', eyebrow:'Marken-Pers\u00f6nlichkeit',
-   question:'Was sollen Menschen \u00fcber dich sagen, nachdem sie mit dir gearbeitet haben?',
-   sub:'Stell dir vor, deine Lieblingskundin erz\u00e4hlt einer Freundin von dir \u2013 was soll sie sagen?',
-   options:[
-     {val:'seen',     label:'\u201eSie hat mich wirklich verstanden und gesehen.\u201c',            sub:'Das tiefste Kompliment \u00fcberhaupt.'},
-     {val:'right',    label:'\u201eBei ihr wusste ich sofort, dass ich richtig bin.\u201c',          sub:'Vertrauen vom ersten Moment.'},
-     {val:'possible', label:'\u201eSie hat mir gezeigt, was wirklich m\u00f6glich ist.\u201c',       sub:'Horizonte erweitern.'},
-     {val:'best',     label:'\u201eSie ist die Beste in dem, was sie tut.\u201c',                    sub:'Kompetenz, die spricht.'},
-     {val:'changed',  label:'\u201eMit ihr hat sich wirklich etwas ver\u00e4ndert.\u201c',           sub:'Echte, sp\u00fcrbare Transformation.'},
-     {val:'courage',  label:'\u201eSie hat mir Mut gemacht, ich selbst zu sein.\u201c',              sub:'Erm\u00e4chtigung und St\u00e4rke.'}
-   ], other:true},
-  {id:'farbwelt', eyebrow:'\u00c4sthetik & Stil',
-   question:'Welche Farbwelt zieht dich instinktiv an?',
-   sub:'Erster Impuls z\u00e4hlt \u2013 nicht was professionell wirkt, sondern was dich anzieht.',
-   options:[
-     {val:'earth',   label:'Warme Erdt\u00f6ne',           sub:'Sand, Terrakotta, Olivgr\u00fcn, Beige.'},
-     {val:'deep',    label:'Tiefe Kontraste',               sub:'Dunkelblau, Weinrot, Smaragd, Schwarz.'},
-     {val:'pastel',  label:'Sanfte Pastellt\u00f6ne',       sub:'Altrosa, Lavendel, Pfirsich, Hellblau.'},
-     {val:'fresh',   label:'Frisch und nat\u00fcrlich',     sub:'Mintgr\u00fcn, Cremeweiß, helles Holz.'},
-     {val:'minimal', label:'Klar und minimalistisch',       sub:'Wei\u00df, Grau, ein einziger Akzent.'},
-     {val:'bold',    label:'Kr\u00e4ftig und lebendig',     sub:'Satte Farben, mutige Kombinationen.'}
-   ]},
-  {id:'atmosphaere', eyebrow:'\u00c4sthetik & Stil',
-   question:'Welche Atmosph\u00e4re soll deine Website ausstrahlen?',
-   sub:'Stell dir vor, deine Wunschkundin \u00f6ffnet deine Website \u2013 wie soll sie sich sofort f\u00fchlen?',
-   options:[
-     {val:'homey',    label:'Warm und einladend',          sub:'Wie nach Hause kommen.'},
-     {val:'pro',      label:'Klar und professionell',      sub:'Strukturiert, seri\u00f6s, zeitgem\u00e4\u00df.'},
-     {val:'creative', label:'Kreativ und besonders',       sub:'Unverwechselbar, mutig, aus der Masse heraus.'},
-     {val:'natural',  label:'Nat\u00fcrlich und authentisch', sub:'Ehrlich, bodenst\u00e4ndig, ohne Hochglanz.'},
-     {val:'elegant',  label:'Elegant und hochwertig',      sub:'Luxuri\u00f6s, aber nie kalt.'},
-     {val:'energetic',label:'Lebendig und energetisch',    sub:'Dynamisch, inspirierend, voller Bewegung.'}
-   ]},
-  {id:'stil', eyebrow:'\u00c4sthetik & Stil',
-   question:'Welche dieser Aussagen beschreibt deinen Stil am besten?',
-   sub:'Erster Impuls \u2013 welcher Satz klingt am meisten nach dir?',
-   options:[
-     {val:'less',    label:'Weniger ist mehr \u2013 Qualit\u00e4t vor Quantit\u00e4t.',      sub:'Eleganz durch Reduktion.'},
-     {val:'human',   label:'Ich mag es warm, menschlich und pers\u00f6nlich.',                sub:'Design mit Herz.'},
-     {val:'bold',    label:'Ich liebe Mut und traue mich, aufzufallen.',                       sub:'Sichtbarkeit als St\u00e4rke.'},
-     {val:'nature',  label:'Nat\u00fcrlichkeit ist mir wichtiger als Perfektion.',              sub:'Echt vor perfekt.'},
-     {val:'premium', label:'Ich will hochwertig wirken, ohne arrogant zu sein.',               sub:'Qualit\u00e4t mit W\u00e4rme.'},
-     {val:'vivid',   label:'Ich bin bunt, lebendig und voller Energie.',                       sub:'Freude als Markenzeichen.'}
-   ]},
-  {id:'zielgruppe', eyebrow:'Deine Zielgruppe',
-   question:'Wen m\u00f6chtest du haupts\u00e4chlich erreichen?',
-   sub:'Basierend auf deinem Business habe ich passende Optionen f\u00fcr dich erstellt.',
-   dynamic:true, options:[], other:true},
-  {id:'nachtgedanken', eyebrow:'Deine Zielgruppe',
-   question:'Was bewegt deine Wunschkundin nachts \u2013 bevor sie dich findet?',
-   sub:'Diese innere Stimme ist der Einstieg in deine Website-Kommunikation.',
-   dynamic:true, options:[], other:true},
-  {id:'vorversuche', eyebrow:'Deine Zielgruppe',
-   question:'Was hat sie schon versucht, bevor sie zu dir kommt?',
-   sub:'Das zeigt mir, was auf deiner Website anders kommuniziert werden muss.',
-   dynamic:true, options:[], other:true},
-  {id:'kaufentscheidung', eyebrow:'K\u00e4uferpsychologie',
-   question:'Wie trifft deine Wunschkundin Kaufentscheidungen?',
-   sub:'Denk an Kundinnen, die du bereits hattest \u2013 wie haben sie entschieden?',
-   options:[
-     {val:'emotional', label:'Aus dem Bauch \u2013 wenn es sich richtig anf\u00fchlt',                   sub:'Logik kommt danach zur Best\u00e4tigung.'},
-     {val:'rational',  label:'Nach Recherche \u2013 wenn alle Fakten und Details stimmen',               sub:'Sie liest alles, vergleicht, braucht Transparenz.'},
-     {val:'social',    label:'Durch Empfehlungen \u2013 wenn andere gute Erfahrungen gemacht haben',     sub:'Reviews und Mundpropaganda sind entscheidend.'},
-     {val:'trust',     label:'Durch Vertrauen \u2013 wenn sie die Person wirklich kennt',                sub:'Sie kauft die Person, nicht das Produkt.'},
-     {val:'moment',    label:'Durch den richtigen Moment \u2013 sie wartet, bis es passt',               sub:'Wenn sie bereit ist, handelt sie schnell.'},
-     {val:'proof',     label:'Wenn sie die konkrete Ver\u00e4nderung klar vor Augen sieht',              sub:'Vorher-Nachher, messbare Ergebnisse.'}
-   ], other:true},
-  {id:'kaufhuerden', eyebrow:'K\u00e4uferpsychologie',
-   question:'Was h\u00e4lt sie am l\u00e4ngsten davon ab zu kaufen?',
-   sub:'Das ist die wichtigste Frage f\u00fcr deine Website-Texte.',
-   options:[
-     {val:'price',   label:'Der Preis \u2013 sie ist unsicher, ob es das wert ist',            sub:'Nicht weil sie kein Geld hat, sondern weil sie den Wert nicht sieht.'},
-     {val:'time',    label:'Die Zeit \u2013 sie hat gerade zu viel um die Ohren',               sub:'Alles kommt vor dem eigenen Wachstum.'},
-     {val:'trust',   label:'Das Vertrauen \u2013 sie kennt mich noch nicht gut genug',          sub:'Sie braucht mehr Kontakt und Sicherheit.'},
-     {val:'fear',    label:'Die Angst \u2013 was, wenn es nicht funktioniert?',                 sub:'Angst vor einer weiteren Entt\u00e4uschung.'},
-     {val:'deserve', label:'Das Gef\u00fchl \u2013 darf ich das \u00fcberhaupt investieren?',   sub:'Sie zweifelt, ob sie diese Investition verdient.'},
-     {val:'unclear', label:'Die Unklarheit \u2013 sie versteht nicht genau, was sie bekommt',  sub:'Zu vage. Sie braucht Konkretheit.'}
-   ], other:true},
-  {id:'kaufueberzeugung', eyebrow:'K\u00e4uferpsychologie',
-   question:'Was \u00fcberzeugt sie am Ende?',
-   sub:'Der letzte Schubs \u2013 was bringt sie dazu, auf den Buchungsbutton zu klicken?',
-   options:[
-     {val:'testimonials',label:'Echte Erfahrungsberichte anderer Kundinnen',           sub:'Geschichten, die ihr zeigen: Das klappt wirklich.'},
-     {val:'expertise',   label:'Fachliche Kompetenz und nachweisbare Ergebnisse',      sub:'Ausbildung, Zertifikate, messbare Erfolge.'},
-     {val:'connection',  label:'Eine pers\u00f6nliche Verbindung zu mir als Person',   sub:'Sie muss das Gef\u00fchl haben: Die versteht mich.'},
-     {val:'result',      label:'Ein konkretes, klar beschriebenes Ergebnis',           sub:'Was ist danach anders? Pr\u00e4zise benannt.'},
-     {val:'freebie',     label:'Ein kostenloses Kennenlerngespr\u00e4ch',              sub:'Erst schnuppern, dann entscheiden.'},
-     {val:'feeling',     label:'Das Gef\u00fchl: Diese Person versteht mich wirklich', sub:'Emotionale Resonanz schl\u00e4gt alles andere.'}
-   ], other:true},
-  {id:'websitegefuehl', eyebrow:'Website & Kommunikation',
-   question:'Wie soll sich deine Wunschkundin f\u00fchlen, wenn sie deine Website besucht?',
-   sub:'Nicht was sie kaufen soll \u2013 sondern welches Gef\u00fchl sie mitnehmen soll.',
-   options:[
-     {val:'seen',     label:'Verstanden und gesehen',    sub:'Sie f\u00fchlt sich sofort abgeholt.'},
-     {val:'inspired', label:'Inspiriert und motiviert',  sub:'Sie bekommt Lust, loszulegen.'},
-     {val:'safe',     label:'Sicher und aufgehoben',     sub:'Sie wei\u00df: Hier bin ich richtig.'},
-     {val:'curious',  label:'Neugierig und begeistert',  sub:'Sie will mehr erfahren.'},
-     {val:'relieved', label:'Erleichtert',               sub:'Endlich jemand, der das versteht.'},
-     {val:'respect',  label:'Respekt und Vertrauen',     sub:'Die wei\u00df, was sie tut.'}
-   ], other:true},
-  {id:'erstebotschaft', eyebrow:'Website & Kommunikation',
-   question:'Was soll deine Wunschkundin als Erstes \u00fcber dich wissen?',
-   sub:'Wenn sie nur einen einzigen Satz \u00fcber dich lesen w\u00fcrde \u2013 welcher soll es sein?',
-   options:[
-     {val:'who',     label:'Wer ich bin und warum ich das mache',         sub:'Meine Geschichte und mein Antrieb.'},
-     {val:'what',    label:'Was ich konkret f\u00fcr sie tun kann',        sub:'Mein Angebot, klar auf den Punkt.'},
-     {val:'safe',    label:'Dass sie bei mir in guten H\u00e4nden ist',    sub:'Sicherheit und Vertrauen zuerst.'},
-     {val:'social',  label:'Was andere \u00fcber die Arbeit mit mir sagen',sub:'Beweis durch echte Stimmen.'},
-     {val:'results', label:'Welche Ergebnisse meine Kundinnen erzielen',  sub:'Transformation konkret sichtbar.'},
-     {val:'diff',    label:'Was mich von anderen unterscheidet',           sub:'Mein einzigartiger Ansatz.'}
-   ], other:true},
-  {id:'unterschied', eyebrow:'Website & Kommunikation',
-   question:'Was unterscheidet dich von anderen in deiner Branche?',
-   sub:'Was haben nur du \u2013 und sonst niemand?',
-   options:[
-     {val:'story',   label:'Meine pers\u00f6nliche Geschichte und mein Weg',         sub:'Meine Vergangenheit ist mein gr\u00f6\u00dftes Asset.'},
-     {val:'method',  label:'Meine Methode und mein einzigartiger Ansatz',            sub:'Ich mache es anders \u2013 und das merkt man.'},
-     {val:'human',   label:'Meine Menschlichkeit und Nahbarkeit',                    sub:'Ich bin echt \u2013 kein Hochglanz, kein Skript.'},
-     {val:'results2',label:'Meine Erfahrung und nachweisbaren Ergebnisse',           sub:'Meine Arbeit spricht f\u00fcr sich.'},
-     {val:'combo',   label:'Meine Kombination aus Herz und Professionalit\u00e4t',   sub:'Beides \u2013 nicht entweder/oder.'},
-     {val:'courage', label:'Mein Mut, unbequeme Wahrheiten auszusprechen',           sub:'Ich sage, was andere nicht sagen.'}
-   ], other:true}
-];
-
-var ARCHETYPES = {
-  creator:{name:'Die Sch\u00f6pferin',icon:'\uD83C\uDFA8',desc:'Deine Marke lebt von Originalit\u00e4t und unverwechselbarem Ausdruck.',palettes:{earth:[{hex:'#C1440E',name:'Terrakotta',role:'Prim\u00e4r'},{hex:'#E8C9A0',name:'Sand',role:'Hintergrund'},{hex:'#7C3AED',name:'Violett',role:'Akzent'},{hex:'#2D2926',name:'Dunkel',role:'Text'},{hex:'#F5EFE6',name:'Creme',role:'Fl\u00e4che'}],deep:[{hex:'#1B4F72',name:'Tief-Blau',role:'Prim\u00e4r'},{hex:'#F97316',name:'Orange',role:'Akzent'},{hex:'#A8D8EA',name:'Hellblau',role:'Sekund\u00e4r'},{hex:'#1C1917',name:'Tinte',role:'Text'},{hex:'#FAFAF8',name:'Wei\u00df',role:'Hintergrund'}],pastel:[{hex:'#B5338A',name:'Magenta',role:'Prim\u00e4r'},{hex:'#F9A8D4',name:'Rosa',role:'Sekund\u00e4r'},{hex:'#FDE68A',name:'Gelb',role:'Akzent'},{hex:'#1C1917',name:'Tinte',role:'Text'},{hex:'#FDF4FF',name:'Flieder-Hell',role:'Hintergrund'}],fresh:[{hex:'#059669',name:'Smaragd',role:'Prim\u00e4r'},{hex:'#F59E0B',name:'Amber',role:'Akzent'},{hex:'#ECFDF5',name:'Mintcreme',role:'Hintergrund'},{hex:'#1C1917',name:'Tinte',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],minimal:[{hex:'#7C3AED',name:'Violett',role:'Prim\u00e4r'},{hex:'#1C1917',name:'Schwarz',role:'Text'},{hex:'#F5F3FF',name:'Lavendel',role:'Hintergrund'},{hex:'#E5E7EB',name:'Grau',role:'Border'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],bold:[{hex:'#7C3AED',name:'Violett',role:'Prim\u00e4r'},{hex:'#F59E0B',name:'Amber',role:'Akzent'},{hex:'#10B981',name:'Smaragd',role:'Sekund\u00e4r'},{hex:'#1C1917',name:'Schwarz',role:'Text'},{hex:'#FAFAF8',name:'Wei\u00df',role:'Hintergrund'}]},fonts:{headline:{name:'Playfair Display',preview:'Gestalte deine Welt'},body:{name:'DM Sans',preview:'Klar und modern'},accent:{name:'DM Mono',preview:'#FF6B35'}}},
-  caregiver:{name:'Die Sch\u00fctzerin',icon:'\uD83E\uDD32',desc:'Du bist wirklich da f\u00fcr andere. Deine St\u00e4rke ist echte Empathie und tiefe Pr\u00e4senz.',palettes:{earth:[{hex:'#C8956C',name:'Almond',role:'Prim\u00e4r'},{hex:'#A8C5A0',name:'Salbei',role:'Akzent'},{hex:'#5C3D2E',name:'Mokka',role:'Text'},{hex:'#FDF6EE',name:'Warm-Wei\u00df',role:'Hintergrund'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],deep:[{hex:'#5B8DB8',name:'Stahlblau',role:'Prim\u00e4r'},{hex:'#C8956C',name:'Sand',role:'Akzent'},{hex:'#D6E8F5',name:'Eisblau',role:'Hintergrund'},{hex:'#2C3E50',name:'Nacht',role:'Text'},{hex:'#F8FBFE',name:'Wei\u00df',role:'Fl\u00e4che'}],pastel:[{hex:'#C9748A',name:'Altrosa',role:'Prim\u00e4r'},{hex:'#8B7BA8',name:'Lavendel',role:'Akzent'},{hex:'#F9E4E9',name:'Hellrosa',role:'Hintergrund'},{hex:'#3D2B3D',name:'Pflaume',role:'Text'},{hex:'#FDF8F9',name:'Creme',role:'Fl\u00e4che'}],fresh:[{hex:'#7A9E7E',name:'Salbeigr\u00fcn',role:'Prim\u00e4r'},{hex:'#C8956C',name:'Terrakotta',role:'Akzent'},{hex:'#E8F0E9',name:'Mintcreme',role:'Hintergrund'},{hex:'#2D3A2E',name:'Dunkelgr\u00fcn',role:'Text'},{hex:'#F5F8F5',name:'Wei\u00df',role:'Fl\u00e4che'}],minimal:[{hex:'#C9748A',name:'Altrosa',role:'Prim\u00e4r'},{hex:'#1C1917',name:'Schwarz',role:'Text'},{hex:'#FDF8F9',name:'Creme',role:'Hintergrund'},{hex:'#E8E0E4',name:'Graurosa',role:'Border'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],bold:[{hex:'#E11D48',name:'Rubinrot',role:'Prim\u00e4r'},{hex:'#C8956C',name:'Kupfer',role:'Sekund\u00e4r'},{hex:'#FEF3C7',name:'Warm-Gelb',role:'Hintergrund'},{hex:'#1C1917',name:'Tinte',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}]},fonts:{headline:{name:'Lora',preview:'Mit Herz dabei sein'},body:{name:'Source Sans 3',preview:'Offen und lesbar'},accent:{name:'Cormorant Garamond',preview:'Poetisch & elegant'}}},
-  hero:{name:'Die Heldin',icon:'\u26A1',desc:'Du packst an. Du bist l\u00f6sungsorientiert und motivierend.',palettes:{earth:[{hex:'#92400E',name:'Bernstein',role:'Prim\u00e4r'},{hex:'#F59E0B',name:'Gold',role:'Akzent'},{hex:'#1C1917',name:'Schwarz',role:'Text'},{hex:'#FEF3C7',name:'Warm-Gelb',role:'Hintergrund'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],deep:[{hex:'#1E3A5F',name:'Marine',role:'Prim\u00e4r'},{hex:'#F59E0B',name:'Gold',role:'Akzent'},{hex:'#EFF6FF',name:'Hell-Blau',role:'Hintergrund'},{hex:'#0F1F33',name:'Tief-Marine',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],pastel:[{hex:'#BE123C',name:'Rubinrot',role:'Prim\u00e4r'},{hex:'#F97316',name:'Orange',role:'Akzent'},{hex:'#FFF7ED',name:'Pfirsich',role:'Hintergrund'},{hex:'#1C1917',name:'Schwarz',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],fresh:[{hex:'#1A3C34',name:'Jagdgr\u00fcn',role:'Prim\u00e4r'},{hex:'#84CC16',name:'Limette',role:'Akzent'},{hex:'#F0FDF4',name:'Mintcreme',role:'Hintergrund'},{hex:'#0F2019',name:'Tief-Gr\u00fcn',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],minimal:[{hex:'#1C1917',name:'Schwarz',role:'Prim\u00e4r'},{hex:'#F59E0B',name:'Gold',role:'Akzent'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Hintergrund'},{hex:'#E5E7EB',name:'Grau',role:'Border'},{hex:'#1C1917',name:'Tinte',role:'Text'}],bold:[{hex:'#DC2626',name:'Rot',role:'Prim\u00e4r'},{hex:'#FACC15',name:'Gelb',role:'Akzent'},{hex:'#1C1917',name:'Schwarz',role:'Sekund\u00e4r'},{hex:'#FAFAF8',name:'Wei\u00df',role:'Hintergrund'},{hex:'#1C1917',name:'Tinte',role:'Text'}]},fonts:{headline:{name:'Bebas Neue',preview:'PACK ES AN'},body:{name:'DM Sans',preview:'Direkt. Klar. Pr\u00e4zise.'},accent:{name:'Space Mono',preview:'N\u00e4chster Schritt'}}},
-  sage:{name:'Die Weise',icon:'\uD83D\uDD0D',desc:'Du gibst Orientierung durch Wissen und Erfahrung.',palettes:{earth:[{hex:'#78350F',name:'Dunkelbraun',role:'Prim\u00e4r'},{hex:'#D4A853',name:'Gold',role:'Akzent'},{hex:'#FAF6EE',name:'Pergament',role:'Hintergrund'},{hex:'#3D2B1F',name:'Espresso',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],deep:[{hex:'#1E3A5F',name:'Oxford-Blau',role:'Prim\u00e4r'},{hex:'#B8985A',name:'Messing',role:'Akzent'},{hex:'#F8F6F0',name:'Elfenbein',role:'Hintergrund'},{hex:'#0D1B2E',name:'Nacht',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],pastel:[{hex:'#5B4A8A',name:'Mitternachtsviolett',role:'Prim\u00e4r'},{hex:'#C4A882',name:'Champagner',role:'Akzent'},{hex:'#F8F5FF',name:'Lavendel-Hell',role:'Hintergrund'},{hex:'#1E1B2E',name:'Dunkel',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],fresh:[{hex:'#1A3C34',name:'Britischgr\u00fcn',role:'Prim\u00e4r'},{hex:'#B8985A',name:'Messing',role:'Akzent'},{hex:'#F5F0E8',name:'Leinen',role:'Hintergrund'},{hex:'#0D1F1A',name:'Dunkelgr\u00fcn',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],minimal:[{hex:'#374151',name:'Graphit',role:'Prim\u00e4r'},{hex:'#B8985A',name:'Gold',role:'Akzent'},{hex:'#FAFAF8',name:'Wei\u00df',role:'Hintergrund'},{hex:'#E5E7EB',name:'Hellgrau',role:'Border'},{hex:'#1C1917',name:'Tinte',role:'Text'}],bold:[{hex:'#0C1B33',name:'Marine-Schwarz',role:'Prim\u00e4r'},{hex:'#D4A853',name:'Gold',role:'Akzent'},{hex:'#F5F0E8',name:'Elfenbein',role:'Hintergrund'},{hex:'#E5E7EB',name:'Hellgrau',role:'Border'},{hex:'#0C1B33',name:'Tinte',role:'Text'}]},fonts:{headline:{name:'Cormorant Garamond',preview:'Klarheit durch Wissen'},body:{name:'Libre Baskerville',preview:'Ausf\u00fchrlich erkl\u00e4rt'},accent:{name:'IBM Plex Mono',preview:'Zertifiziert 2024'}}},
-  explorer:{name:'Die Entdeckerin',icon:'\uD83C\uDF3F',desc:'Du brichst aus dem Gew\u00f6hnlichen aus. Deine Marke steht f\u00fcr Freiheit und Neugier.',palettes:{earth:[{hex:'#B85C38',name:'Terrakotta',role:'Prim\u00e4r'},{hex:'#5C7A5C',name:'Olivgr\u00fcn',role:'Sekund\u00e4r'},{hex:'#E8DCC8',name:'Leinen',role:'Hintergrund'},{hex:'#2D1B0E',name:'Dunkelbraun',role:'Text'},{hex:'#F5EFE6',name:'Creme',role:'Fl\u00e4che'}],deep:[{hex:'#006D5B',name:'Tiefes Teal',role:'Prim\u00e4r'},{hex:'#4ECDC4',name:'T\u00fcrkis',role:'Akzent'},{hex:'#F5FFFE',name:'Mintcreme',role:'Hintergrund'},{hex:'#0A2E2A',name:'Dunkel',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],pastel:[{hex:'#C96A8A',name:'Wildrose',role:'Prim\u00e4r'},{hex:'#E8A838',name:'Safran',role:'Akzent'},{hex:'#FFF8F0',name:'Warm-Wei\u00df',role:'Hintergrund'},{hex:'#2D1525',name:'Dunkel',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],fresh:[{hex:'#2D5016',name:'Dunkelgr\u00fcn',role:'Prim\u00e4r'},{hex:'#8B6914',name:'Ocker',role:'Akzent'},{hex:'#F2EAD3',name:'Pergament',role:'Hintergrund'},{hex:'#1A2E0F',name:'Tief-Gr\u00fcn',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],minimal:[{hex:'#B85C38',name:'Terrakotta',role:'Prim\u00e4r'},{hex:'#1C1917',name:'Schwarz',role:'Text'},{hex:'#F5EFE6',name:'Creme',role:'Hintergrund'},{hex:'#D6CAB8',name:'Sandgrau',role:'Border'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],bold:[{hex:'#059669',name:'Smaragd',role:'Prim\u00e4r'},{hex:'#F59E0B',name:'Amber',role:'Akzent'},{hex:'#7C3AED',name:'Violett',role:'Tiefe'},{hex:'#1C1917',name:'Schwarz',role:'Text'},{hex:'#FAFAF8',name:'Wei\u00df',role:'Hintergrund'}]},fonts:{headline:{name:'Abril Fatface',preview:'Wohin als n\u00e4chstes?'},body:{name:'Nunito',preview:'Leicht und einladend'},accent:{name:'Courier Prime',preview:'off the beaten path'}}},
-  innocent:{name:'Die Optimistin',icon:'\u2728',desc:'Deine St\u00e4rke ist Authentizit\u00e4t und echtes Vertrauen. Du zeigst dich so wie du bist.',palettes:{earth:[{hex:'#D4956A',name:'Pfirsich',role:'Prim\u00e4r'},{hex:'#A8C4A2',name:'Salbei',role:'Akzent'},{hex:'#FDF6EE',name:'Warm-Wei\u00df',role:'Hintergrund'},{hex:'#4A3728',name:'Walnuss',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],deep:[{hex:'#6DB5CA',name:'Himmelblau',role:'Prim\u00e4r'},{hex:'#F9C784',name:'Honig',role:'Akzent'},{hex:'#F0FAFF',name:'Eisblau-Hell',role:'Hintergrund'},{hex:'#1A3A4A',name:'Dunkel',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],pastel:[{hex:'#E8A0BF',name:'Babyrosa',role:'Prim\u00e4r'},{hex:'#B5D5C5',name:'Mintgr\u00fcn',role:'Akzent'},{hex:'#FFF0F7',name:'Ros\u00e9-Hell',role:'Hintergrund'},{hex:'#3D2040',name:'Pflaume',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],fresh:[{hex:'#88B04B',name:'Apfelgr\u00fcn',role:'Prim\u00e4r'},{hex:'#F9C784',name:'Honig',role:'Akzent'},{hex:'#F5F9EE',name:'Mintcreme',role:'Hintergrund'},{hex:'#2A3D1A',name:'Dunkelgr\u00fcn',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],minimal:[{hex:'#6DB5CA',name:'Hellblau',role:'Prim\u00e4r'},{hex:'#1C1917',name:'Schwarz',role:'Text'},{hex:'#F0FAFF',name:'Eisblau',role:'Hintergrund'},{hex:'#D1E8F0',name:'Grau-Blau',role:'Border'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}],bold:[{hex:'#F472B6',name:'Pink',role:'Prim\u00e4r'},{hex:'#34D399',name:'Mint',role:'Akzent'},{hex:'#FEF3C7',name:'Warm-Gelb',role:'Hintergrund'},{hex:'#1C1917',name:'Schwarz',role:'Text'},{hex:'#FFFFFF',name:'Wei\u00df',role:'Fl\u00e4che'}]},fonts:{headline:{name:'Quicksand',preview:'So wie ich bin'},body:{name:'Nunito',preview:'Weich und lesbar'},accent:{name:'Patrick Hand',preview:'Handgeschrieben & echt'}}}
+const staticOptions = {
+  5: {
+    multi: true,
+    opts: [
+      'Neue Kundinnen gewinnen',
+      'Mein Angebot professionell präsentieren',
+      'Vertrauen aufbauen bevor jemand kauft',
+      'Eine E-Mail-Liste aufbauen',
+      'Meine Persönlichkeit zeigen',
+      'Einen Terminbuchungs-Link anbieten',
+      {text:'Etwas anderes', free: true}
+    ]
+  },
+  6: {
+    multi: true,
+    opts: [
+      'Warm und herzlich – wie eine gute Freundin',
+      'Ruhig und geerdet – wie ein stiller Fels',
+      'Mutig und direkt – sagt, was sie denkt',
+      'Kreativ und verspielt – bunt und lebendig',
+      'Professionell und klar – sachlich ohne kalt zu sein',
+      'Mystisch und tief – mit etwas Unsichtbarem',
+      {text:'Etwas anderes', free: true}
+    ]
+  },
+  7: {
+    multi: true,
+    opts: [
+      'Authentizität – ich zeige mich, wie ich bin',
+      'Freiheit – selbstbestimmt leben und arbeiten',
+      'Verbindung – echte Beziehungen statt Follower',
+      'Wachstum – persönlich und fachlich weiterentwickeln',
+      'Qualität – lieber weniger, dafür besonders gut',
+      'Leichtigkeit – es darf auch Spaß machen',
+      'Wirkung – etwas Bedeutsames bewegen',
+      {text:'Etwas anderes', free: true}
+    ]
+  },
+  8: {
+    multi: false,
+    opts: [
+      'Die Beschützerin – fürsorglich, zuverlässig, sicher',
+      'Die Schöpferin – kreativ, original, ausdrucksstark',
+      'Die Weisheitsgeberin – tiefgründig, ehrlich, klar',
+      'Die Heldin – mutig, ehrgeizig, inspirierend',
+      'Die Rebellin – provokant, freiheitsliebend, andersartig',
+      'Die Liebende – sinnlich, verbindend, warmherzig',
+      'Die Magische – visionär, transformierend, mystisch',
+      'Die Unschuldige – optimistisch, einfach, ehrlich'
+    ]
+  },
+  9: {
+    multi: false,
+    opts: [
+      'Die Beschützerin – fürsorglich, zuverlässig, sicher',
+      'Die Schöpferin – kreativ, original, ausdrucksstark',
+      'Die Weisheitsgeberin – tiefgründig, ehrlich, klar',
+      'Die Heldin – mutig, ehrgeizig, inspirierend',
+      'Die Rebellin – provokant, freiheitsliebend, andersartig',
+      'Die Liebende – sinnlich, verbindend, warmherzig',
+      'Die Magische – visionär, transformierend, mystisch',
+      'Die Unschuldige – optimistisch, einfach, ehrlich'
+    ]
+  },
+  10: {
+    multi: true,
+    opts: [
+      'Warm und einladend',
+      'Klar und professionell',
+      'Inspirierend und emotional',
+      'Leicht und humorvoll',
+      'Tiefgründig und poetisch',
+      'Direkt und ohne Umschweife',
+      {text:'Etwas anderes', free: true}
+    ]
+  },
+  15: {
+    multi: false,
+    opts: [
+      'Sie wissen nicht genau, ob das bei mir richtig aufgehoben sind',
+      'Sie haben Angst, Geld für etwas auszugeben, das nicht funktioniert',
+      'Sie brauchen erst Vertrauen – und das braucht Zeit',
+      'Sie schieben es auf – es ist kein unmittelbarer Schmerz da',
+      'Sie haben schlechte Erfahrungen gemacht und sind vorsichtig',
+      {text:'Etwas anderes', free: true}
+    ]
+  },
+  16: {
+    multi: false,
+    opts: [
+      'Aus dem Bauch heraus – wenn es sich stimmig anfühlt, kaufen sie',
+      'Nach gründlicher Recherche – sie vergleichen, lesen, fragen nach',
+      'Impulsiv – ein guter Moment und eine klare Botschaft reichen',
+      'Auf Empfehlung – sie kommen weil jemand mich weiterempfohlen hat',
+      {text:'Etwas anderes', free: true}
+    ]
+  },
+  17: {
+    multi: true,
+    opts: [
+      'Ehrliche Referenzen und Bewertungen',
+      'Ich wirke menschlich und nahbar',
+      'Klare Ergebnisse – was ändert sich konkret?',
+      'Ein transparenter Prozess – sie wissen, was sie erwartet',
+      'Der Preis stimmt zum Wert',
+      'Ein kostenloses Erstgespräch',
+      {text:'Etwas anderes', free: true}
+    ]
+  },
+  18: {
+    multi: true,
+    opts: [
+      'Startseite / Home',
+      'Über mich',
+      'Angebote / Leistungen',
+      'Kontakt / Buchungsseite',
+      'Blog',
+      'Portfolio / Referenzen',
+      'Impressum & Datenschutz',
+      {text:'Etwas anderes', free: true}
+    ]
+  },
+  19: {
+    multi: false,
+    opts: [
+      'Kostenloses Erstgespräch buchen',
+      'Direkt Angebot anfragen',
+      'Mein Gratis-PDF herunterladen',
+      'Zur E-Mail-Liste anmelden',
+      'Mein Portfolio ansehen',
+      {text:'Etwas anderes', free: true}
+    ]
+  }
 };
 
-var BUYER_TYPES = {
-  emotional:{name:'Die Bauchentscheiderin',desc:'Sie kauft, wenn sie sich verstanden und inspiriert f\u00fchlt. Storytelling und pers\u00f6nliche Sprache sind dein st\u00e4rkstes Werkzeug.',tactics:['Pers\u00f6nliche Geschichte erz\u00e4hlen','Emotionale Sprache','Bilder mit Stimmung','Sofort Verbindung herstellen']},
-  rational: {name:'Die Rechercheurin',     desc:'Sie liest alles, vergleicht und braucht vollst\u00e4ndige Transparenz. FAQs und konkrete Ergebnisse sind entscheidend.',tactics:['Klare Angebotsstruktur','Ausf\u00fchrliche FAQs','Referenzen & Zertifikate','Konkrete Ergebnisse']},
-  social:   {name:'Die Empfehlungsk\u00e4uferin',desc:'Sie vertraut anderen mehr als Werbung. Echte Bewertungen und Gemeinschaftsgef\u00fchl sind ihr wichtigstes Kaufargument.',tactics:['Viele echte Testimonials','Vorher-Nachher-Geschichten','Community-Gef\u00fchl','Social Proof prominent']},
-  trust:    {name:'Die Vertrauensk\u00e4uferin', desc:'Sie kauft die Person, nicht das Produkt. Braucht Zeit und das Gef\u00fchl, dich wirklich zu kennen.',tactics:['Pers\u00f6nliche About-Seite','Kostenloses Erstgespr\u00e4ch','Regelm\u00e4\u00dfig sichtbar sein','Echte Pers\u00f6nlichkeit zeigen']},
-  moment:   {name:'Die Impulsk\u00e4uferin',    desc:'Sie wartet auf den richtigen Moment. Klare Angebote und ein einfacher Buchungsprozess sind wichtig.',tactics:['Klarer Call to Action','Einfacher Buchungsprozess','Sofortige Erreichbarkeit','Entscheidung leicht machen']},
-  proof:    {name:'Die Ergebnis-K\u00e4uferin', desc:'Sie kauft, wenn sie die konkrete Ver\u00e4nderung sieht. Vorher-Nachher und messbare Ergebnisse sind entscheidend.',tactics:['Transformationen zeigen','Messbare Ergebnisse','Vorher-Nachher-Kontrast','Klare Ergebnis-Versprechen']}
-};
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+const answers = {};
+let currentQ = 1;
+const totalQ = 20;
+const aiDone = {4: false, 11: false, 12: false, 13: false};
 
-var answers = {};
-var currentStep = 0;
-var dynamicLoaded = false;
-var zielgruppeText = '';
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  buildStaticOptions();
+  showQuestion(1);
 
-var kommLabels   = {warm:'warm und pers\u00f6nlich',direct:'klar und direkt',deep:'tiefgr\u00fcndig und ehrlich',playful:'leicht und humorvoll',inspiring:'inspirierend und bildhaft',calm:'ruhig und kompetent'};
-var repLabels    = {seen:'Sie hat mich wirklich verstanden und gesehen.',right:'Bei ihr wusste ich sofort, dass ich richtig bin.',possible:'Sie hat mir gezeigt, was wirklich m\u00f6glich ist.',best:'Sie ist die Beste in dem, was sie tut.',changed:'Mit ihr hat sich wirklich etwas ver\u00e4ndert.',courage:'Sie hat mir Mut gemacht, ich selbst zu sein.'};
-var kaufLabels   = {emotional:'aus dem Bauch heraus',rational:'nach sorgf\u00e4ltiger Recherche',social:'durch Empfehlungen anderer',trust:'durch gewachsenes Vertrauen',moment:'wenn der Moment stimmt',proof:'wenn sie die konkrete Ver\u00e4nderung sieht'};
-var hurdleLabels = {price:'der Preis',time:'Zeitmangel',trust:'fehlendes Vertrauen',fear:'Angst vor Misserfolg',deserve:'das Gef\u00fchl es nicht zu verdienen',unclear:'Unklarheit \u00fcber das Angebot'};
-var convLabels   = {testimonials:'echte Erfahrungsberichte',expertise:'fachliche Kompetenz',connection:'pers\u00f6nliche Verbindung',result:'ein konkretes Ergebnis',freebie:'ein kostenloses Erstgespr\u00e4ch',feeling:'das Gef\u00fchl wirklich verstanden zu werden'};
-var farbLabels   = {earth:'warme Erdt\u00f6ne',deep:'tiefe Kontraste',pastel:'sanfte Pastellt\u00f6ne',fresh:'frische Naturt\u00f6ne',minimal:'klares Minimalistisch',bold:'kr\u00e4ftige lebendige Farben'};
-var atmLabels    = {homey:'warm und einladend',pro:'klar und professionell',creative:'kreativ und besonders',natural:'nat\u00fcrlich und authentisch',elegant:'elegant und hochwertig',energetic:'lebendig und energetisch'};
+  // Enter-Taste Navigation
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Enter' && !e.shiftKey){
+      const ta = document.activeElement;
+      if(ta && ta.tagName === 'TEXTAREA') return;
+      e.preventDefault();
+    }
+  });
+});
 
-function scoreArchetypes() {
-  var s = {creator:0,caregiver:0,hero:0,sage:0,explorer:0,innocent:0};
-  if(answers.archetyp && s.hasOwnProperty(answers.archetyp)) s[answers.archetyp] += 4;
-  var km = {warm:'caregiver',direct:'hero',deep:'sage',playful:'innocent',inspiring:'creator',calm:'sage'};
-  if(answers.kommunikation && km[answers.kommunikation]) s[km[answers.kommunikation]] += 2;
-  var rm = {seen:'caregiver',right:'innocent',possible:'hero',best:'sage',changed:'hero',courage:'innocent'};
-  if(answers.reputation && rm[answers.reputation]) s[rm[answers.reputation]] += 2;
-  var am = {homey:'caregiver',pro:'sage',creative:'creator',natural:'explorer',elegant:'sage',energetic:'hero'};
-  if(answers.atmosphaere && am[answers.atmosphaere]) s[am[answers.atmosphaere]] += 2;
-  var sm = {less:'sage',human:'caregiver',bold:'creator',nature:'explorer',premium:'sage',vivid:'innocent'};
-  if(answers.stil && sm[answers.stil]) s[sm[answers.stil]] += 1;
-  var wm = {seen:'caregiver',inspired:'creator',safe:'caregiver',curious:'explorer',relieved:'innocent',respect:'sage'};
-  if(answers.websitegefuehl && wm[answers.websitegefuehl]) s[wm[answers.websitegefuehl]] += 2;
-  var sorted = Object.entries(s).sort(function(a,b){return b[1]-a[1];});
-  return {primary:sorted[0][0],secondary:sorted[1][0]};
-}
+// ═══════════════════════════════════════════════
+// OPTIONEN AUFBAUEN
+// ═══════════════════════════════════════════════
+function buildStaticOptions(){
+  Object.entries(staticOptions).forEach(([qNum, config]) => {
+    const wrap = document.getElementById('opts' + qNum);
+    if(!wrap) return;
+    config.opts.forEach((opt, i) => {
+      const isFree = typeof opt === 'object' && opt.free;
+      const label = isFree ? opt.text : opt;
+      const div = document.createElement('div');
+      div.className = 'option' + (config.multi ? ' multi' : '');
+      div.dataset.value = label;
+      div.dataset.qnum = qNum;
+      div.innerHTML = `<span class="option-check"></span><span>${label}</span>`;
 
-function scoreBuyerTypes() {
-  var s = {emotional:0,rational:0,social:0,trust:0,moment:0,proof:0};
-  if(answers.kaufentscheidung && s.hasOwnProperty(answers.kaufentscheidung)) s[answers.kaufentscheidung] += 4;
-  var hm = {price:'rational',time:'moment',trust:'trust',fear:'rational',deserve:'emotional',unclear:'rational'};
-  if(answers.kaufhuerden && hm[answers.kaufhuerden]) s[hm[answers.kaufhuerden]] += 2;
-  var cm = {testimonials:'social',expertise:'rational',connection:'trust',result:'proof',freebie:'trust',feeling:'emotional'};
-  if(answers.kaufueberzeugung && cm[answers.kaufueberzeugung]) s[cm[answers.kaufueberzeugung]] += 3;
-  var sorted = Object.entries(s).sort(function(a,b){return b[1]-a[1];});
-  return {primary:sorted[0][0],secondary:sorted[1][0]};
-}
+      if(isFree){
+        div.innerHTML += `<div class="freetext-wrap" id="free-${qNum}-${i}"><textarea class="text-input" rows="1" placeholder="Deine Antwort..." style="margin-top:0.4rem"></textarea></div>`;
+      }
 
-function isLight(hex) {
-  var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-  return (r*299+g*587+b*114)/1000 > 145;
-}
-
-function showLoading(show) {
-  document.getElementById('loading').style.display = show ? 'block' : 'none';
-  document.getElementById('steps').style.display   = show ? 'none'  : 'block';
-}
-
-async function loadDynamicQuestions() {
-  if(dynamicLoaded) return;
-  showLoading(true);
-  var beruf = answers.beruf || 'Selbstst\u00e4ndige';
-  var zg = {frauen:'Frauen',maenner:'M\u00e4nner',gemischt:'Frauen und M\u00e4nner',familien:'Familien und Eltern'};
-  zielgruppeText = zg[answers.zielgruppe_geschlecht] || (answers.zielgruppe_geschlecht_other||'gemischt');
-  var prompt = 'Du bist Brand-Designer. Eine Unternehmerin f\u00fcllt einen Marken-Fragebogen aus. Ihr Beruf: "' + beruf + '", Zielgruppe: "' + zielgruppeText + '"\n\nErstelle auf Deutsch f\u00fcr JEDE der 4 Fragen genau 5 Antwortm\u00f6glichkeiten passend zu diesem Beruf. Jede Option hat einen kurzen Titel (max 8 W\u00f6rter, beginnend mit "Ich", kein "befähige") und eine Beschreibung (max 12 W\u00f6rter).\n\nAntworte NUR mit validem JSON ohne Markdown:\n{"veraenderung":[{"val":"e1","label":"Ich ...","sub":"..."},{"val":"e2","label":"Ich ...","sub":"..."},{"val":"e3","label":"Ich ...","sub":"..."},{"val":"e4","label":"Ich ...","sub":"..."},{"val":"e5","label":"Ich ...","sub":"..."}],"zielgruppe":[{"val":"z1","label":"...","sub":"..."},{"val":"z2","label":"...","sub":"..."},{"val":"z3","label":"...","sub":"..."},{"val":"z4","label":"...","sub":"..."},{"val":"z5","label":"...","sub":"..."}],"nachtgedanken":[{"val":"n1","label":"...","sub":"..."},{"val":"n2","label":"...","sub":"..."},{"val":"n3","label":"...","sub":"..."},{"val":"n4","label":"...","sub":"..."},{"val":"n5","label":"...","sub":"..."}],"vorversuche":[{"val":"v1","label":"...","sub":"..."},{"val":"v2","label":"...","sub":"..."},{"val":"v3","label":"...","sub":"..."},{"val":"v4","label":"...","sub":"..."},{"val":"v5","label":"...","sub":"..."}]}';
-  try {
-    var res = await fetch('https://mela-api.webdesignbymela.workers.dev',{
-      method:'POST',
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1200,messages:[{role:'user',content:prompt}]})
+      div.addEventListener('click', (e) => {
+        if(e.target.tagName === 'TEXTAREA') return;
+        selectOption(div, qNum, config.multi, isFree, i);
+      });
+      wrap.appendChild(div);
     });
-    var data = await res.json();
-    var text = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : '';
-    var parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
-    questions[4].options  = parsed.veraenderung  || [];
-    questions[11].options = parsed.zielgruppe    || [];
-    questions[12].options = parsed.nachtgedanken || [];
-    questions[13].options = parsed.vorversuche   || [];
-  } catch(e) {
-    questions[4].options = [
-      {val:'e1',label:'Ich spare ihnen Zeit und Nerven',                  sub:'Sie k\u00f6nnen sich auf ihr Business konzentrieren.'},
-      {val:'e2',label:'Ich helfe ihnen, professionell aufzutreten',       sub:'Sie wirken seri\u00f6s und werden ernst genommen.'},
-      {val:'e3',label:'Ich mache ihr Leben einfacher',                    sub:'Kompliziertes wird einfach und verst\u00e4ndlich.'},
-      {val:'e4',label:'Ich helfe ihnen, mehr Kunden zu gewinnen',         sub:'Ihre Sichtbarkeit steigt, ihr Business w\u00e4chst.'},
-      {val:'e5',label:'Ich nehme ihnen etwas ab, was sie selbst nicht k\u00f6nnen',sub:'Expertenwissen, das ihnen fehlt.'}
-    ];
-    questions[11].options = [
-      {val:'z1',label:'Menschen in beruflicher Neuorientierung',  sub:'Suchen Orientierung und neue Richtung.'},
-      {val:'z2',label:'Frauen, die sich selbst verloren haben',   sub:'Zwischen Rollen und Erwartungen gefangen.'},
-      {val:'z3',label:'Eltern im Alltagsstress',                  sub:'Brauchen Entlastung und klare Struktur.'},
-      {val:'z4',label:'Selbst\u00e4ndige in der Wachstumsphase', sub:'Wollen skalieren, wissen aber nicht wie.'},
-      {val:'z5',label:'Menschen an einer Lebenskreuzung',         sub:'Ver\u00e4nderung steht an, Begleitung gesucht.'}
-    ];
-    questions[12].options = [
-      {val:'n1',label:'Ich schaffe das alles nicht mehr.',         sub:'\u00dcberforderung durch zu viele Rollen.'},
-      {val:'n2',label:'Warum f\u00fchlt sich das nicht richtig an?',sub:'Innere Leere trotz \u00e4u\u00dferem Erfolg.'},
-      {val:'n3',label:'Ich stecke fest und wei\u00df nicht warum.',sub:'Blockade ohne erkennbaren Grund.'},
-      {val:'n4',label:'Das kann doch nicht alles gewesen sein.',   sub:'Sehnsucht nach mehr Sinn im Leben.'},
-      {val:'n5',label:'Ich muss das alleine stemmen.',             sub:'Ersch\u00f6pfung durch fehlende Unterst\u00fctzung.'}
-    ];
-    questions[13].options = [
-      {val:'v1',label:'B\u00fccher und Podcasts',                          sub:'Alleine vorankommen, mit begrenztem Erfolg.'},
-      {val:'v2',label:'Andere Coaches oder Therapeuten',                  sub:'Ohne nachhaltiges Ergebnis geblieben.'},
-      {val:'v3',label:'Freunde und Familie um Rat fragen',                sub:'Gut gemeint, aber nicht ausreichend.'},
-      {val:'v4',label:'Einfach weitermachen und hoffen',                  sub:'Warten dass es irgendwann besser wird.'},
-      {val:'v5',label:'Verschiedene Methoden ausprobiert',                sub:'Nichts hat wirklich dauerhaft geholfen.'}
-    ];
-  }
-  dynamicLoaded = true;
-  showLoading(false);
-}
-
-function renderStep() {
-  var total = questions.length;
-  var pct = Math.round(((currentStep+1)/total)*100);
-  document.getElementById('progress').style.width = pct+'%';
-  document.getElementById('pct-label').textContent = (currentStep+1)+' / '+total;
-  document.getElementById('block-label').textContent = BLOCKS[currentStep] || '';
-  var q = questions[currentStep];
-  var html = '<div class="step active">';
-  html += '<span class="step-eyebrow">'+q.eyebrow+'</span>';
-  html += '<h2 class="step-question">'+q.question+'</h2>';
-  if(q.sub) html += '<p class="step-sub">'+q.sub+'</p>';
-  if(q.type === 'text') {
-    html += '<input type="text" class="text-input" id="text-field" placeholder="'+q.placeholder+'" value="'+(answers[q.id]||'')+'">';
-  } else {
-    html += '<div class="options">';
-    var opts = q.options || [];
-    for(var i=0;i<opts.length;i++) {
-      var o = opts[i];
-      var sel = answers[q.id] === o.val ? 'selected' : '';
-      html += '<div class="opt '+sel+'" data-val="'+o.val+'" data-qid="'+q.id+'" onclick="selectOpt(this)">';
-      html += '<div class="radio"><div class="radio-dot"></div></div>';
-      html += '<div><div class="opt-label">'+o.label+'</div><div class="opt-sub">'+o.sub+'</div></div>';
-      html += '</div>';
-    }
-    if(q.other) {
-      var otherSel = answers[q.id] === '__other' ? 'selected' : '';
-      html += '<div class="opt '+otherSel+'" data-val="__other" data-qid="'+q.id+'" onclick="selectOpt(this)">';
-      html += '<div class="radio"><div class="radio-dot"></div></div>';
-      html += '<div style="width:100%"><div class="opt-label">Etwas anderes:</div>';
-      html += '<input class="opt-other-input" id="other-field" type="text" placeholder="Deine Antwort \u2026" value="'+(answers[q.id+'_other']||'')+'" onclick="event.stopPropagation()" oninput="answers[\''+q.id+'_other\']=this.value">';
-      html += '</div></div>';
-    }
-    html += '</div>';
-  }
-  html += '<p class="error-msg" id="field-err">Bitte w\u00e4hle eine Option oder f\u00fcll das Feld aus.</p>';
-  html += '<div class="btn-row">';
-  if(currentStep > 0) html += '<button class="btn" onclick="prev()">\u2190 Zur\u00fcck</button>';
-  html += '<button class="btn btn-primary" onclick="nextStep()">'+(currentStep===total-1?'Auswertung anzeigen \u2192':'Weiter \u2192')+'</button>';
-  html += '</div></div>';
-  document.getElementById('steps').innerHTML = html;
-  if(q.type==='text') {
-    var f = document.getElementById('text-field');
-    f.addEventListener('input',function(e){answers[q.id]=e.target.value;});
-    f.focus();
-  }
-}
-
-function selectOpt(el) {
-  document.querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected');});
-  el.classList.add('selected');
-  answers[el.dataset.qid] = el.dataset.val;
-  document.getElementById('field-err').style.display='none';
-}
-
-async function nextStep() {
-  var q = questions[currentStep];
-  if(q.type==='text') {
-    if(!answers[q.id]||answers[q.id].trim()===''){document.getElementById('field-err').style.display='block';return;}
-  } else {
-    if(!answers[q.id]){document.getElementById('field-err').style.display='block';return;}
-  }
-  if(q.id==='zielgruppe_geschlecht'&&!dynamicLoaded) await loadDynamicQuestions();
-  if(currentStep<questions.length-1){
-    currentStep++;renderStep();window.scrollTo({top:0,behavior:'smooth'});
-  } else {
-    showResult();
-  }
-}
-
-function prev(){if(currentStep>0){currentStep--;renderStep();window.scrollTo({top:0,behavior:'smooth'});}}
-
-function getColorWhy(c,archKey,farbKey,atmKey){
-  var arch = ARCHETYPES[archKey] ? ARCHETYPES[archKey].name : '';
-  var farbText = farbLabels[farbKey] || farbKey;
-  var atmText  = atmLabels[atmKey]   || atmKey;
-  var m = {
-    'Prim\u00e4r':       'Du hast '+farbText+' als Farbwelt gew\u00e4hlt. Diese Farbe verk\u00f6rpert genau diese Energie und wird zur Leitfarbe deiner Marke.',
-    'Akzent':             'Basierend auf deiner Pers\u00f6nlichkeit als '+arch+' setzt diese Akzentfarbe gezielte Impulse ohne zu dominieren.',
-    'Sekund\u00e4r':      'Diese Sekund\u00e4rfarbe schafft Harmonie und Tiefe in deiner Palette.',
-    'Hintergrund':        'Du m\u00f6chtest eine '+atmText+' Atmosph\u00e4re. Dieser Hintergrundton schafft genau dieses Gef\u00fchl.',
-    'Text':               'F\u00fcr maximale Lesbarkeit und professionelle Wirkung passend zu deiner Marke als '+arch+'.',
-    'Fl\u00e4che':        'Gibt dem Design Luft und Raum passend zu deinem gew\u00e4hlten Stil.',
-    'Tiefe':              'Verleiht der Palette Tiefe und Substanz passend zur Energie der '+arch+'.',
-    'Border':             'Strukturiert das Layout dezent ohne zu st\u00f6ren.',
-    'Dunkel':             'Starker Kontrast f\u00fcr Headlines passend zu deiner Kommunikation.'
-  };
-  return m[c.role] || 'Passend zu deiner Marken-Energie als '+arch+'.';
-}
-
-function getFontWhy(role,fontName,archKey,kommKey){
-  var arch = ARCHETYPES[archKey] ? ARCHETYPES[archKey].name : '';
-  var kl = kommLabels[kommKey] || 'authentisch';
-  if(role==='headline') return 'Als '+arch+' brauchst du eine Schrift, die sofort deine Pers\u00f6nlichkeit zeigt. '+fontName+' tut genau das.';
-  if(role==='body') return 'Dein Kommunikationsstil ist '+kl+'. '+fontName+' \u00fcbersetzt das in maximale Lesbarkeit.';
-  return 'F\u00fcr Hervorhebungen und besondere Momente. '+fontName+' schafft einen bewussten Kontrast.';
-}
-
-function showResult(){
-  document.getElementById('progress').style.width='100%';
-  document.getElementById('pct-label').textContent='Fertig \u2713';
-  document.getElementById('block-label').textContent='Deine Auswertung';
-  var arch  = scoreArchetypes();
-  var buyer = scoreBuyerTypes();
-  var aP = ARCHETYPES[arch.primary]   || ARCHETYPES.caregiver;
-  var aS = ARCHETYPES[arch.secondary] || ARCHETYPES.creator;
-  var bP = BUYER_TYPES[buyer.primary]   || BUYER_TYPES.emotional;
-  var bS = BUYER_TYPES[buyer.secondary] || BUYER_TYPES.rational;
-  var fonts   = aP.fonts;
-  var palette = aP.palettes[answers.farbwelt] || aP.palettes.earth;
-  var name = answers.name || 'deine Kundin';
-
-  var archReason  = 'Du kommunizierst '+(kommLabels[answers.kommunikation]||answers.kommunikation||'')+' und m\u00f6chtest, dass deine Kundinnen sagen: \u201e'+(repLabels[answers.reputation]||answers.reputation||'')+'\u201c Das ist der Kern der '+aP.name+'.';
-  var buyerReason = 'Deine Wunschkundin entscheidet '+(kaufLabels[answers.kaufentscheidung]||answers.kaufentscheidung||'')+'. Ihre gr\u00f6\u00dfte H\u00fcrde ist '+(hurdleLabels[answers.kaufhuerden]||answers.kaufhuerden||'')+'. Was sie am Ende \u00fcberzeugt: '+(convLabels[answers.kaufueberzeugung]||answers.kaufueberzeugung||'')+'. Genau darauf muss deine Website eingehen.';
-
-  var colorRows='';
-  for(var i=0;i<palette.length;i++){
-    var c=palette[i];
-    var tc=isLight(c.hex)?'#1C1917':'#FFFFFF';
-    var why=getColorWhy(c,arch.primary,answers.farbwelt||'',answers.atmosphaere||'');
-    colorRows+='<tr><td><div class="color-swatch-big" style="background:'+c.hex+'"><span class="swatch-hex" style="color:'+tc+'">'+c.hex+'</span></div></td><td><div class="color-name-role"><span class="color-name">'+c.name+'</span><span class="color-role">'+c.role+'</span></div><div class="color-why">'+why+'</div></td></tr>';
-  }
-
-  var fontRoles=[{key:'headline',label:'Headline'},{key:'body',label:'Flie\u00dftext'},{key:'accent',label:'Akzent'}];
-  var fontCards='';
-  for(var j=0;j<fontRoles.length;j++){
-    var fr=fontRoles[j];var f=fonts[fr.key];
-    fontCards+='<div class="font-card"><span class="font-badge">'+fr.label+'</span><div><div class="font-name">'+f.name+'</div><div class="font-why">'+getFontWhy(fr.key,f.name,arch.primary,answers.kommunikation)+'</div><div class="font-preview">'+f.preview+'</div></div></div>';
-  }
-
-  var tP='',tS='';
-  for(var t=0;t<bP.tactics.length;t++) tP+='<span class="tactic">\u2192 '+bP.tactics[t]+'</span>';
-  for(var t2=0;t2<bS.tactics.length;t2++) tS+='<span class="tactic">\u2192 '+bS.tactics[t2]+'</span>';
-
-  document.getElementById('steps').innerHTML=
-    '<div class="result-hero">'+
-      '<span class="result-tag">Auswertung f\u00fcr '+name+'</span>'+
-      '<span class="result-icon">'+aP.icon+'</span>'+
-      '<div class="result-name">'+aP.name+'</div>'+
-      '<p class="result-tagline">'+aP.desc+'</p>'+
-    '</div>'+
-    '<div class="result-section">'+
-      '<p class="rs-label">Marken-Archetyp</p>'+
-      '<div class="arch-grid">'+
-        '<div><div class="arch-badge-sm">Prim\u00e4r</div><div class="arch-pill-primary">'+aP.icon+' '+aP.name+'</div></div>'+
-        '<div><div class="arch-badge-sm">Sekund\u00e4r</div><div class="arch-pill-secondary">'+aS.icon+' '+aS.name+'</div></div>'+
-      '</div>'+
-      '<div class="arch-reason"><strong>Warum diese Archetypen?</strong><br>'+archReason+'</div>'+
-      '<div class="arch-reason" style="margin-top:8px"><strong>Sekund\u00e4r-Einfluss:</strong><br>'+aS.desc+'</div>'+
-    '</div>'+
-    '<div class="result-section">'+
-      '<p class="rs-label">Deine Farbpalette</p>'+
-      '<table class="color-table">'+colorRows+'</table>'+
-    '</div>'+
-    '<div class="result-section">'+
-      '<p class="rs-label">Schriftempfehlung</p>'+
-      '<div class="font-list">'+fontCards+'</div>'+
-    '</div>'+
-    '<div class="result-section">'+
-      '<p class="rs-label">K\u00e4ufertyp deiner Zielgruppe</p>'+
-      '<div class="buyer-card">'+
-        '<div class="buyer-header"><span class="buyer-badge buyer-badge-p">Prim\u00e4r</span><span class="buyer-name">'+bP.name+'</span></div>'+
-        '<p class="buyer-desc">'+bP.desc+'</p>'+
-        '<div class="buyer-why"><strong>Warum dieser Typ?</strong><br>'+buyerReason+'</div>'+
-        '<div class="buyer-tactics">'+tP+'</div>'+
-      '</div>'+
-      '<div class="buyer-card">'+
-        '<div class="buyer-header"><span class="buyer-badge buyer-badge-s">Sekund\u00e4r</span><span class="buyer-name">'+bS.name+'</span></div>'+
-        '<p class="buyer-desc">'+bS.desc+'</p>'+
-        '<div class="buyer-tactics">'+tS+'</div>'+
-      '</div>'+
-    '</div>'+
-    '<div class="insight-box">'+
-      '<p><strong>Melas Empfehlung f\u00fcr '+name+':</strong> Deine Website braucht die Energie der <strong>'+aP.name+'</strong>, kombiniert mit einer Struktur die auf die <strong>'+bP.name+'</strong> ausgerichtet ist. Dein Business \u201e'+(answers.beruf||'')+'\u201c verdient eine Website, die genau widerspiegelt wer du wirklich bist.</p>'+
-    '</div>'+
-    '<p class="send-status" id="send-status">Ergebnis wird \u00fcbermittelt &hellip;</p>'+
-    '<div class="save-btn-wrap no-print">'+
-      '<button class="save-btn" onclick="window.print()">'+
-        '<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>'+
-        'Als Brandboard speichern'+
-      '</button>'+
-    '</div>';
-  // Button sofort sichtbar machen
-  setTimeout(function(){
-    var wrap = document.querySelector('.save-btn-wrap');
-    if(wrap) wrap.style.display='block';
-  }, 100);
-
-  // Button sofort anzeigen
-  document.getElementById('send-status').innerHTML=
-    '<div class="save-btn-wrap no-print" style="margin-bottom:1rem">'+
-    '<button class="save-btn" onclick="window.print()" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#2D6E6E;color:white;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:500;cursor:pointer">'+
-    'Als Brandboard speichern'+
-    '</button></div>'+
-    '<p id="email-status" style="font-size:13px;color:#6B5F58">Ergebnis wird übermittelt …</p>';
-
-  fetch('https://formsubmit.co/ajax/webdesignbymela@gmail.com',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','Accept':'application/json'},
-    body:JSON.stringify({
-      _subject:'Fragebogen: '+name+' – '+(answers.beruf||''),
-      Kundin:name,Beruf:answers.beruf||'',Zielgruppe:zielgruppeText||'',
-      Archetyp_Primaer:aP.name,Archetyp_Sekundaer:aS.name,
-      Kaeufertyp_Primaer:bP.name,Kaeufertyp_Sekundaer:bS.name,
-      Farbwelt:farbLabels[answers.farbwelt]||answers.farbwelt||'',
-      Atmosphaere:atmLabels[answers.atmosphaere]||answers.atmosphaere||'',
-      Kommunikation:kommLabels[answers.kommunikation]||answers.kommunikation||'',
-      Farbpalette:palette.map(function(c){return c.name+' '+c.hex;}).join(' | '),
-      Schriften:'Headline: '+fonts.headline.name+' | Text: '+fonts.body.name+' | Akzent: '+fonts.accent.name,
-      Kaufentscheidung:kaufLabels[answers.kaufentscheidung]||answers.kaufentscheidung||'',
-      Kaufhuerde:hurdleLabels[answers.kaufhuerden]||answers.kaufhuerden||'',
-      Ueberzeugung:convLabels[answers.kaufueberzeugung]||answers.kaufueberzeugung||'',
-      _captcha:'false'
-    })
-  })
-  .then(function(r){return r.json();})
-  .then(function(){
-    var el=document.getElementById('email-status');
-    if(el)el.innerHTML='<span style="color:#2D6E6E;font-weight:500">✓ Ergebnis erfolgreich an Mela übermittelt.</span>';
-  })
-  .catch(function(err){
-    var el=document.getElementById('email-status');
-    if(el)el.textContent='E-Mail konnte nicht gesendet werden – bitte Screenshot an Mela schicken.';
-    console.error(err);
   });
 }
 
-document.addEventListener('DOMContentLoaded',function(){
-  try{renderStep();}catch(e){
-    document.getElementById('steps').innerHTML='<p style="color:red;padding:1rem">Fehler: '+e.message+'</p>';
-    console.error(e);
+function selectOption(el, qNum, isMulti, isFree, idx){
+  const wrap = document.getElementById('opts' + qNum);
+  if(!isMulti){
+    wrap.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
   }
-});
+  el.classList.toggle('selected');
+  // Freitext ein/ausblenden
+  if(isFree){
+    const ft = document.getElementById('free-' + qNum + '-' + idx);
+    if(ft) ft.classList.toggle('show', el.classList.contains('selected'));
+  }
+}
 
-document.addEventListener('keydown',function(e){
-  if(e.key==='Enter'){
-    var active=document.activeElement;
-    if(active&&active.id==='other-field') return;
-    if(active&&active.tagName==='TEXTAREA') return;
-    e.preventDefault();
-    e.stopPropagation();
-    nextStep().catch(function(err){console.error(err);});
+// ═══════════════════════════════════════════════
+// FRAGE ANZEIGEN
+// ═══════════════════════════════════════════════
+function showQuestion(num){
+  const card = document.getElementById('q' + num);
+  if(!card) return;
+
+  // Section Divider
+  const divMap = {1:'div-block1', 6:'div-block2', 11:'div-block3', 14:'div-block4', 16:'div-block5', 18:'div-block6'};
+  if(divMap[num]){
+    const div = document.getElementById(divMap[num]);
+    if(div){div.classList.add('visible')}
   }
-});
+
+  card.classList.add('visible');
+  setTimeout(() => card.classList.add('animated'), 20);
+  card.scrollIntoView({behavior:'smooth', block:'center'});
+  updateProgress();
+
+  // KI-Fragen laden wenn noch nicht geladen
+  if([4,11,12,13].includes(num) && !aiDone[num]){
+    loadAIOptions(num);
+  }
+}
+
+// ═══════════════════════════════════════════════
+// WEITER
+// ═══════════════════════════════════════════════
+function next(num){
+  const val = getAnswer(num);
+  if(!val || val.trim() === ''){
+    shake(num);
+    return;
+  }
+  answers['q'+num] = val;
+  document.getElementById('q'+num).classList.add('done');
+  currentQ = num + 1;
+
+  if(currentQ > totalQ){
+    document.getElementById('btnSubmit').style.display = 'block';
+    document.getElementById('btnSubmit').scrollIntoView({behavior:'smooth'});
+    updateProgress();
+    return;
+  }
+  showQuestion(currentQ);
+  updateProgress();
+}
+
+function triggerAI(num){
+  // nach Frage 3: KI wird ausgelöst für Fragen 4,11,12,13
+  next(num);
+}
+
+// ═══════════════════════════════════════════════
+// ANTWORT AUSLESEN
+// ═══════════════════════════════════════════════
+function getAnswer(num){
+  // Textfelder
+  const ta = document.getElementById('a'+num);
+  if(ta) return ta.value.trim();
+
+  // Options
+  const wrap = document.getElementById('opts'+num);
+  if(!wrap) return '';
+  const selected = wrap.querySelectorAll('.option.selected');
+  const vals = [];
+  selected.forEach(el => {
+    const label = el.dataset.value;
+    const ft = el.querySelector('textarea');
+    if(ft && ft.value.trim()) vals.push(ft.value.trim());
+    else vals.push(label);
+  });
+  return vals.join(', ');
+}
+
+// ═══════════════════════════════════════════════
+// PROGRESS
+// ═══════════════════════════════════════════════
+function updateProgress(){
+  const filled = Object.keys(answers).length;
+  const pct = Math.round((filled / totalQ) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = filled + ' / ' + totalQ;
+}
+
+// ═══════════════════════════════════════════════
+// SHAKE ANIMATION
+// ═══════════════════════════════════════════════
+function shake(num){
+  const card = document.getElementById('q'+num);
+  card.style.animation = 'shake 0.35s ease';
+  setTimeout(()=>card.style.animation='',400);
+}
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}';
+document.head.appendChild(shakeStyle);
+
+// ═══════════════════════════════════════════════
+// KI-OPTIONEN LADEN
+// ═══════════════════════════════════════════════
+async function loadAIOptions(qNum){
+  const beruf = answers['q2'] || '';
+  const zielgruppe = answers['q3'] || '';
+  const archetyp = answers['q8'] || '';
+
+  const prompts = {
+    4: `Du bist Markenstrategin. Erstelle 5 kurze, präzise Antwortoptionen (je max. 12 Wörter) für die Frage "Was ist dein größtes Problem mit deiner Website oder warum hast du noch keine?" – passend zu: Beruf: "${beruf}", Zielgruppe: "${zielgruppe}". Antworte NUR mit einem JSON-Array, z.B. ["Option 1","Option 2","Option 3","Option 4","Option 5"]. Kein anderer Text.`,
+    11: `Du bist Markendesignerin. Erstelle 5 kurze Farbwelt-Beschreibungen (je max. 10 Wörter) passend zu: Beruf: "${beruf}", Zielgruppe: "${zielgruppe}", Archetyp: "${archetyp}". Jede Option beschreibt ein Farbgefühl, z.B. "Warmes Sahne, tiefes Waldgrün, goldener Akzent". Antworte NUR mit JSON-Array. Kein anderer Text.`,
+    12: `Du bist Markendesignerin. Erstelle 5 Bildstil-Beschreibungen (je max. 12 Wörter) passend zu: Beruf: "${beruf}", Zielgruppe: "${zielgruppe}". Jede Option beschreibt eine Bildästhetik, z.B. "Hell, luftig, natürliches Licht – wie ein sonniger Morgen". Antworte NUR mit JSON-Array. Kein anderer Text.`,
+    13: `Du bist Webdesignerin. Erstelle 5 Design-Gefühl-Beschreibungen (je max. 12 Wörter) passend zu: Beruf: "${beruf}", Zielgruppe: "${zielgruppe}", Archetyp: "${archetyp}". Jede Option beschreibt ein Websitefeeling, z.B. "Minimalistisch und ruhig – wie ein aufgeräumtes Atelier". Antworte NUR mit JSON-Array. Kein anderer Text.`
+  };
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 300,
+        messages: [{role:'user', content: prompts[qNum]}]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || '';
+
+    let opts = [];
+    try{
+      opts = JSON.parse(text.trim());
+    } catch(e){
+      // Fallback parsen
+      const matches = text.match(/"([^"]+)"/g);
+      if(matches) opts = matches.map(m => m.replace(/"/g,''));
+    }
+
+    if(!opts || opts.length === 0) throw new Error('Keine Optionen');
+
+    opts.push('Etwas anderes');
+    renderAIOptions(qNum, opts);
+    aiDone[qNum] = true;
+
+  } catch(err){
+    console.warn('KI-Fehler q'+qNum, err);
+    renderFallback(qNum);
+  }
+}
+
+function renderAIOptions(qNum, opts){
+  const wrap = document.getElementById('opts'+qNum);
+  const btnId = 'btn'+qNum;
+  const isMulti = (qNum === 11 || qNum === 12 || qNum === 13);
+
+  wrap.innerHTML = '';
+  opts.forEach((opt, i) => {
+    const isFree = opt === 'Etwas anderes';
+    const div = document.createElement('div');
+    div.className = 'option' + (isMulti ? ' multi' : '');
+    div.dataset.value = opt;
+    div.innerHTML = `<span class="option-check"></span><span>${opt}</span>`;
+    if(isFree){
+      div.innerHTML += `<div class="freetext-wrap" id="free-ai-${qNum}-${i}"><textarea class="text-input" rows="1" placeholder="Deine Antwort..." style="margin-top:0.4rem"></textarea></div>`;
+    }
+    div.addEventListener('click', (e) => {
+      if(e.target.tagName === 'TEXTAREA') return;
+      if(!isMulti) wrap.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      div.classList.toggle('selected');
+      if(isFree){
+        const ft = document.getElementById('free-ai-'+qNum+'-'+i);
+        if(ft) ft.classList.toggle('show', div.classList.contains('selected'));
+      }
+    });
+    wrap.appendChild(div);
+  });
+
+  document.getElementById(btnId).style.display = 'inline-flex';
+}
+
+function renderFallback(qNum){
+  const fallbacks = {
+    4: ['Ich habe noch keine Website', 'Meine Website sieht nicht professionell aus', 'Ich weiß nicht, was ich schreiben soll', 'Mir fehlt die Zeit für meine Website', 'Etwas anderes'],
+    11: ['Warme Erdtöne – Sand, Terrakotta, Creme', 'Frische Naturtöne – Grün, Weiß, Beige', 'Kühle Klarheit – Blau, Grau, Weiß', 'Dunkle Tiefe – Nacht, Gold, Anthrazit', 'Etwas anderes'],
+    12: ['Helles, natürliches Licht – freundlich und warm', 'Stimmungsvoll und atmosphärisch', 'Klar und professionell – Clean Look', 'Nahbar und authentisch – echte Momente', 'Etwas anderes'],
+    13: ['Warm und einladend – wie zu Hause ankommen', 'Klar und professionell – fokussiert', 'Inspirierend und lebendig – voller Energie', 'Ruhig und geerdet – ein stiller Ort', 'Etwas anderes']
+  };
+  renderAIOptions(qNum, fallbacks[qNum] || ['Option A','Option B','Option C','Etwas anderes']);
+}
+
+// ═══════════════════════════════════════════════
+// FORMULAR ABSENDEN
+// ═══════════════════════════════════════════════
+async function submitForm(){
+  // Letzte offene Antwort sichern
+  const lastVal = getAnswer(20);
+  if(lastVal) answers['q20'] = lastVal;
+
+  const body = buildEmailBody();
+
+  const formData = new FormData();
+  formData.append('name', answers['q1'] || 'Unbekannt');
+  formData.append('email', 'webdesignbymela@gmail.com');
+  formData.append('_subject', 'Neuer Marken-Fragebogen: ' + (answers['q1'] || ''));
+  formData.append('message', body);
+
+  document.getElementById('btnSubmit').textContent = 'Wird gesendet…';
+  document.getElementById('btnSubmit').disabled = true;
+
+  try {
+    await fetch('https://formsubmit.co/webdesignbymela@gmail.com', {
+      method: 'POST',
+      body: formData
+    });
+  } catch(e){
+    console.warn('FormSubmit Fehler', e);
+  }
+
+  // Erfolg anzeigen
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('successScreen').style.display = 'block';
+  document.getElementById('successScreen').scrollIntoView({behavior:'smooth'});
+}
+
+function buildEmailBody(){
+  const blocks = [
+    {label:'BLOCK 1 – Einstieg & Business', qs:[
+      {n:'q1', t:'Name & Business'},
+      {n:'q2', t:'Beruf / Angebot'},
+      {n:'q3', t:'Wunschkunden'},
+      {n:'q4', t:'Größtes Website-Problem'},
+      {n:'q5', t:'Ziele der Website'}
+    ]},
+    {label:'BLOCK 2 – Marken-Persönlichkeit', qs:[
+      {n:'q6', t:'Markenpersönlichkeit'},
+      {n:'q7', t:'Werte'},
+      {n:'q8', t:'Primärer Archetyp'},
+      {n:'q9', t:'Sekundärer Archetyp'},
+      {n:'q10', t:'Tonalität'}
+    ]},
+    {label:'BLOCK 3 – Ästhetik & Stil', qs:[
+      {n:'q11', t:'Farbwelt'},
+      {n:'q12', t:'Bildstil'},
+      {n:'q13', t:'Design-Gefühl'}
+    ]},
+    {label:'BLOCK 4 – Zielgruppe', qs:[
+      {n:'q14', t:'Was bewegt die Wunschkunden'},
+      {n:'q15', t:'Größtes Hindernis'}
+    ]},
+    {label:'BLOCK 5 – Käuferpsychologie', qs:[
+      {n:'q16', t:'Kaufentscheidung'},
+      {n:'q17', t:'Was überzeugt'}
+    ]},
+    {label:'BLOCK 6 – Website & Kommunikation', qs:[
+      {n:'q18', t:'Seiten'},
+      {n:'q19', t:'Haupt-CTA'},
+      {n:'q20', t:'Sonstiges'}
+    ]}
+  ];
+
+  let out = '=== MARKEN-FRAGEBOGEN ===\n\n';
+  blocks.forEach(block => {
+    out += '--- ' + block.label + ' ---\n';
+    block.qs.forEach(q => {
+      out += q.t + ':\n' + (answers[q.n] || '(keine Antwort)') + '\n\n';
+    });
+    out += '\n';
+  });
+  return out;
+}
 </script>
 </body>
 </html>
