@@ -663,14 +663,26 @@ function showResult(){
         'Als Brandboard speichern'+
       '</button>'+
     '</div>';
+  // Button sofort sichtbar machen
+  setTimeout(function(){
+    var wrap = document.querySelector('.save-btn-wrap');
+    if(wrap) wrap.style.display='block';
+  }, 100);
+
+  // Button sofort anzeigen
+  document.getElementById('send-status').innerHTML=
+    '<div class="save-btn-wrap no-print" style="margin-bottom:1rem">'+
+    '<button class="save-btn" onclick="window.print()" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#2D6E6E;color:white;border:none;border-radius:8px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:500;cursor:pointer">'+
+    'Als Brandboard speichern'+
+    '</button></div>'+
+    '<p id="email-status" style="font-size:13px;color:#6B5F58">Ergebnis wird übermittelt …</p>';
 
   fetch('https://formsubmit.co/ajax/webdesignbymela@gmail.com',{
-    method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
     body:JSON.stringify({
       _subject:'Fragebogen: '+name+' – '+(answers.beruf||''),
-      Kundin:name,
-      Beruf:answers.beruf||'',
-      Zielgruppe:zielgruppeText||'',
+      Kundin:name,Beruf:answers.beruf||'',Zielgruppe:zielgruppeText||'',
       Archetyp_Primaer:aP.name,Archetyp_Sekundaer:aS.name,
       Kaeufertyp_Primaer:bP.name,Kaeufertyp_Sekundaer:bS.name,
       Farbwelt:farbLabels[answers.farbwelt]||answers.farbwelt||'',
@@ -685,8 +697,15 @@ function showResult(){
     })
   })
   .then(function(r){return r.json();})
-  .then(function(){document.getElementById('send-status').innerHTML='<span class="send-ok">✓ Ergebnis erfolgreich an Mela übermittelt.</span>';})
-  .catch(function(){document.getElementById('send-status').textContent='Bitte mach einen Screenshot und schick ihn an Mela.';});
+  .then(function(){
+    var el=document.getElementById('email-status');
+    if(el)el.innerHTML='<span style="color:#2D6E6E;font-weight:500">✓ Ergebnis erfolgreich an Mela übermittelt.</span>';
+  })
+  .catch(function(err){
+    var el=document.getElementById('email-status');
+    if(el)el.textContent='E-Mail konnte nicht gesendet werden – bitte Screenshot an Mela schicken.';
+    console.error(err);
+  });
 }
 
 document.addEventListener('DOMContentLoaded',function(){
