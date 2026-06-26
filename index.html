@@ -111,6 +111,28 @@ body{font-family:'DM Sans',sans-serif;background:var(--sand);color:var(--ink);mi
 .send-ok{color:var(--teal);font-weight:500}
 .site-footer{text-align:center;margin-top:2rem;font-size:12px;color:var(--ink-light)}
 @media(max-width:520px){.card{padding:1.5rem}.color-swatch-big{width:70px;height:58px}.arch-grid{flex-direction:column}}
+
+@media print {
+  body{background:white}
+  .shell{padding:1rem}
+  .site-header{margin-bottom:1.5rem}
+  .site-header h1{font-size:28px}
+  .no-print{display:none!important}
+  .card{box-shadow:none;border:1px solid #ddd;page-break-inside:avoid}
+  .result-section{page-break-inside:avoid}
+  .color-swatch-big{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .arch-pill-primary{-webkit-print-color-adjust:exact;print-color-adjust:exact;background:#2D6E6E!important;color:white!important}
+  .arch-pill-secondary{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .buyer-badge-p{-webkit-print-color-adjust:exact;print-color-adjust:exact;background:#FEE8ED!important;color:#FD6484!important}
+  .buyer-badge-s{-webkit-print-color-adjust:exact;print-color-adjust:exact;background:#E8F2F2!important;color:#2D6E6E!important}
+  .insight-box{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .send-status{display:none}
+  .save-btn-wrap{display:none}
+}
+.save-btn-wrap{text-align:center;margin-top:1.5rem}
+.save-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--teal);color:white;border:none;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .18s}
+.save-btn:hover{background:var(--teal-dark)}
+.save-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
 </style>
 </head>
 <body>
@@ -634,7 +656,13 @@ function showResult(){
     '<div class="insight-box">'+
       '<p><strong>Melas Empfehlung f\u00fcr '+name+':</strong> Deine Website braucht die Energie der <strong>'+aP.name+'</strong>, kombiniert mit einer Struktur die auf die <strong>'+bP.name+'</strong> ausgerichtet ist. Dein Business \u201e'+(answers.beruf||'')+'\u201c verdient eine Website, die genau widerspiegelt wer du wirklich bist.</p>'+
     '</div>'+
-    '<p class="send-status" id="send-status">Ergebnis wird \u00fcbermittelt &hellip;</p>';
+    '<p class="send-status" id="send-status">Ergebnis wird \u00fcbermittelt &hellip;</p>'+
+    '<div class="save-btn-wrap no-print">'+
+      '<button class="save-btn" onclick="window.print()">'+
+        '<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>'+
+        'Als Brandboard speichern'+
+      '</button>'+
+    '</div>';
 
   fetch('https://formsubmit.co/ajax/webdesignbymela@gmail.com',{
     method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
