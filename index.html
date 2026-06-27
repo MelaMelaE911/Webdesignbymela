@@ -884,8 +884,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Enter-Taste Navigation
   document.addEventListener('keydown', e => {
     if(e.key === 'Enter' && !e.shiftKey){
-      const ta = document.activeElement;
-      if(ta && ta.tagName === 'TEXTAREA') return;
       e.preventDefault();
       if(currentQ <= totalQ){
         const btn = document.querySelector('#q' + currentQ + ' .btn-next');
