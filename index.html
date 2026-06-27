@@ -23,361 +23,94 @@
   --sans:'DM Sans',sans-serif;
 }
 html{scroll-behavior:smooth}
-body{
-  font-family:var(--sans);
-  background:var(--sand);
-  color:var(--ink);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:0;
-}
+body{font-family:var(--sans);background:var(--sand);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0}
 
 /* HEADER */
-.header{
-  width:100%;
-  background:var(--white);
-  border-bottom:1px solid var(--sand-dark);
-  padding:1.2rem 2rem;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  position:sticky;
-  top:0;
-  z-index:100;
-}
-.logo{
-  font-family:var(--serif);
-  font-size:1.3rem;
-  font-weight:600;
-  color:var(--teal);
-  letter-spacing:0.02em;
-}
-.logo span{
-  color:var(--rose);
-}
-.progress-wrap{
-  display:flex;
-  align-items:center;
-  gap:0.75rem;
-}
-.progress-bar{
-  width:200px;
-  height:4px;
-  background:var(--sand-dark);
-  border-radius:2px;
-  overflow:hidden;
-}
-.progress-fill{
-  height:100%;
-  background:linear-gradient(90deg,var(--teal),var(--rose));
-  border-radius:2px;
-  transition:width 0.4s ease;
-  width:0%;
-}
-.progress-text{
-  font-size:0.75rem;
-  color:var(--ink-light);
-  font-weight:500;
-  min-width:40px;
-}
+.header{width:100%;background:var(--white);border-bottom:1px solid var(--sand-dark);padding:1.2rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-family:var(--serif);font-size:1.3rem;font-weight:600;color:var(--teal);letter-spacing:0.02em}
+.logo span{color:var(--rose)}
+.progress-wrap{display:flex;align-items:center;gap:0.75rem}
+.progress-bar{width:200px;height:4px;background:var(--sand-dark);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--rose));border-radius:2px;transition:width 0.4s ease;width:0%}
+.progress-text{font-size:0.75rem;color:var(--ink-light);font-weight:500;min-width:40px}
 
 /* MAIN */
-.main{
-  width:100%;
-  max-width:680px;
-  padding:3rem 1.5rem 6rem;
-}
+.main{width:100%;max-width:680px;padding:3rem 1.5rem 6rem}
 
 /* INTRO */
-.intro{
-  text-align:center;
-  margin-bottom:3rem;
-  animation:fadeUp 0.6s ease both;
-}
-.intro h1{
-  font-family:var(--serif);
-  font-size:2.8rem;
-  font-weight:400;
-  color:var(--teal);
-  line-height:1.2;
-  margin-bottom:0.75rem;
-}
-.intro h1 em{
-  font-style:italic;
-  color:var(--rose);
-}
-.intro p{
-  color:var(--ink-mid);
-  font-size:1rem;
-  line-height:1.7;
-  max-width:500px;
-  margin:0 auto;
-}
+.intro{text-align:center;margin-bottom:3rem;animation:fadeUp 0.6s ease both}
+.intro h1{font-family:var(--serif);font-size:2.8rem;font-weight:400;color:var(--teal);line-height:1.2;margin-bottom:0.75rem}
+.intro h1 em{font-style:italic;color:var(--rose)}
+.intro p{color:var(--ink-mid);font-size:1rem;line-height:1.7;max-width:500px;margin:0 auto}
 
-/* BLOCK LABEL */
-.block-label{
-  font-size:0.7rem;
-  letter-spacing:0.15em;
-  text-transform:uppercase;
-  color:var(--rose);
-  font-weight:500;
-  margin-bottom:0.4rem;
-}
+/* SECTION DIVIDER */
+.section-divider{display:flex;align-items:center;gap:1rem;margin:2rem 0 1rem;opacity:0;transition:opacity 0.4s}
+.section-divider.visible{opacity:1}
+.divider-line{flex:1;height:1px;background:var(--sand-dark)}
+.divider-label{font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);font-weight:500;white-space:nowrap}
 
 /* QUESTION CARD */
-.question-card{
-  background:var(--white);
-  border-radius:16px;
-  padding:2rem 2.2rem;
-  margin-bottom:1.5rem;
-  border:1px solid var(--sand-dark);
-  opacity:0;
-  transform:translateY(16px);
-  transition:opacity 0.4s ease,transform 0.4s ease;
-  display:none;
-}
-.question-card.visible{
-  display:block;
-}
-.question-card.animated{
-  opacity:1;
-  transform:translateY(0);
-}
-.question-card.done{
-  border-color:var(--teal);
-  border-left:3px solid var(--teal);
-}
-
-.q-number{
-  font-size:0.7rem;
-  color:var(--ink-light);
-  font-weight:500;
-  margin-bottom:0.5rem;
-  letter-spacing:0.08em;
-}
-.q-text{
-  font-family:var(--serif);
-  font-size:1.35rem;
-  font-weight:400;
-  color:var(--ink);
-  line-height:1.4;
-  margin-bottom:0.3rem;
-}
-.q-hint{
-  font-size:0.82rem;
-  color:var(--ink-light);
-  margin-bottom:1.2rem;
-  line-height:1.5;
-}
+.question-card{background:var(--white);border-radius:16px;padding:2rem 2.2rem;margin-bottom:1.5rem;border:1px solid var(--sand-dark);opacity:0;transform:translateY(16px);transition:opacity 0.4s ease,transform 0.4s ease;display:none}
+.question-card.visible{display:block}
+.question-card.animated{opacity:1;transform:translateY(0)}
+.question-card.done{border-color:var(--teal);border-left:3px solid var(--teal)}
+.block-label{font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--rose);font-weight:500;margin-bottom:0.4rem}
+.q-number{font-size:0.7rem;color:var(--ink-light);font-weight:500;margin-bottom:0.5rem;letter-spacing:0.08em}
+.q-text{font-family:var(--serif);font-size:1.35rem;font-weight:400;color:var(--ink);line-height:1.4;margin-bottom:0.3rem}
+.q-hint{font-size:0.82rem;color:var(--ink-light);margin-bottom:1.2rem;line-height:1.5}
 
 /* OPTIONS */
-.options{
-  display:flex;
-  flex-direction:column;
-  gap:0.5rem;
-}
-.option{
-  display:flex;
-  align-items:flex-start;
-  gap:0.7rem;
-  padding:0.65rem 0.9rem;
-  border:1.5px solid var(--sand-dark);
-  border-radius:10px;
-  cursor:pointer;
-  transition:all 0.15s ease;
-  background:var(--white);
-  font-size:0.92rem;
-  color:var(--ink-mid);
-  line-height:1.4;
-  text-align:left;
-}
-.option:hover{
-  border-color:var(--teal-light);
-  background:var(--sand);
-  color:var(--ink);
-}
-.option.selected{
-  border-color:var(--teal);
-  background:rgba(45,110,110,0.06);
-  color:var(--teal);
-  font-weight:500;
-}
-.option.multi.selected{
-  border-color:var(--rose);
-  background:rgba(253,100,132,0.06);
-  color:var(--rose);
-}
-.option-check{
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  border:2px solid var(--sand-dark);
-  flex-shrink:0;
-  margin-top:1px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:all 0.15s;
-}
-.option.selected .option-check{
-  background:var(--teal);
-  border-color:var(--teal);
-}
-.option.multi.selected .option-check{
-  background:var(--rose);
-  border-color:var(--rose);
-}
-.option-check::after{
-  content:'';
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:white;
-  opacity:0;
-  transition:opacity 0.15s;
-}
-.option.selected .option-check::after{
-  opacity:1;
-}
+.options{display:flex;flex-direction:column;gap:0.5rem}
+.option{display:flex;align-items:flex-start;gap:0.7rem;padding:0.65rem 0.9rem;border:1.5px solid var(--sand-dark);border-radius:10px;cursor:pointer;transition:all 0.15s ease;background:var(--white);font-size:0.92rem;color:var(--ink-mid);line-height:1.4;text-align:left;width:100%}
+.option:hover{border-color:var(--teal-light);background:var(--sand);color:var(--ink)}
+.option.selected{border-color:var(--teal);background:rgba(45,110,110,0.06);color:var(--teal);font-weight:500}
+.option.multi.selected{border-color:var(--rose);background:rgba(253,100,132,0.06);color:var(--rose)}
+.option-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--sand-dark);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.option.selected .option-check{background:var(--teal);border-color:var(--teal)}
+.option.multi.selected .option-check{background:var(--rose);border-color:var(--rose)}
+.option-check::after{content:'';width:6px;height:6px;border-radius:50%;background:white;opacity:0;transition:opacity 0.15s}
+.option.selected .option-check::after,.option.multi.selected .option-check::after{opacity:1}
+
+/* FREITEXT */
+.freetext-wrap{margin-top:0.5rem;display:none;width:100%}
+.freetext-wrap.show{display:block}
 
 /* TEXT INPUT */
-.text-input{
-  width:100%;
-  padding:0.75rem 1rem;
-  border:1.5px solid var(--sand-dark);
-  border-radius:10px;
-  font-family:var(--sans);
-  font-size:0.92rem;
-  color:var(--ink);
-  background:var(--white);
-  resize:none;
-  transition:border-color 0.15s;
-  outline:none;
-}
-.text-input:focus{
-  border-color:var(--teal);
-}
-.text-input::placeholder{
-  color:var(--ink-light);
-}
-
-/* FREITEXT nach Option */
-.freetext-wrap{
-  margin-top:0.5rem;
-  display:none;
-}
-.freetext-wrap.show{
-  display:block;
-}
+.text-input{width:100%;padding:0.75rem 1rem;border:1.5px solid var(--sand-dark);border-radius:10px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--white);resize:none;transition:border-color 0.15s;outline:none}
+.text-input:focus{border-color:var(--teal)}
+.text-input::placeholder{color:var(--ink-light)}
 
 /* AI LOADING */
-.ai-loading{
-  display:flex;
-  align-items:center;
-  gap:0.6rem;
-  padding:0.9rem;
-  color:var(--ink-light);
-  font-size:0.85rem;
-}
-.dot-pulse{
-  display:flex;
-  gap:4px;
-}
-.dot-pulse span{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:var(--teal);
-  animation:pulse 1.2s infinite ease-in-out;
-}
+.ai-loading{display:flex;align-items:center;gap:0.6rem;padding:0.9rem;color:var(--ink-light);font-size:0.85rem}
+.dot-pulse{display:flex;gap:4px}
+.dot-pulse span{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 1.2s infinite ease-in-out}
 .dot-pulse span:nth-child(2){animation-delay:0.2s}
 .dot-pulse span:nth-child(3){animation-delay:0.4s}
 @keyframes pulse{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
 
-/* NEXT BUTTON */
-.btn-next{
-  margin-top:1.2rem;
-  display:inline-flex;
-  align-items:center;
-  gap:0.4rem;
-  padding:0.65rem 1.5rem;
-  background:var(--teal);
-  color:white;
-  border:none;
-  border-radius:8px;
-  font-family:var(--sans);
-  font-size:0.88rem;
-  font-weight:500;
-  cursor:pointer;
-  transition:background 0.15s,transform 0.1s;
-}
+/* BUTTONS */
+.btn-next{margin-top:1.2rem;display:inline-flex;align-items:center;gap:0.4rem;padding:0.65rem 1.5rem;background:var(--teal);color:white;border:none;border-radius:8px;font-family:var(--sans);font-size:0.88rem;font-weight:500;cursor:pointer;transition:background 0.15s,transform 0.1s}
 .btn-next:hover{background:var(--teal-light);transform:translateY(-1px)}
 .btn-next:active{transform:translateY(0)}
-
-/* SUBMIT BUTTON */
-.btn-submit{
-  width:100%;
-  padding:1rem;
-  background:linear-gradient(135deg,var(--teal),var(--rose));
-  color:white;
-  border:none;
-  border-radius:12px;
-  font-family:var(--sans);
-  font-size:1rem;
-  font-weight:500;
-  cursor:pointer;
-  margin-top:2rem;
-  transition:opacity 0.15s,transform 0.1s;
-  display:none;
-}
+.btn-submit{width:100%;padding:1rem;background:linear-gradient(135deg,var(--teal),var(--rose));color:white;border:none;border-radius:12px;font-family:var(--sans);font-size:1rem;font-weight:500;cursor:pointer;margin-top:2rem;transition:opacity 0.15s,transform 0.1s;display:none}
 .btn-submit:hover{opacity:0.92;transform:translateY(-1px)}
 
 /* SUCCESS */
-.success-screen{
-  display:none;
-  text-align:center;
-  padding:4rem 2rem;
-  animation:fadeUp 0.6s ease both;
-}
-.success-screen h2{
-  font-family:var(--serif);
-  font-size:2.2rem;
-  color:var(--teal);
-  margin-bottom:1rem;
-}
-.success-screen p{
-  color:var(--ink-mid);
-  font-size:1rem;
-  line-height:1.7;
-}
-.success-icon{
-  font-size:3rem;
-  margin-bottom:1.5rem;
-}
-
-/* SECTION DIVIDER */
-.section-divider{
-  display:flex;
-  align-items:center;
-  gap:1rem;
-  margin:2rem 0 1rem;
-  opacity:0;
-  transition:opacity 0.4s;
-}
-.section-divider.visible{opacity:1}
-.divider-line{flex:1;height:1px;background:var(--sand-dark)}
-.divider-label{
-  font-size:0.68rem;
-  letter-spacing:0.14em;
-  text-transform:uppercase;
-  color:var(--teal);
-  font-weight:500;
-  white-space:nowrap;
-}
+.success-screen{display:none;padding:2rem 0 4rem;animation:fadeUp 0.6s ease both}
+.success-screen h2{font-family:var(--serif);font-size:2.2rem;color:var(--teal);margin-bottom:0.5rem;text-align:center}
+.success-screen .sub{color:var(--ink-mid);font-size:0.95rem;line-height:1.7;text-align:center;margin-bottom:2rem}
+.summary-loading{display:flex;align-items:center;justify-content:center;gap:0.8rem;color:var(--ink-light);font-size:0.9rem;padding:2rem}
+.summary-box{display:none}
+.summary-content{background:var(--white);border:1px solid var(--sand-dark);border-radius:16px;padding:2rem 2.2rem;font-size:0.92rem;line-height:1.9;color:var(--ink-mid);white-space:pre-wrap}
+.summary-content h2{font-family:var(--serif);font-size:1.4rem;color:var(--teal);margin:1.5rem 0 0.4rem;font-weight:600}
+.summary-content h2:first-child{margin-top:0}
+.btn-pdf{margin-top:1.5rem;display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.8rem;background:var(--teal);color:white;border:none;border-radius:10px;font-family:var(--sans);font-size:0.9rem;font-weight:500;cursor:pointer;transition:background 0.15s}
+.btn-pdf:hover{background:var(--teal-light)}
+.summary-error{display:none;color:var(--rose);font-size:0.88rem;margin:1rem 0;text-align:center}
+.sign-off{margin-top:2rem;color:var(--ink-light);font-size:0.88rem;text-align:center}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
 @media(max-width:600px){
   .header{padding:1rem}
@@ -400,29 +133,23 @@ body{
 
 <main class="main" id="mainContent">
 
-  <div class="intro" id="introBlock">
+  <div class="intro">
     <h1>Dein Marken-<em>Fragebogen</em></h1>
     <p>20 Fragen, die wir gemeinsam beantworten – damit deine Website genau das widerspiegelt, was du bist und was deine Wunschkunden anzieht.</p>
   </div>
 
-  <!-- ═══ BLOCK 1: Einstieg & Business ═══ -->
-  <div class="section-divider" id="div-block1">
-    <div class="divider-line"></div>
-    <div class="divider-label">Block 1 · Einstieg &amp; Business</div>
-    <div class="divider-line"></div>
-  </div>
+  <!-- BLOCK 1 -->
+  <div class="section-divider" id="div-b1"><div class="divider-line"></div><div class="divider-label">Block 1 · Einstieg &amp; Business</div><div class="divider-line"></div></div>
 
-  <!-- F1 -->
   <div class="question-card" id="q1">
     <div class="block-label">Einstieg &amp; Business</div>
     <div class="q-number">Frage 1 von 20</div>
     <div class="q-text">Wie heißt du und wie heißt dein Business?</div>
-    <div class="q-hint">Damit ich dich und dein Angebot von Anfang an richtig anspreche.</div>
+    <div class="q-hint">Damit ich dich von Anfang an richtig anspreche.</div>
     <textarea class="text-input" id="a1" rows="2" placeholder="z. B. Anna Müller – Praxis für Stressbewältigung"></textarea>
     <button class="btn-next" onclick="next(1)">Weiter →</button>
   </div>
 
-  <!-- F2 -->
   <div class="question-card" id="q2">
     <div class="block-label">Einstieg &amp; Business</div>
     <div class="q-number">Frage 2 von 20</div>
@@ -432,7 +159,6 @@ body{
     <button class="btn-next" onclick="next(2)">Weiter →</button>
   </div>
 
-  <!-- F3 -->
   <div class="question-card" id="q3">
     <div class="block-label">Einstieg &amp; Business</div>
     <div class="q-number">Frage 3 von 20</div>
@@ -442,22 +168,15 @@ body{
     <button class="btn-next" onclick="triggerAI(3)">Weiter →</button>
   </div>
 
-  <!-- F4 – KI-generiert -->
   <div class="question-card" id="q4">
     <div class="block-label">Einstieg &amp; Business</div>
     <div class="q-number">Frage 4 von 20</div>
     <div class="q-text">Was ist dein größtes Problem mit deiner Website – oder warum hast du noch keine?</div>
-    <div class="q-hint">Hier gibt es kein Richtig oder Falsch.</div>
-    <div class="options" id="opts4">
-      <div class="ai-loading" id="ai-loading-4">
-        <div class="dot-pulse"><span></span><span></span><span></span></div>
-        <span>KI erstellt passende Antworten für dich…</span>
-      </div>
-    </div>
+    <div class="q-hint">Kein Richtig oder Falsch.</div>
+    <div class="options" id="opts4"><div class="ai-loading" id="ai-loading-4"><div class="dot-pulse"><span></span><span></span><span></span></div><span>KI erstellt passende Antworten…</span></div></div>
     <button class="btn-next" onclick="next(4)" style="display:none" id="btn4">Weiter →</button>
   </div>
 
-  <!-- F5 -->
   <div class="question-card" id="q5">
     <div class="block-label">Einstieg &amp; Business</div>
     <div class="q-number">Frage 5 von 20</div>
@@ -467,14 +186,9 @@ body{
     <button class="btn-next" onclick="next(5)">Weiter →</button>
   </div>
 
-  <!-- ═══ BLOCK 2: Marken-Persönlichkeit ═══ -->
-  <div class="section-divider" id="div-block2">
-    <div class="divider-line"></div>
-    <div class="divider-label">Block 2 · Marken-Persönlichkeit</div>
-    <div class="divider-line"></div>
-  </div>
+  <!-- BLOCK 2 -->
+  <div class="section-divider" id="div-b2"><div class="divider-line"></div><div class="divider-label">Block 2 · Marken-Persönlichkeit</div><div class="divider-line"></div></div>
 
-  <!-- F6 -->
   <div class="question-card" id="q6">
     <div class="block-label">Marken-Persönlichkeit</div>
     <div class="q-number">Frage 6 von 20</div>
@@ -484,7 +198,6 @@ body{
     <button class="btn-next" onclick="next(6)">Weiter →</button>
   </div>
 
-  <!-- F7 -->
   <div class="question-card" id="q7">
     <div class="block-label">Marken-Persönlichkeit</div>
     <div class="q-number">Frage 7 von 20</div>
@@ -494,123 +207,87 @@ body{
     <button class="btn-next" onclick="next(7)">Weiter →</button>
   </div>
 
-  <!-- F8 -->
   <div class="question-card" id="q8">
     <div class="block-label">Marken-Persönlichkeit</div>
     <div class="q-number">Frage 8 von 20</div>
-    <div class="q-text">Welches Marken-Archetypenpaar passt am besten zu dir?</div>
+    <div class="q-text">Welcher Marken-Archetyp passt am besten zu dir?</div>
     <div class="q-hint">Wähle eine Option – kein Richtig oder Falsch.</div>
     <div class="options" id="opts8"></div>
     <button class="btn-next" onclick="next(8)">Weiter →</button>
   </div>
 
-  <!-- F9 -->
   <div class="question-card" id="q9">
     <div class="block-label">Marken-Persönlichkeit</div>
     <div class="q-number">Frage 9 von 20</div>
-    <div class="q-text">Welches Marken-Archetypenpaar kommt als Zweites?</div>
+    <div class="q-text">Welcher Archetyp kommt als Zweites?</div>
     <div class="q-hint">Dein sekundärer Archetyp gibt der Marke mehr Tiefe.</div>
     <div class="options" id="opts9"></div>
     <button class="btn-next" onclick="next(9)">Weiter →</button>
   </div>
 
-  <!-- F10 -->
   <div class="question-card" id="q10">
     <div class="block-label">Marken-Persönlichkeit</div>
     <div class="q-number">Frage 10 von 20</div>
     <div class="q-text">Welche Tonalität soll deine Website haben?</div>
-    <div class="q-hint">Wähle ein bis zwei passende Stile.</div>
+    <div class="q-hint">Ein bis zwei passende Stile.</div>
     <div class="options" id="opts10"></div>
     <button class="btn-next" onclick="next(10)">Weiter →</button>
   </div>
 
-  <!-- ═══ BLOCK 3: Ästhetik & Stil ═══ -->
-  <div class="section-divider" id="div-block3">
-    <div class="divider-line"></div>
-    <div class="divider-label">Block 3 · Ästhetik &amp; Stil</div>
-    <div class="divider-line"></div>
-  </div>
+  <!-- BLOCK 3 -->
+  <div class="section-divider" id="div-b3"><div class="divider-line"></div><div class="divider-label">Block 3 · Ästhetik &amp; Stil</div><div class="divider-line"></div></div>
 
-  <!-- F11 – KI-generiert -->
   <div class="question-card" id="q11">
     <div class="block-label">Ästhetik &amp; Stil</div>
     <div class="q-number">Frage 11 von 20</div>
     <div class="q-text">Welche Farbwelt zieht dich an?</div>
-    <div class="q-hint">Vertrau deinem Bauchgefühl – kein Richtig oder Falsch.</div>
-    <div class="options" id="opts11">
-      <div class="ai-loading" id="ai-loading-11">
-        <div class="dot-pulse"><span></span><span></span><span></span></div>
-        <span>KI erstellt passende Farbwelten…</span>
-      </div>
-    </div>
+    <div class="q-hint">Vertrau deinem Bauchgefühl.</div>
+    <div class="options" id="opts11"><div class="ai-loading" id="ai-loading-11"><div class="dot-pulse"><span></span><span></span><span></span></div><span>KI erstellt passende Farbwelten…</span></div></div>
     <button class="btn-next" onclick="next(11)" style="display:none" id="btn11">Weiter →</button>
   </div>
 
-  <!-- F12 – KI-generiert -->
   <div class="question-card" id="q12">
     <div class="block-label">Ästhetik &amp; Stil</div>
     <div class="q-number">Frage 12 von 20</div>
     <div class="q-text">Welcher Bildstil passt zu deiner Marke?</div>
-    <div class="q-hint">So sollen sich Fotos und Grafiken auf deiner Website anfühlen.</div>
-    <div class="options" id="opts12">
-      <div class="ai-loading" id="ai-loading-12">
-        <div class="dot-pulse"><span></span><span></span><span></span></div>
-        <span>KI erstellt passende Bildstil-Optionen…</span>
-      </div>
-    </div>
+    <div class="q-hint">So sollen sich Fotos und Grafiken anfühlen.</div>
+    <div class="options" id="opts12"><div class="ai-loading" id="ai-loading-12"><div class="dot-pulse"><span></span><span></span><span></span></div><span>KI erstellt passende Bildstil-Optionen…</span></div></div>
     <button class="btn-next" onclick="next(12)" style="display:none" id="btn12">Weiter →</button>
   </div>
 
-  <!-- F13 – KI-generiert -->
   <div class="question-card" id="q13">
     <div class="block-label">Ästhetik &amp; Stil</div>
     <div class="q-number">Frage 13 von 20</div>
     <div class="q-text">Welches Designgefühl soll deine Website haben?</div>
-    <div class="q-hint">Denk an Websites, die du schön findest – welches Lebensgefühl transportieren sie?</div>
-    <div class="options" id="opts13">
-      <div class="ai-loading" id="ai-loading-13">
-        <div class="dot-pulse"><span></span><span></span><span></span></div>
-        <span>KI erstellt passende Design-Gefühle…</span>
-      </div>
-    </div>
+    <div class="q-hint">Denk an Websites, die du schön findest.</div>
+    <div class="options" id="opts13"><div class="ai-loading" id="ai-loading-13"><div class="dot-pulse"><span></span><span></span><span></span></div><span>KI erstellt passende Design-Gefühle…</span></div></div>
     <button class="btn-next" onclick="next(13)" style="display:none" id="btn13">Weiter →</button>
   </div>
 
-  <!-- ═══ BLOCK 4: Zielgruppe ═══ -->
-  <div class="section-divider" id="div-block4">
-    <div class="divider-line"></div>
-    <div class="divider-label">Block 4 · Zielgruppe</div>
-    <div class="divider-line"></div>
-  </div>
+  <!-- BLOCK 4 -->
+  <div class="section-divider" id="div-b4"><div class="divider-line"></div><div class="divider-label">Block 4 · Zielgruppe</div><div class="divider-line"></div></div>
 
-  <!-- F14 -->
   <div class="question-card" id="q14">
     <div class="block-label">Zielgruppe</div>
     <div class="q-number">Frage 14 von 20</div>
     <div class="q-text">Was bewegt deine Wunschkunden wirklich?</div>
-    <div class="q-hint">Welches Problem oder welchen Wunsch bringen sie mit?</div>
-    <textarea class="text-input" id="a14" rows="3" placeholder="z. B. Sie fühlen sich erschöpft und wissen nicht mehr, wer sie wirklich sind..."></textarea>
+    <div class="q-hint">Mehrere Antworten möglich.</div>
+    <div class="options" id="opts14"></div>
     <button class="btn-next" onclick="next(14)">Weiter →</button>
   </div>
 
-  <!-- F15 -->
   <div class="question-card" id="q15">
     <div class="block-label">Zielgruppe</div>
     <div class="q-number">Frage 15 von 20</div>
     <div class="q-text">Was ist das größte Hindernis deiner Wunschkunden?</div>
-    <div class="q-hint">Warum kaufen sie noch nicht, obwohl sie es bräuchten?</div>
+    <div class="q-hint">Warum kaufen sie noch nicht?</div>
     <div class="options" id="opts15"></div>
     <button class="btn-next" onclick="next(15)">Weiter →</button>
   </div>
 
-  <!-- ═══ BLOCK 5: Käuferpsychologie ═══ -->
-  <div class="section-divider" id="div-block5">
-    <div class="divider-line"></div>
-    <div class="divider-label">Block 5 · Käuferpsychologie</div>
-    <div class="divider-line"></div>
-  </div>
+  <!-- BLOCK 5 -->
+  <div class="section-divider" id="div-b5"><div class="divider-line"></div><div class="divider-label">Block 5 · Käuferpsychologie</div><div class="divider-line"></div></div>
 
-  <!-- F16 -->
   <div class="question-card" id="q16">
     <div class="block-label">Käuferpsychologie</div>
     <div class="q-number">Frage 16 von 20</div>
@@ -620,7 +297,6 @@ body{
     <button class="btn-next" onclick="next(16)">Weiter →</button>
   </div>
 
-  <!-- F17 -->
   <div class="question-card" id="q17">
     <div class="block-label">Käuferpsychologie</div>
     <div class="q-number">Frage 17 von 20</div>
@@ -630,14 +306,9 @@ body{
     <button class="btn-next" onclick="next(17)">Weiter →</button>
   </div>
 
-  <!-- ═══ BLOCK 6: Website & Kommunikation ═══ -->
-  <div class="section-divider" id="div-block6">
-    <div class="divider-line"></div>
-    <div class="divider-label">Block 6 · Website &amp; Kommunikation</div>
-    <div class="divider-line"></div>
-  </div>
+  <!-- BLOCK 6 -->
+  <div class="section-divider" id="div-b6"><div class="divider-line"></div><div class="divider-label">Block 6 · Website &amp; Kommunikation</div><div class="divider-line"></div></div>
 
-  <!-- F18 -->
   <div class="question-card" id="q18">
     <div class="block-label">Website &amp; Kommunikation</div>
     <div class="q-number">Frage 18 von 20</div>
@@ -647,17 +318,15 @@ body{
     <button class="btn-next" onclick="next(18)">Weiter →</button>
   </div>
 
-  <!-- F19 -->
   <div class="question-card" id="q19">
     <div class="block-label">Website &amp; Kommunikation</div>
     <div class="q-number">Frage 19 von 20</div>
     <div class="q-text">Was soll der Hauptaufruf zur Handlung auf deiner Website sein?</div>
-    <div class="q-hint">Was sollen Besucher als erstes tun?</div>
+    <div class="q-hint">Was sollen Besucher als Erstes tun?</div>
     <div class="options" id="opts19"></div>
     <button class="btn-next" onclick="next(19)">Weiter →</button>
   </div>
 
-  <!-- F20 -->
   <div class="question-card" id="q20">
     <div class="block-label">Website &amp; Kommunikation</div>
     <div class="q-number">Frage 20 von 20</div>
@@ -667,238 +336,165 @@ body{
     <button class="btn-next" onclick="next(20)">Weiter →</button>
   </div>
 
-  <button class="btn-submit" id="btnSubmit" onclick="submitForm()">
-    ✨ Fragebogen absenden
-  </button>
+  <button class="btn-submit" id="btnSubmit" onclick="submitForm()">✨ Fragebogen absenden</button>
 
   <!-- SUCCESS -->
   <div class="success-screen" id="successScreen">
-    <div class="success-icon">🌿</div>
+    <div style="font-size:3rem;text-align:center;margin-bottom:1.5rem">🌿</div>
     <h2>Danke, das war wunderschön!</h2>
-    <p>Deine Marken-Zusammenfassung ist fertig. Speichere sie dir als PDF – sie ist die Grundlage für unsere Zusammenarbeit.</p>
-
-    <!-- Lade-Anzeige während KI arbeitet -->
-    <div id="summaryLoading" style="margin:2rem 0;display:flex;align-items:center;justify-content:center;gap:0.8rem;color:var(--ink-light);font-size:0.9rem">
+    <p class="sub">Deine Marken-Zusammenfassung wird gerade erstellt. Speichere sie als PDF – sie ist die Grundlage für unsere Zusammenarbeit.</p>
+    <div class="summary-loading" id="summaryLoading">
       <div class="dot-pulse"><span></span><span></span><span></span></div>
-      <span>Deine Marken-Zusammenfassung wird erstellt…</span>
+      <span>Zusammenfassung wird erstellt…</span>
     </div>
-
-    <!-- Zusammenfassung -->
-    <div id="summaryBox" style="display:none;text-align:left;margin:2rem 0">
-      <div id="summaryContent" style="
-        background:var(--white);
-        border:1px solid var(--sand-dark);
-        border-radius:16px;
-        padding:2rem 2.2rem;
-        font-size:0.92rem;
-        line-height:1.8;
-        color:var(--ink-mid);
-        white-space:pre-wrap;
-      "></div>
-      <button onclick="exportPDF()" style="
-        margin-top:1.5rem;
-        display:inline-flex;
-        align-items:center;
-        gap:0.5rem;
-        padding:0.75rem 1.8rem;
-        background:var(--teal);
-        color:white;
-        border:none;
-        border-radius:10px;
-        font-family:var(--sans);
-        font-size:0.9rem;
-        font-weight:500;
-        cursor:pointer;
-        transition:background 0.15s;
-      " onmouseover="this.style.background='#3D8A8A'" onmouseout="this.style.background='#2D6E6E'">
-        📄 Als PDF speichern
-      </button>
+    <div class="summary-box" id="summaryBox">
+      <div class="summary-content" id="summaryContent"></div>
+      <button class="btn-pdf" onclick="exportPDF()">📄 Als PDF speichern</button>
     </div>
-
-    <!-- Fehler -->
-    <div id="summaryError" style="display:none;color:var(--rose);font-size:0.88rem;margin:1rem 0">
-      Die Zusammenfassung konnte nicht erstellt werden. Mela erhält trotzdem deine Antworten per E-Mail.
-    </div>
-
-    <p style="margin-top:2rem;color:var(--ink-light);font-size:0.88rem">Bis bald,<br><strong>Mela ✦</strong></p>
+    <div class="summary-error" id="summaryError">Die Zusammenfassung konnte nicht erstellt werden. Deine Antworten wurden trotzdem an Mela gesendet.</div>
+    <p class="sign-off">Bis bald,<br><strong>Mela ✦</strong></p>
   </div>
 
 </main>
 
 <script>
-// ═══════════════════════════════════════════════
-// DATEN
-// ═══════════════════════════════════════════════
-const WORKER_URL = 'https://mela-api.webdesignbymela.workers.dev';
-
-const staticOptions = {
-  3: {
-    multi: true,
-    opts: [
-      'Frauen, die sich selbstständig machen oder es planen',
-      'Selbstständige und Solopreneurinnen',
-      'Kreative und Künstlerinnen',
-      'Beraterinnen und Coaches',
-      'Heilpraktikerinnen und Therapeutinnen',
-      'Unternehmerinnen mit einem kleinen Team',
-      'Menschen in einer Lebensveränderung',
-      {text:'Etwas anderes', free: true}
-    ]
-  },
-  5: {
-    multi: true,
-    opts: [
-      'Neue Kundinnen gewinnen',
-      'Mein Angebot professionell präsentieren',
-      'Vertrauen aufbauen bevor jemand kauft',
-      'Eine E-Mail-Liste aufbauen',
-      'Meine Persönlichkeit zeigen',
-      'Einen Terminbuchungs-Link anbieten',
-      {text:'Etwas anderes', free: true}
-    ]
-  },
-  6: {
-    multi: true,
-    opts: [
-      'Warm und herzlich – wie eine gute Freundin',
-      'Ruhig und geerdet – wie ein stiller Fels',
-      'Mutig und direkt – sagt, was sie denkt',
-      'Kreativ und verspielt – bunt und lebendig',
-      'Professionell und klar – sachlich ohne kalt zu sein',
-      'Mystisch und tief – mit etwas Unsichtbarem',
-      {text:'Etwas anderes', free: true}
-    ]
-  },
-  7: {
-    multi: true,
-    opts: [
-      'Authentizität – ich zeige mich, wie ich bin',
-      'Freiheit – selbstbestimmt leben und arbeiten',
-      'Verbindung – echte Beziehungen statt Follower',
-      'Wachstum – persönlich und fachlich weiterentwickeln',
-      'Qualität – lieber weniger, dafür besonders gut',
-      'Leichtigkeit – es darf auch Spaß machen',
-      'Wirkung – etwas Bedeutsames bewegen',
-      {text:'Etwas anderes', free: true}
-    ]
-  },
-  8: {
-    multi: false,
-    opts: [
-      'Die Beschützerin – fürsorglich, zuverlässig, sicher',
-      'Die Schöpferin – kreativ, original, ausdrucksstark',
-      'Die Weisheitsgeberin – tiefgründig, ehrlich, klar',
-      'Die Heldin – mutig, ehrgeizig, inspirierend',
-      'Die Rebellin – provokant, freiheitsliebend, andersartig',
-      'Die Liebende – sinnlich, verbindend, warmherzig',
-      'Die Magische – visionär, transformierend, mystisch',
-      'Die Unschuldige – optimistisch, einfach, ehrlich'
-    ]
-  },
-  9: {
-    multi: false,
-    opts: [
-      'Die Beschützerin – fürsorglich, zuverlässig, sicher',
-      'Die Schöpferin – kreativ, original, ausdrucksstark',
-      'Die Weisheitsgeberin – tiefgründig, ehrlich, klar',
-      'Die Heldin – mutig, ehrgeizig, inspirierend',
-      'Die Rebellin – provokant, freiheitsliebend, andersartig',
-      'Die Liebende – sinnlich, verbindend, warmherzig',
-      'Die Magische – visionär, transformierend, mystisch',
-      'Die Unschuldige – optimistisch, einfach, ehrlich'
-    ]
-  },
-  10: {
-    multi: true,
-    opts: [
-      'Warm und einladend',
-      'Klar und professionell',
-      'Inspirierend und emotional',
-      'Leicht und humorvoll',
-      'Tiefgründig und poetisch',
-      'Direkt und ohne Umschweife',
-      {text:'Etwas anderes', free: true}
-    ]
-  },
-  15: {
-    multi: false,
-    opts: [
-      'Sie wissen nicht genau, ob das bei mir richtig aufgehoben sind',
-      'Sie haben Angst, Geld für etwas auszugeben, das nicht funktioniert',
-      'Sie brauchen erst Vertrauen – und das braucht Zeit',
-      'Sie schieben es auf – es ist kein unmittelbarer Schmerz da',
-      'Sie haben schlechte Erfahrungen gemacht und sind vorsichtig',
-      {text:'Etwas anderes', free: true}
-    ]
-  },
-  16: {
-    multi: false,
-    opts: [
-      'Aus dem Bauch heraus – wenn es sich stimmig anfühlt, kaufen sie',
-      'Nach gründlicher Recherche – sie vergleichen, lesen, fragen nach',
-      'Impulsiv – ein guter Moment und eine klare Botschaft reichen',
-      'Auf Empfehlung – sie kommen weil jemand mich weiterempfohlen hat',
-      {text:'Etwas anderes', free: true}
-    ]
-  },
-  17: {
-    multi: true,
-    opts: [
-      'Ehrliche Referenzen und Bewertungen',
-      'Ich wirke menschlich und nahbar',
-      'Klare Ergebnisse – was ändert sich konkret?',
-      'Ein transparenter Prozess – sie wissen, was sie erwartet',
-      'Der Preis stimmt zum Wert',
-      'Ein kostenloses Erstgespräch',
-      {text:'Etwas anderes', free: true}
-    ]
-  },
-  18: {
-    multi: true,
-    opts: [
-      'Startseite / Home',
-      'Über mich',
-      'Angebote / Leistungen',
-      'Kontakt / Buchungsseite',
-      'Blog',
-      'Portfolio / Referenzen',
-      'Impressum & Datenschutz',
-      {text:'Etwas anderes', free: true}
-    ]
-  },
-  19: {
-    multi: false,
-    opts: [
-      'Kostenloses Erstgespräch buchen',
-      'Direkt Angebot anfragen',
-      'Mein Gratis-PDF herunterladen',
-      'Zur E-Mail-Liste anmelden',
-      'Mein Portfolio ansehen',
-      {text:'Etwas anderes', free: true}
-    ]
-  }
-};
-
-// ═══════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════
+const WORKER = 'https://mela-api.webdesignbymela.workers.dev';
 const answers = {};
 let currentQ = 1;
-const totalQ = 20;
-const aiDone = {4: false, 11: false, 12: false, 13: false};
+const TOTAL = 20;
+const aiDone = {4:false,11:false,12:false,13:false};
 
-// ═══════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════
+// ── STATISCHE OPTIONEN ──
+const OPTS = {
+  3: {multi:true, opts:[
+    'Frauen, die sich selbstständig machen oder es planen',
+    'Selbstständige und Solopreneurinnen',
+    'Kreative und Künstlerinnen',
+    'Beraterinnen und Coaches',
+    'Heilpraktikerinnen, Therapeutinnen oder Naturheilkundlerinnen',
+    'Unternehmerinnen mit kleinem Team',
+    'Menschen in einer Lebensveränderung',
+    {text:'Etwas anderes', free:true}
+  ]},
+  5: {multi:true, opts:[
+    'Neue Kundinnen gewinnen',
+    'Mein Angebot professionell präsentieren',
+    'Vertrauen aufbauen bevor jemand kauft',
+    'Eine E-Mail-Liste aufbauen',
+    'Meine Persönlichkeit zeigen',
+    'Einen Terminbuchungs-Link anbieten',
+    {text:'Etwas anderes', free:true}
+  ]},
+  6: {multi:true, opts:[
+    'Warm und herzlich – wie eine gute Freundin',
+    'Ruhig und geerdet – wie ein stiller Fels',
+    'Mutig und direkt – sagt, was sie denkt',
+    'Kreativ und verspielt – bunt und lebendig',
+    'Professionell und klar – sachlich ohne kalt zu sein',
+    'Mystisch und tief – mit etwas Unsichtbarem',
+    {text:'Etwas anderes', free:true}
+  ]},
+  7: {multi:true, opts:[
+    'Authentizität – ich zeige mich, wie ich bin',
+    'Freiheit – selbstbestimmt leben und arbeiten',
+    'Verbindung – echte Beziehungen statt Follower',
+    'Wachstum – persönlich und fachlich weiterentwickeln',
+    'Qualität – lieber weniger, dafür besonders gut',
+    'Leichtigkeit – es darf auch Spaß machen',
+    'Wirkung – etwas Bedeutsames bewegen',
+    {text:'Etwas anderes', free:true}
+  ]},
+  8: {multi:false, opts:[
+    'Die Beschützerin – fürsorglich, zuverlässig, sicher',
+    'Die Schöpferin – kreativ, original, ausdrucksstark',
+    'Die Weisheitsgeberin – tiefgründig, ehrlich, klar',
+    'Die Heldin – mutig, ehrgeizig, inspirierend',
+    'Die Rebellin – provokant, freiheitsliebend, andersartig',
+    'Die Liebende – sinnlich, verbindend, warmherzig',
+    'Die Magische – visionär, transformierend, mystisch',
+    'Die Unschuldige – optimistisch, einfach, ehrlich'
+  ]},
+  9: {multi:false, opts:[
+    'Die Beschützerin – fürsorglich, zuverlässig, sicher',
+    'Die Schöpferin – kreativ, original, ausdrucksstark',
+    'Die Weisheitsgeberin – tiefgründig, ehrlich, klar',
+    'Die Heldin – mutig, ehrgeizig, inspirierend',
+    'Die Rebellin – provokant, freiheitsliebend, andersartig',
+    'Die Liebende – sinnlich, verbindend, warmherzig',
+    'Die Magische – visionär, transformierend, mystisch',
+    'Die Unschuldige – optimistisch, einfach, ehrlich'
+  ]},
+  10: {multi:true, opts:[
+    'Warm und einladend',
+    'Klar und professionell',
+    'Inspirierend und emotional',
+    'Leicht und humorvoll',
+    'Tiefgründig und poetisch',
+    'Direkt und ohne Umschweife',
+    {text:'Etwas anderes', free:true}
+  ]},
+  14: {multi:true, opts:[
+    'Sie wünschen sich mehr Leichtigkeit und weniger Stress',
+    'Sie wollen endlich sichtbar werden und gefunden werden',
+    'Sie suchen nach Orientierung in einer Veränderung',
+    'Sie wollen ihr Wissen oder ihre Gabe weitergeben',
+    'Sie wünschen sich mehr Selbstständigkeit und Freiheit',
+    'Sie möchten sich von der Masse abheben',
+    'Sie wollen ihre Arbeit als das zeigen, was sie wirklich ist',
+    {text:'Etwas anderes', free:true}
+  ]},
+  15: {multi:false, opts:[
+    'Sie wissen nicht, ob sie bei mir richtig aufgehoben sind',
+    'Sie haben Angst, Geld für etwas auszugeben, das nicht funktioniert',
+    'Sie brauchen erst Vertrauen – und das braucht Zeit',
+    'Sie schieben es auf – kein unmittelbarer Leidensdruck',
+    'Sie haben schlechte Erfahrungen gemacht und sind vorsichtig',
+    {text:'Etwas anderes', free:true}
+  ]},
+  16: {multi:false, opts:[
+    'Aus dem Bauch heraus – wenn es sich stimmig anfühlt',
+    'Nach gründlicher Recherche – sie vergleichen, lesen, fragen',
+    'Impulsiv – ein guter Moment und eine klare Botschaft reichen',
+    'Auf Empfehlung – sie kommen weil jemand mich weiterempfohlen hat',
+    {text:'Etwas anderes', free:true}
+  ]},
+  17: {multi:true, opts:[
+    'Ehrliche Referenzen und Bewertungen',
+    'Ich wirke menschlich und nahbar',
+    'Klare Ergebnisse – was ändert sich konkret?',
+    'Ein transparenter Prozess – sie wissen, was sie erwartet',
+    'Der Preis stimmt zum Wert',
+    'Ein kostenloses Erstgespräch',
+    {text:'Etwas anderes', free:true}
+  ]},
+  18: {multi:true, opts:[
+    'Startseite / Home',
+    'Über mich',
+    'Angebote / Leistungen',
+    'Kontakt / Buchungsseite',
+    'Blog',
+    'Portfolio / Referenzen',
+    'Impressum & Datenschutz',
+    {text:'Etwas anderes', free:true}
+  ]},
+  19: {multi:false, opts:[
+    'Kostenloses Erstgespräch buchen',
+    'Direkt Angebot anfragen',
+    'Mein Gratis-PDF herunterladen',
+    'Zur E-Mail-Liste anmelden',
+    'Mein Portfolio ansehen',
+    {text:'Etwas anderes', free:true}
+  ]}
+};
+
+// ── INIT ──
 document.addEventListener('DOMContentLoaded', () => {
-  buildStaticOptions();
-  showQuestion(1);
-
-  // Enter-Taste Navigation
+  buildOpts();
+  showQ(1);
   document.addEventListener('keydown', e => {
-    if(e.key === 'Enter' && !e.shiftKey){
+    if(e.key === 'Enter') {
       e.preventDefault();
-      if(currentQ <= totalQ){
+      if(currentQ <= TOTAL) {
         const btn = document.querySelector('#q' + currentQ + ' .btn-next');
         if(btn && btn.style.display !== 'none') btn.click();
       }
@@ -906,295 +502,217 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ═══════════════════════════════════════════════
-// OPTIONEN AUFBAUEN
-// ═══════════════════════════════════════════════
-function buildStaticOptions(){
-  Object.entries(staticOptions).forEach(([qNum, config]) => {
-    const wrap = document.getElementById('opts' + qNum);
+// ── OPTIONEN BAUEN ──
+function buildOpts() {
+  Object.entries(OPTS).forEach(([qn, cfg]) => {
+    const wrap = document.getElementById('opts' + qn);
     if(!wrap) return;
-    config.opts.forEach((opt, i) => {
+    cfg.opts.forEach((opt, i) => {
       const isFree = typeof opt === 'object' && opt.free;
       const label = isFree ? opt.text : opt;
       const div = document.createElement('div');
-      div.className = 'option' + (config.multi ? ' multi' : '');
+      div.className = 'option' + (cfg.multi ? ' multi' : '');
       div.dataset.value = label;
-      div.dataset.qnum = qNum;
-      div.innerHTML = `<span class="option-check"></span><span>${label}</span>`;
-
-      if(isFree){
-        div.innerHTML += `<div class="freetext-wrap" id="free-${qNum}-${i}"><textarea class="text-input" rows="1" placeholder="Deine Antwort..." style="margin-top:0.4rem"></textarea></div>`;
+      div.innerHTML = '<span class="option-check"></span><span>' + label + '</span>';
+      if(isFree) {
+        const ft = document.createElement('div');
+        ft.className = 'freetext-wrap';
+        ft.id = 'free-' + qn + '-' + i;
+        ft.innerHTML = '<textarea class="text-input" rows="1" placeholder="Deine Antwort..."></textarea>';
+        div.appendChild(ft);
       }
-
-      div.addEventListener('click', (e) => {
-        if(e.target.tagName === 'TEXTAREA') return;
-        selectOption(div, qNum, config.multi, isFree, i);
+      div.addEventListener('click', ev => {
+        if(ev.target.tagName === 'TEXTAREA') return;
+        if(!cfg.multi) wrap.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        div.classList.toggle('selected');
+        if(isFree) {
+          const ft = document.getElementById('free-' + qn + '-' + i);
+          if(ft) ft.classList.toggle('show', div.classList.contains('selected'));
+        }
       });
       wrap.appendChild(div);
     });
   });
 }
 
-function selectOption(el, qNum, isMulti, isFree, idx){
-  const wrap = document.getElementById('opts' + qNum);
-  if(!isMulti){
-    wrap.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-  }
-  el.classList.toggle('selected');
-  // Freitext ein/ausblenden
-  if(isFree){
-    const ft = document.getElementById('free-' + qNum + '-' + idx);
-    if(ft) ft.classList.toggle('show', el.classList.contains('selected'));
-  }
-}
-
-// ═══════════════════════════════════════════════
-// FRAGE ANZEIGEN
-// ═══════════════════════════════════════════════
-function showQuestion(num){
-  const card = document.getElementById('q' + num);
+// ── FRAGE ZEIGEN ──
+function showQ(n) {
+  const card = document.getElementById('q' + n);
   if(!card) return;
-
-  // Section Divider
-  const divMap = {1:'div-block1', 6:'div-block2', 11:'div-block3', 14:'div-block4', 16:'div-block5', 18:'div-block6'};
-  if(divMap[num]){
-    const div = document.getElementById(divMap[num]);
-    if(div){div.classList.add('visible')}
+  const divMap = {1:'div-b1',6:'div-b2',11:'div-b3',14:'div-b4',16:'div-b5',18:'div-b6'};
+  if(divMap[n]) {
+    const d = document.getElementById(divMap[n]);
+    if(d) d.classList.add('visible');
   }
-
   card.classList.add('visible');
-  setTimeout(() => card.classList.add('animated'), 20);
-  card.scrollIntoView({behavior:'smooth', block:'center'});
+  setTimeout(() => {
+    card.classList.add('animated');
+    // Cursor zur ersten Eingabe springen
+    const ta = card.querySelector('textarea');
+    const firstOpt = card.querySelector('.option');
+    if(ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+    else if(firstOpt) firstOpt.focus();
+    card.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 50);
+  if([4,11,12,13].includes(n) && !aiDone[n]) loadAI(n);
   updateProgress();
-
-  // KI-Fragen laden wenn noch nicht geladen
-  if([4,11,12,13].includes(num) && !aiDone[num]){
-    loadAIOptions(num);
-  }
 }
 
-// ═══════════════════════════════════════════════
-// WEITER
-// ═══════════════════════════════════════════════
-function next(num){
-  const val = getAnswer(num);
-  if(!val || val.trim() === ''){
-    shake(num);
-    return;
-  }
-  answers['q'+num] = val;
-  document.getElementById('q'+num).classList.add('done');
-  currentQ = num + 1;
-
-  if(currentQ > totalQ){
+// ── WEITER ──
+function next(n) {
+  const val = getVal(n);
+  if(!val || !val.trim()) { shake(n); return; }
+  answers['q'+n] = val;
+  document.getElementById('q'+n).classList.add('done');
+  currentQ = n + 1;
+  if(currentQ > TOTAL) {
     document.getElementById('btnSubmit').style.display = 'block';
     document.getElementById('btnSubmit').scrollIntoView({behavior:'smooth'});
     updateProgress();
     return;
   }
-  showQuestion(currentQ);
-  updateProgress();
+  showQ(currentQ);
 }
 
-function triggerAI(num){
-  // nach Frage 3: KI wird ausgelöst für Fragen 4,11,12,13
-  next(num);
-}
+function triggerAI(n) { next(n); }
 
-// ═══════════════════════════════════════════════
-// ANTWORT AUSLESEN
-// ═══════════════════════════════════════════════
-function getAnswer(num){
-  // Textfelder
-  const ta = document.getElementById('a'+num);
+// ── WERT LESEN ──
+function getVal(n) {
+  const ta = document.getElementById('a'+n);
   if(ta) return ta.value.trim();
-
-  // Options
-  const wrap = document.getElementById('opts'+num);
+  const wrap = document.getElementById('opts'+n);
   if(!wrap) return '';
-  const selected = wrap.querySelectorAll('.option.selected');
   const vals = [];
-  selected.forEach(el => {
-    const label = el.dataset.value;
+  wrap.querySelectorAll('.option.selected').forEach(el => {
     const ft = el.querySelector('textarea');
     if(ft && ft.value.trim()) vals.push(ft.value.trim());
-    else vals.push(label);
+    else vals.push(el.dataset.value);
   });
   return vals.join(', ');
 }
 
-// ═══════════════════════════════════════════════
-// PROGRESS
-// ═══════════════════════════════════════════════
-function updateProgress(){
-  const filled = Object.keys(answers).length;
-  const pct = Math.round((filled / totalQ) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressText').textContent = filled + ' / ' + totalQ;
+// ── PROGRESS ──
+function updateProgress() {
+  const n = Object.keys(answers).length;
+  document.getElementById('progressFill').style.width = Math.round(n/TOTAL*100)+'%';
+  document.getElementById('progressText').textContent = n+' / '+TOTAL;
 }
 
-// ═══════════════════════════════════════════════
-// SHAKE ANIMATION
-// ═══════════════════════════════════════════════
-function shake(num){
-  const card = document.getElementById('q'+num);
-  card.style.animation = 'shake 0.35s ease';
-  setTimeout(()=>card.style.animation='',400);
+// ── SHAKE ──
+function shake(n) {
+  const c = document.getElementById('q'+n);
+  c.style.animation = 'shake 0.35s ease';
+  setTimeout(()=>c.style.animation='',400);
 }
-const shakeStyle = document.createElement('style');
-shakeStyle.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}';
-document.head.appendChild(shakeStyle);
 
-// ═══════════════════════════════════════════════
-// KI-OPTIONEN LADEN
-// ═══════════════════════════════════════════════
-async function loadAIOptions(qNum){
+// ── KI OPTIONEN ──
+async function loadAI(qn) {
   const beruf = answers['q2'] || '';
   const zielgruppe = answers['q3'] || '';
   const archetyp = answers['q8'] || '';
-
   const prompts = {
-    4: `Du bist Markenstrategin. Erstelle 5 kurze, präzise Antwortoptionen (je max. 12 Wörter) für die Frage "Was ist dein größtes Problem mit deiner Website oder warum hast du noch keine?" – passend zu: Beruf: "${beruf}", Zielgruppe: "${zielgruppe}". Antworte NUR mit einem JSON-Array, z.B. ["Option 1","Option 2","Option 3","Option 4","Option 5"]. Kein anderer Text.`,
-    11: `Du bist Markendesignerin. Erstelle 5 kurze Farbwelt-Beschreibungen (je max. 10 Wörter) passend zu: Beruf: "${beruf}", Zielgruppe: "${zielgruppe}", Archetyp: "${archetyp}". Jede Option beschreibt ein Farbgefühl, z.B. "Warmes Sahne, tiefes Waldgrün, goldener Akzent". Antworte NUR mit JSON-Array. Kein anderer Text.`,
-    12: `Du bist Markendesignerin. Erstelle 5 Bildstil-Beschreibungen (je max. 12 Wörter) passend zu: Beruf: "${beruf}", Zielgruppe: "${zielgruppe}". Jede Option beschreibt eine Bildästhetik, z.B. "Hell, luftig, natürliches Licht – wie ein sonniger Morgen". Antworte NUR mit JSON-Array. Kein anderer Text.`,
-    13: `Du bist Webdesignerin. Erstelle 5 Design-Gefühl-Beschreibungen (je max. 12 Wörter) passend zu: Beruf: "${beruf}", Zielgruppe: "${zielgruppe}", Archetyp: "${archetyp}". Jede Option beschreibt ein Websitefeeling, z.B. "Minimalistisch und ruhig – wie ein aufgeräumtes Atelier". Antworte NUR mit JSON-Array. Kein anderer Text.`
+    4: 'Du bist Markenstrategin. Erstelle 5 kurze Antwortoptionen (je max. 12 Woerter) fuer die Frage "Was ist dein groesstes Problem mit deiner Website?" passend zu Beruf: "'+beruf+'", Zielgruppe: "'+zielgruppe+'". Antworte NUR mit JSON-Array ["Option 1","Option 2","Option 3","Option 4","Option 5"]. Kein anderer Text.',
+    11: 'Du bist Markendesignerin. Erstelle 5 Farbwelt-Beschreibungen (je max. 10 Woerter) passend zu Beruf: "'+beruf+'", Zielgruppe: "'+zielgruppe+'", Archetyp: "'+archetyp+'". Jede beschreibt ein Farbgefuehl. Antworte NUR mit JSON-Array. Kein anderer Text.',
+    12: 'Du bist Markendesignerin. Erstelle 5 Bildstil-Beschreibungen (je max. 12 Woerter) passend zu Beruf: "'+beruf+'", Zielgruppe: "'+zielgruppe+'". Antworte NUR mit JSON-Array. Kein anderer Text.',
+    13: 'Du bist Webdesignerin. Erstelle 5 Design-Gefuehl-Beschreibungen (je max. 12 Woerter) passend zu Beruf: "'+beruf+'", Zielgruppe: "'+zielgruppe+'", Archetyp: "'+archetyp+'". Antworte NUR mit JSON-Array. Kein anderer Text.'
   };
-
+  const fallbacks = {
+    4: ['Ich habe noch keine Website','Meine Website sieht nicht professionell aus','Ich weiß nicht, was ich schreiben soll','Mir fehlt die Zeit dafür','Etwas anderes'],
+    11: ['Warme Erdtöne – Sand, Terrakotta, Creme','Frische Naturtöne – Grün, Weiß, Beige','Kühle Klarheit – Blau, Grau, Weiß','Dunkle Tiefe – Nacht, Gold, Anthrazit','Etwas anderes'],
+    12: ['Hell und natürlich – freundlich und warm','Stimmungsvoll und atmosphärisch','Klar und professionell – Clean Look','Nahbar und authentisch – echte Momente','Etwas anderes'],
+    13: ['Warm und einladend – wie zu Hause ankommen','Klar und professionell – fokussiert','Inspirierend und lebendig – voller Energie','Ruhig und geerdet – ein stiller Ort','Etwas anderes']
+  };
   try {
-    const res = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 300,
-        messages: [{role:'user', content: prompts[qNum]}]
-      })
+    const res = await fetch(WORKER, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:300,messages:[{role:'user',content:prompts[qn]}]})
     });
     const data = await res.json();
     const text = data.content?.[0]?.text || '';
-
     let opts = [];
-    try{
-      opts = JSON.parse(text.trim());
-    } catch(e){
-      // Fallback parsen
-      const matches = text.match(/"([^"]+)"/g);
-      if(matches) opts = matches.map(m => m.replace(/"/g,''));
+    try { opts = JSON.parse(text.trim()); } catch(e) {
+      const m = text.match(/"([^"]+)"/g);
+      if(m) opts = m.map(x=>x.replace(/"/g,''));
     }
-
-    if(!opts || opts.length === 0) throw new Error('Keine Optionen');
-
-    opts.push('Etwas anderes');
-    renderAIOptions(qNum, opts);
-    aiDone[qNum] = true;
-
-  } catch(err){
-    console.warn('KI-Fehler q'+qNum, err);
-    renderFallback(qNum);
+    if(!opts || opts.length === 0) throw new Error('leer');
+    if(!opts.includes('Etwas anderes')) opts.push('Etwas anderes');
+    renderAI(qn, opts);
+    aiDone[qn] = true;
+  } catch(e) {
+    renderAI(qn, fallbacks[qn]);
   }
 }
 
-function renderAIOptions(qNum, opts){
-  const wrap = document.getElementById('opts'+qNum);
-  const btnId = 'btn'+qNum;
-  const isMulti = (qNum === 11 || qNum === 12 || qNum === 13);
-
+function renderAI(qn, opts) {
+  const wrap = document.getElementById('opts'+qn);
+  const isMulti = (qn===11||qn===12||qn===13);
   wrap.innerHTML = '';
-  opts.forEach((opt, i) => {
+  opts.forEach((opt,i) => {
     const isFree = opt === 'Etwas anderes';
     const div = document.createElement('div');
     div.className = 'option' + (isMulti ? ' multi' : '');
     div.dataset.value = opt;
-    div.innerHTML = `<span class="option-check"></span><span>${opt}</span>`;
-    if(isFree){
-      div.innerHTML += `<div class="freetext-wrap" id="free-ai-${qNum}-${i}"><textarea class="text-input" rows="1" placeholder="Deine Antwort..." style="margin-top:0.4rem"></textarea></div>`;
+    div.innerHTML = '<span class="option-check"></span><span>'+opt+'</span>';
+    if(isFree) {
+      const ft = document.createElement('div');
+      ft.className = 'freetext-wrap';
+      ft.id = 'free-ai-'+qn+'-'+i;
+      ft.innerHTML = '<textarea class="text-input" rows="1" placeholder="Deine Antwort..."></textarea>';
+      div.appendChild(ft);
     }
-    div.addEventListener('click', (e) => {
-      if(e.target.tagName === 'TEXTAREA') return;
-      if(!isMulti) wrap.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    div.addEventListener('click', ev => {
+      if(ev.target.tagName==='TEXTAREA') return;
+      if(!isMulti) wrap.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
       div.classList.toggle('selected');
-      if(isFree){
-        const ft = document.getElementById('free-ai-'+qNum+'-'+i);
+      if(isFree) {
+        const ft = document.getElementById('free-ai-'+qn+'-'+i);
         if(ft) ft.classList.toggle('show', div.classList.contains('selected'));
       }
     });
     wrap.appendChild(div);
   });
-
-  document.getElementById(btnId).style.display = 'inline-flex';
+  const btn = document.getElementById('btn'+qn);
+  if(btn) btn.style.display = 'inline-flex';
 }
 
-function renderFallback(qNum){
-  const fallbacks = {
-    4: ['Ich habe noch keine Website', 'Meine Website sieht nicht professionell aus', 'Ich weiß nicht, was ich schreiben soll', 'Mir fehlt die Zeit für meine Website', 'Etwas anderes'],
-    11: ['Warme Erdtöne – Sand, Terrakotta, Creme', 'Frische Naturtöne – Grün, Weiß, Beige', 'Kühle Klarheit – Blau, Grau, Weiß', 'Dunkle Tiefe – Nacht, Gold, Anthrazit', 'Etwas anderes'],
-    12: ['Helles, natürliches Licht – freundlich und warm', 'Stimmungsvoll und atmosphärisch', 'Klar und professionell – Clean Look', 'Nahbar und authentisch – echte Momente', 'Etwas anderes'],
-    13: ['Warm und einladend – wie zu Hause ankommen', 'Klar und professionell – fokussiert', 'Inspirierend und lebendig – voller Energie', 'Ruhig und geerdet – ein stiller Ort', 'Etwas anderes']
-  };
-  renderAIOptions(qNum, fallbacks[qNum] || ['Option A','Option B','Option C','Etwas anderes']);
-}
-
-// ═══════════════════════════════════════════════
-// FORMULAR ABSENDEN
-// ═══════════════════════════════════════════════
-async function submitForm(){
-  // Letzte Antwort sichern
-  const lastVal = getAnswer(20);
+// ── ABSENDEN ──
+async function submitForm() {
+  const lastVal = getVal(20);
   if(lastVal) answers['q20'] = lastVal;
-
   document.getElementById('btnSubmit').textContent = 'Wird gesendet…';
   document.getElementById('btnSubmit').disabled = true;
-
-  // Erfolgs-Screen sofort zeigen
   document.getElementById('mainContent').style.display = 'none';
   document.getElementById('successScreen').style.display = 'block';
   document.getElementById('successScreen').scrollIntoView({behavior:'smooth'});
-
   try {
-    const res = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ fragebogen: answers })
+    const res = await fetch(WORKER, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({fragebogen: answers})
     });
     const data = await res.json();
-
-    if(data.zusammenfassung){
+    if(data.zusammenfassung) {
       document.getElementById('summaryLoading').style.display = 'none';
-      document.getElementById('summaryContent').textContent = data.zusammenfassung;
+      // Markdown ## zu HTML konvertieren
+      const html = data.zusammenfassung
+        .replace(/## ([^\n]+)/g, '<h2>$1</h2>')
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      document.getElementById('summaryContent').innerHTML = html;
       document.getElementById('summaryBox').style.display = 'block';
-    } else {
-      throw new Error('Keine Zusammenfassung');
-    }
-  } catch(e){
-    console.warn('Worker Fehler', e);
+    } else throw new Error('keine zusammenfassung');
+  } catch(e) {
     document.getElementById('summaryLoading').style.display = 'none';
     document.getElementById('summaryError').style.display = 'block';
   }
 }
 
-function exportPDF(){
+// ── PDF EXPORT ──
+function exportPDF() {
   const name = answers['q1'] || 'Marken-Zusammenfassung';
-  const inhalt = document.getElementById('summaryContent').textContent;
-
-  const win = window.open('', '_blank');
-  win.document.write(`<!DOCTYPE html>
-<html><head>
-<meta charset="UTF-8">
-<title>${name}</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
-<style>
-  body{font-family:'DM Sans',sans-serif;color:#1C1917;max-width:700px;margin:3rem auto;padding:2rem;line-height:1.8}
-  h1{font-family:'Cormorant Garamond',serif;font-size:2rem;color:#2D6E6E;margin-bottom:0.5rem}
-  .sub{color:#8A8380;font-size:0.85rem;margin-bottom:2rem}
-  pre{white-space:pre-wrap;font-family:'DM Sans',sans-serif;font-size:0.92rem}
-  @media print{body{margin:1rem}}
-</style>
-</head><body>
-<h1>Deine Marken-Zusammenfassung</h1>
-<div class="sub">Erstellt von Webdesign by Mela ✦</div>
-<pre>${inhalt}</pre>
-<script>window.onload=()=>{window.print()}<\/script>
-</body></html>`);
+  const inhalt = document.getElementById('summaryContent').innerHTML;
+  const win = window.open('','_blank');
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+name+'</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"><style>body{font-family:"DM Sans",sans-serif;color:#1C1917;max-width:700px;margin:3rem auto;padding:2rem;line-height:1.8}.header{margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid #EAE3DA}h1{font-family:"Cormorant Garamond",serif;font-size:2rem;color:#2D6E6E;margin-bottom:0.2rem}.sub{color:#8A8380;font-size:0.85rem}h2{font-family:"Cormorant Garamond",serif;font-size:1.3rem;color:#2D6E6E;margin:1.5rem 0 0.4rem}p,li{font-size:0.92rem}@media print{body{margin:1rem}}</style></head><body><div class="header"><h1>Deine Marken-Zusammenfassung</h1><div class="sub">Erstellt von Webdesign by Mela ✦</div></div>'+inhalt+'<script>window.onload=()=>window.print()<\/script></body></html>');
   win.document.close();
 }
 </script>
