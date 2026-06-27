@@ -437,8 +437,8 @@ body{
     <div class="block-label">Einstieg &amp; Business</div>
     <div class="q-number">Frage 3 von 20</div>
     <div class="q-text">Wer sind deine Wunschkunden?</div>
-    <div class="q-hint">Alter, Beruf, Lebensphase, Thema – was auch immer dir einfällt.</div>
-    <textarea class="text-input" id="a3" rows="2" placeholder="z. B. Selbstständige Frauen zwischen 30 und 50, die..."></textarea>
+    <div class="q-hint">Wähle alles, was passt.</div>
+    <div class="options" id="opts3"></div>
     <button class="btn-next" onclick="triggerAI(3)">Weiter →</button>
   </div>
 
@@ -732,6 +732,19 @@ body{
 const WORKER_URL = 'https://mela-api.webdesignbymela.workers.dev';
 
 const staticOptions = {
+  3: {
+    multi: true,
+    opts: [
+      'Frauen, die sich selbstständig machen oder es planen',
+      'Selbstständige und Solopreneurinnen',
+      'Kreative und Künstlerinnen',
+      'Beraterinnen und Coaches',
+      'Heilpraktikerinnen und Therapeutinnen',
+      'Unternehmerinnen mit einem kleinen Team',
+      'Menschen in einer Lebensveränderung',
+      {text:'Etwas anderes', free: true}
+    ]
+  },
   5: {
     multi: true,
     opts: [
