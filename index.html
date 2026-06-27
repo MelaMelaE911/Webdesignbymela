@@ -887,6 +887,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const ta = document.activeElement;
       if(ta && ta.tagName === 'TEXTAREA') return;
       e.preventDefault();
+      if(currentQ <= totalQ){
+        const btn = document.querySelector('#q' + currentQ + ' .btn-next');
+        if(btn && btn.style.display !== 'none') btn.click();
+      }
     }
   });
 });
