@@ -694,38 +694,16 @@ function showResult(){
     '<button class="btn btn-primary" id="pdf-btn" style="margin-top:1rem;width:100%">&#128196; Als Brandboard speichern</button>'+
     '<p class="send-status" id="send-status">Ergebnis wird \u00fcbermittelt &hellip;</p>';
 
-  // PDF-Button Event
+  // PDF-Button: Seite direkt drucken (identisch zur Bildschirm-Auswertung)
   document.getElementById('pdf-btn').addEventListener('click', function(){
-    var win = window.open('','_blank');
-    win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Brandboard '+name+'</title>'+
-      '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">'+
-      '<style>body{font-family:"DM Sans",sans-serif;color:#1C1917;max-width:700px;margin:3rem auto;padding:2rem;line-height:1.8}'+
-      'h1{font-family:"Cormorant Garamond",serif;font-size:2rem;color:#2D6E6E;margin-bottom:0.2rem}'+
-      '.sub{color:#8A8380;font-size:0.85rem;margin-bottom:2rem;display:block}'+
-      'h2{font-family:"Cormorant Garamond",serif;font-size:1.3rem;color:#2D6E6E;margin:1.5rem 0 0.4rem;border-top:1px solid #EAE3DA;padding-top:1rem}'+
-      '.swatch{display:inline-block;width:36px;height:36px;border-radius:6px;margin-right:8px;vertical-align:middle;border:1px solid #eee}'+
-      'p{font-size:0.92rem;margin-bottom:0.5rem}@media print{body{margin:1rem}}</style></head><body>');
-    win.document.write('<h1>Brandboard: '+name+'</h1><span class="sub">Erstellt von Webdesign by Mela &#10022;</span>');
-    win.document.write('<h2>Marken-Archetyp</h2>');
-    win.document.write('<p><strong>Prim\u00e4r:</strong> '+aP.icon+' '+aP.name+' &ndash; '+aP.desc+'</p>');
-    win.document.write('<p><strong>Sekund\u00e4r:</strong> '+aS.icon+' '+aS.name+' &ndash; '+aS.desc+'</p>');
-    win.document.write('<h2>Zielgruppe</h2>');
-    win.document.write('<p><strong>Wer:</strong> '+(zgLabel||zgGeschlechtText||'')+'</p>');
-    if(nachtText) win.document.write('<p><strong>Was sie nachts bewegt:</strong> '+nachtText+'</p>');
-    if(vorText) win.document.write('<p><strong>Was sie schon versucht hat:</strong> '+vorText+'</p>');
-    win.document.write('<h2>Farbpalette</h2>');
-    palette.forEach(function(c){win.document.write('<p><span class="swatch" style="background:'+c.hex+'"></span><strong>'+c.name+'</strong> &nbsp;'+c.hex+'&nbsp; <em>'+c.role+'</em></p>');});
-    win.document.write('<h2>Typografie</h2>');
-    win.document.write('<p><strong>Headline:</strong> '+fonts.headline.name+'</p>');
-    win.document.write('<p><strong>Flie\u00dftext:</strong> '+fonts.body.name+'</p>');
-    win.document.write('<p><strong>Akzent:</strong> '+fonts.accent.name+'</p>');
-    win.document.write('<h2>K\u00e4ufertyp</h2>');
-    win.document.write('<p><strong>Prim\u00e4r:</strong> '+bP.name+' &ndash; '+bP.desc+'</p>');
-    win.document.write('<p><strong>Sekund\u00e4r:</strong> '+bS.name+' &ndash; '+bS.desc+'</p>');
-    win.document.write('<h2>Melas Empfehlung</h2>');
-    win.document.write('<p>'+archReason+'</p><p>'+buyerReason+'</p>');
-    win.document.write('<scr'+'ipt>window.onload=function(){window.print();}<\/scr'+'ipt></body></html>');
-    win.document.close();
+    // Print-CSS hinzufuegen
+    var style = document.createElement('style');
+    style.id = 'print-style';
+    style.textContent = '@media print{.progress-wrap,.site-header,.btn-row,.btn,.send-status,#pdf-btn{display:none!important}.shell{max-width:100%!important;padding:1rem!important}}';
+    document.head.appendChild(style);
+    window.print();
+    // Print-CSS danach wieder entfernen
+    setTimeout(function(){ var s=document.getElementById('print-style'); if(s) s.remove(); }, 1000);
   });
 
   // HTML-Auswertung fuer E-Mail zusammenbauen (identisch zur Bildschirmansicht)
