@@ -421,7 +421,7 @@ async function loadDynamicQuestions() {
 
   try {
     var [res1, res2] = await Promise.all([
-      fetch('https://mela-api.webdesignbymela.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:p1}]})}),
+      fetch('https://mela-api.webdesignbymela.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1500,messages:[{role:'user',content:p1}]})}),
       fetch('https://mela-api.webdesignbymela.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:p2}]})})
     ]);
     var d1 = await res1.json();
@@ -497,6 +497,23 @@ async function loadDynamicQuestions() {
       {val:'v4',label:'Einfach weitermachen und hoffen',                  sub:'Warten dass es irgendwann besser wird.'},
       {val:'v5',label:'Verschiedene Methoden ausprobiert',                sub:'Nichts hat wirklich dauerhaft geholfen.'}
     ];
+    // Fallback fuer antrieb + wirkung
+    if(!questions[4].options||questions[4].options.length===0) questions[4].options = [
+      {val:'creator',   label:'Ich will etwas Einzigartiges erschaffen.',          sub:'Meine Handschrift soll erkennbar sein.'},
+      {val:'caregiver', label:'Ich will, dass Menschen sich aufgehoben f\u00fchlen.',sub:'F\u00fcr andere da sein gibt mir Energie.'},
+      {val:'hero',      label:'Ich will Hindernisse \u00fcberwinden.',              sub:'L\u00f6sungen finden, anstatt zu klagen.'},
+      {val:'sage',      label:'Ich will Wissen weitergeben und Klarheit schenken.',  sub:'Verstehen und verstanden werden.'},
+      {val:'explorer',  label:'Ich will neue Wege gehen.',                           sub:'Freiheit und Neugier leiten mich.'},
+      {val:'innocent',  label:'Ich will echte, ehrliche Verbindungen schaffen.',     sub:'Authentizit\u00e4t vor Perfektion.'}
+    ];
+    if(!questions[5].options||questions[5].options.length===0) questions[5].options = [
+      {val:'creator',   label:'Als jemand mit unverwechselbarem Stil.',              sub:'Menschen sp\u00fcren: Die denkt anders.'},
+      {val:'caregiver', label:'Als jemand der zuh\u00f6rt, bevor er spricht.',     sub:'W\u00e4rme und echtes Interesse.'},
+      {val:'hero',      label:'Als jemand der Dinge in Bewegung bringt.',            sub:'Energie, die andere mitrei\u00dft.'},
+      {val:'sage',      label:'Als jemand dessen Worten man vertraut.',              sub:'Kompetenz, die man f\u00fchlt.'},
+      {val:'explorer',  label:'Als jemand der frische Perspektiven bringt.',         sub:'Sieht, was andere nicht sehen.'},
+      {val:'innocent',  label:'Als jemand bei dem man entspannen kann.',             sub:'Kein Druck, keine Maske.'}
+    ];
   }
   dynamicLoaded = true;
   showLoading(false);
@@ -565,6 +582,11 @@ async function nextStep() {
     if(!answers[q.id]){document.getElementById('field-err').style.display='block';return;}
   }
   if(q.id==='zielgruppe_geschlecht'&&!dynamicLoaded) await loadDynamicQuestions();
+  // Warten bis antrieb/wirkung geladen
+  var nextQ = questions[currentStep+1];
+  if(nextQ && (nextQ.id==='antrieb'||nextQ.id==='wirkung') && nextQ.options.length===0 && dynamicLoaded===false) {
+    await loadDynamicQuestions();
+  }
   if(currentStep<questions.length-1){
     currentStep++;renderStep();window.scrollTo({top:0,behavior:'smooth'});
   } else {
