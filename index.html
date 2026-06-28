@@ -625,12 +625,22 @@ function showResult(){
   for(var t2=0;t2<bS.tactics.length;t2++) tS+='<span class="tactic">\u2192 '+bS.tactics[t2]+'</span>';
 
   // Zielgruppe aus Antworten zusammenbauen
-  var zgLabel = answers.zielgruppe || answers.zielgruppe_other || '';
   var zgGeschlecht = {frauen:'Hauptsächlich Frauen',maenner:'Hauptsächlich Männer',gemischt:'Frauen und Männer',familien:'Familien und Eltern'};
   var zgGeschlechtText = zgGeschlecht[answers.zielgruppe_geschlecht] || answers.zielgruppe_geschlecht_other || '';
-  var nachtText = answers.nachtgedanken || answers.nachtgedanken_other || '';
-  var vorText = answers.vorversuche || answers.vorversuche_other || '';
   var zielgruppeText = zgGeschlechtText;
+
+  // Label aus den dynamischen Optionen auslesen statt den val-Wert
+  function getLabelFromOptions(qIndex, val, otherKey) {
+    if(!val) return '';
+    if(val === '__other') return answers[otherKey] || '';
+    var opts = questions[qIndex] ? questions[qIndex].options : [];
+    for(var i=0;i<opts.length;i++) { if(opts[i].val === val) return opts[i].label; }
+    return val; // Fallback: val direkt anzeigen
+  }
+
+  var zgLabel = getLabelFromOptions(12, answers.zielgruppe, 'zielgruppe_other');
+  var nachtText = getLabelFromOptions(13, answers.nachtgedanken, 'nachtgedanken_other');
+  var vorText = getLabelFromOptions(14, answers.vorversuche, 'vorversuche_other');
 
   document.getElementById('steps').innerHTML=
     '<div class="result-hero">'+
