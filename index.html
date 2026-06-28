@@ -195,25 +195,11 @@ var questions = [
   {id:'antrieb', eyebrow:'Marken-Pers\u00f6nlichkeit',
    question:'Was treibt dich jeden Tag aufs Neue an?',
    sub:'Nicht was du tust \u2013 sondern warum du es tust.',
-   options:[
-     {val:'creator',   label:'Ich will etwas Neues erschaffen, das es so noch nicht gibt.',    sub:'Originalit\u00e4t ist mein Motor.'},
-     {val:'caregiver', label:'Ich will, dass sich Menschen wirklich aufgehoben f\u00fchlen.', sub:'F\u00fcr andere da sein gibt mir Energie.'},
-     {val:'hero',      label:'Ich will Hindernisse \u00fcberwinden und andere inspirieren.',   sub:'L\u00f6sungen finden, anstatt zu klagen.'},
-     {val:'sage',      label:'Ich will Wissen weitergeben und Klarheit schenken.',              sub:'Verstehen und verstanden werden.'},
-     {val:'explorer',  label:'Ich will neue Wege gehen und ausgetretene Pfade verlassen.',      sub:'Freiheit und Neugier leiten mich.'},
-     {val:'innocent',  label:'Ich will echte, ehrliche Verbindungen schaffen.',                 sub:'Authentizit\u00e4t vor Perfektion.'}
-   ], other:true},
+   dynamic:true, options:[], other:true},
   {id:'wirkung', eyebrow:'Marken-Pers\u00f6nlichkeit',
    question:'Stell dir vor, du betrittst einen Raum \u2013 wie sollen dich Menschen wahrnehmen?',
    sub:'Nicht wenn du nerv\u00f6s bist \u2013 sondern wenn du ganz bei dir bist.',
-   options:[
-     {val:'creator',   label:'Als jemand mit einer klaren Vision und unverwechselbarem Stil.',   sub:'Menschen sp\u00fcren sofort: Die denkt anders.'},
-     {val:'caregiver', label:'Als jemand der zuh\u00f6rt, bevor er spricht.',                   sub:'W\u00e4rme und echtes Interesse f\u00fcr andere.'},
-     {val:'hero',      label:'Als jemand der Dinge in Bewegung bringt.',                          sub:'Energie, die andere mitrei\u00dft.'},
-     {val:'sage',      label:'Als jemand dessen Worten man vertraut.',                             sub:'Kompetenz, die man f\u00fchlt.'},
-     {val:'explorer',  label:'Als jemand der frische Luft in festgefahrene Situationen bringt.',  sub:'Perspektiven, die andere nicht sehen.'},
-     {val:'innocent',  label:'Als jemand bei dem man einfach entspannen kann.',                    sub:'Kein Druck, keine Maske.'}
-   ], other:true},
+   dynamic:true, options:[], other:true},
   {id:'kommunikation', eyebrow:'Marken-Pers\u00f6nlichkeit',
    question:'Wie kommunizierst du, wenn du ganz du selbst bist?',
    sub:'Nicht wie du denkst, dass man als Unternehmerin reden sollte \u2013 sondern wie du wirklich bist.',
@@ -371,6 +357,9 @@ var answers = {};
 var currentStep = 0;
 var dynamicLoaded = false;
 
+var websiteLabels = {seen:'Verstanden und gesehen',inspired:'Inspiriert und motiviert',safe:'Sicher und aufgehoben',curious:'Neugierig und begeistert',relieved:'Erleichtert',respect:'Respekt und Vertrauen'};
+var erstebotschaftLabels = {who:'Wer ich bin und warum ich das mache',what:'Was ich konkret f\u00fcr sie tun kann',safe:'Dass sie bei mir in guten H\u00e4nden ist',social:'Was andere \u00fcber die Arbeit mit mir sagen',results:'Welche Ergebnisse meine Kundinnen erzielen',diff:'Was mich von anderen unterscheidet'};
+var unterschiedLabels = {story:'Meine pers\u00f6nliche Geschichte',method:'Meine Methode und einzigartiger Ansatz',human:'Meine Menschlichkeit und Nahbarkeit',results2:'Meine Erfahrung und nachweisbaren Ergebnisse',combo:'Meine Kombination aus Herz und Professionalit\u00e4t',courage:'Mein Mut, unbequeme Wahrheiten auszusprechen'};
 var kommLabels   = {warm:'warm und pers\u00f6nlich',direct:'klar und direkt',deep:'tiefgr\u00fcndig und ehrlich',playful:'leicht und humorvoll',inspiring:'inspirierend und bildhaft',calm:'ruhig und kompetent'};
 var repLabels    = {seen:'Sie hat mich wirklich verstanden und gesehen.',right:'Bei ihr wusste ich sofort, dass ich richtig bin.',possible:'Sie hat mir gezeigt, was wirklich m\u00f6glich ist.',best:'Sie ist die Beste in dem, was sie tut.',changed:'Mit ihr hat sich wirklich etwas ver\u00e4ndert.',courage:'Sie hat mir Mut gemacht, ich selbst zu sein.'};
 var kaufLabels   = {emotional:'aus dem Bauch heraus',rational:'nach sorgf\u00e4ltiger Recherche',social:'durch Empfehlungen anderer',trust:'durch gewachsenes Vertrauen',moment:'wenn der Moment stimmt',proof:'wenn sie die konkrete Ver\u00e4nderung sieht'};
@@ -434,8 +423,8 @@ async function loadDynamicQuestions() {
   if(/anwalt|anw\u00e4ltin|rechtsanwalt/i.test(beruf)) kundenbegriff = 'Mandantinnen und Mandanten';
   if(/coach|trainer/i.test(beruf) && answers.zielgruppe_geschlecht === 'frauen') kundenbegriff = 'Klientinnen';
 
-  // Prompt 1: Veraenderung + Zielgruppe (Sicht der Unternehmerin)
-  var p1 = 'Antworte auf Deutsch mit korrekten Umlauten (\u00e4 \u00f6 \u00fc \u00df). Keine ae oe ue ss.\n\nEine Unternehmerin (Beruf: "' + beruf + '", Zielgruppe: "' + zielgruppeText + '") f\u00fcllt einen Marken-Fragebogen aus.\n\nErstelle 2 Sets mit je 5 kurzen Antwortoptionen (label max 10 W\u00f6rter, sub max 12 W\u00f6rter).\n\nSet veraenderung: Was ver\u00e4ndert sich f\u00fcr die ' + kundenbegriff + ' durch die Zusammenarbeit? Aus Ich-Sicht der Unternehmerin.\n\nSet zielgruppe: Wer sind die Wunsch' + kundenbegriff + '? Konkrete Profile.\n\nNUR JSON ohne Markdown:\n{"veraenderung":[{"val":"e1","label":"...","sub":"..."},{"val":"e2","label":"...","sub":"..."},{"val":"e3","label":"...","sub":"..."},{"val":"e4","label":"...","sub":"..."},{"val":"e5","label":"...","sub":"..."}],"zielgruppe":[{"val":"z1","label":"...","sub":"..."},{"val":"z2","label":"...","sub":"..."},{"val":"z3","label":"...","sub":"..."},{"val":"z4","label":"...","sub":"..."},{"val":"z5","label":"...","sub":"..."}]}';
+  // Prompt 1: Veraenderung + Zielgruppe + Antrieb + Wirkung
+  var p1 = 'Antworte auf Deutsch mit korrekten Umlauten (\u00e4 \u00f6 \u00fc \u00df). Keine ae oe ue ss.\n\nEine Unternehmerin (Beruf: "' + beruf + '", Zielgruppe: "' + zielgruppeText + '") f\u00fcllt einen Marken-Fragebogen aus.\n\nErstelle 4 Sets mit je 5-6 kurzen Antwortoptionen (label max 10 W\u00f6rter, sub max 12 W\u00f6rter).\n\nSet veraenderung: Was ver\u00e4ndert sich f\u00fcr die ' + kundenbegriff + ' durch die Zusammenarbeit? Aus Ich-Sicht der Unternehmerin.\n\nSet zielgruppe: Wer sind die Wunsch' + kundenbegriff + '? Konkrete Profile passend zum Beruf.\n\nSet antrieb: 6 Optionen. Was treibt diese Unternehmerin an? Universelle Motivationen fuer jeden Beruf. Nicht kreativ-spezifisch. Beispiele: "Ich will, dass Menschen sich sicher und gut aufgehoben fuehlen.", "Ich will Wissen weitergeben und Klarheit schenken.", "Ich will, dass sich Menschen wirklich verstanden fuehlen.", "Ich will Loesungen finden wo andere aufgeben." Die Optionen muessen auch zu einer Steuerberaterin oder Aerztin passen. val-Werte: creator caregiver hero sage explorer innocent\n\nSet wirkung: 6 Optionen. Wie wirkt diese Unternehmerin auf andere wenn sie ganz sie selbst ist? Universell und berufsneutral. Beispiele: "Als jemand dem man sofort vertraut.", "Als jemand der zuhoert bevor er spricht.", "Als jemand der kompliziertes einfach macht.", "Als jemand der immer eine Loesung findet." val-Werte: creator caregiver hero sage explorer innocent\n\nNUR JSON ohne Markdown:\n{"veraenderung":[{"val":"e1","label":"...","sub":"..."},{"val":"e2","label":"...","sub":"..."},{"val":"e3","label":"...","sub":"..."},{"val":"e4","label":"...","sub":"..."},{"val":"e5","label":"...","sub":"..."}],"zielgruppe":[{"val":"z1","label":"...","sub":"..."},{"val":"z2","label":"...","sub":"..."},{"val":"z3","label":"...","sub":"..."},{"val":"z4","label":"...","sub":"..."},{"val":"z5","label":"...","sub":"..."}],"antrieb":[{"val":"creator","label":"...","sub":"..."},{"val":"caregiver","label":"...","sub":"..."},{"val":"hero","label":"...","sub":"..."},{"val":"sage","label":"...","sub":"..."},{"val":"explorer","label":"...","sub":"..."},{"val":"innocent","label":"...","sub":"..."}],"wirkung":[{"val":"creator","label":"...","sub":"..."},{"val":"caregiver","label":"...","sub":"..."},{"val":"hero","label":"...","sub":"..."},{"val":"sage","label":"...","sub":"..."},{"val":"explorer","label":"...","sub":"..."},{"val":"innocent","label":"...","sub":"..."}]}';
 
   // Prompt 2: Nachtgedanken + Vorversuche (Sicht der Wunschkundin)
   var p2 = 'Antworte auf Deutsch mit korrekten Umlauten (\u00e4 \u00f6 \u00fc \u00df). Keine ae oe ue ss.\n\nEine Person (' + zielgruppeText + ') m\u00f6chte die Hilfe einer ' + beruf + ' in Anspruch nehmen, hat sie aber noch nicht kontaktiert.\n\nErstelle 2 Sets mit je 5 kurzen Antwortoptionen (label max 10 W\u00f6rter, sub max 12 W\u00f6rter). Aus Ich-Perspektive DIESER PERSON. Keine Erw\u00e4hnung der ' + beruf + '.\n\nSet nachtgedanken: Was denkt diese Person nachts? Innere Sorgen und W\u00fcnsche bez\u00fcglich ihres Problems das die ' + beruf + ' l\u00f6sen kann.\n\nSet vorversuche: Was hat diese Person bereits versucht um das Problem zu l\u00f6sen? Aus Ich-Perspektive.\n\nNUR JSON ohne Markdown:\n{"nachtgedanken":[{"val":"n1","label":"...","sub":"..."},{"val":"n2","label":"...","sub":"..."},{"val":"n3","label":"...","sub":"..."},{"val":"n4","label":"...","sub":"..."},{"val":"n5","label":"...","sub":"..."}],"vorversuche":[{"val":"v1","label":"...","sub":"..."},{"val":"v2","label":"...","sub":"..."},{"val":"v3","label":"...","sub":"..."},{"val":"v4","label":"...","sub":"..."},{"val":"v5","label":"...","sub":"..."}]}';
@@ -483,33 +472,35 @@ async function loadDynamicQuestions() {
         return {val:o.val, label:fix(o.label), sub:fix(o.sub)};
       });
     }
-    questions[4].options  = fixUmlaute(p1r.veraenderung);
-    questions[12].options = fixUmlaute(p1r.zielgruppe);
-    questions[13].options = fixUmlaute(p2r.nachtgedanken);
-    questions[14].options = fixUmlaute(p2r.vorversuche);
+    questions[3].options  = fixUmlaute(p1r.veraenderung);
+    if(p1r.antrieb && p1r.antrieb.length) questions[5].options = fixUmlaute(p1r.antrieb);
+    if(p1r.wirkung && p1r.wirkung.length)  questions[6].options = fixUmlaute(p1r.wirkung);
+    questions[11].options = fixUmlaute(p1r.zielgruppe);
+    questions[12].options = fixUmlaute(p2r.nachtgedanken);
+    questions[13].options = fixUmlaute(p2r.vorversuche);
     } catch(e) {
-    questions[4].options = [
+    questions[3].options = [
       {val:'e1',label:'Ich spare ihnen Zeit und Nerven',                  sub:'Sie k\u00f6nnen sich auf ihr Business konzentrieren.'},
       {val:'e2',label:'Ich helfe ihnen, professionell aufzutreten',       sub:'Sie wirken seri\u00f6s und werden ernst genommen.'},
       {val:'e3',label:'Ich mache ihr Leben einfacher',                    sub:'Kompliziertes wird einfach und verst\u00e4ndlich.'},
       {val:'e4',label:'Ich helfe ihnen, mehr Kunden zu gewinnen',         sub:'Ihre Sichtbarkeit steigt, ihr Business w\u00e4chst.'},
       {val:'e5',label:'Ich nehme ihnen etwas ab, was sie selbst nicht k\u00f6nnen',sub:'Expertenwissen, das ihnen fehlt.'}
     ];
-    questions[12].options = [
+    questions[11].options = [
       {val:'z1',label:'Menschen in beruflicher Neuorientierung',  sub:'Suchen Orientierung und neue Richtung.'},
       {val:'z2',label:'Frauen, die sich selbst verloren haben',   sub:'Zwischen Rollen und Erwartungen gefangen.'},
       {val:'z3',label:'Eltern im Alltagsstress',                  sub:'Brauchen Entlastung und klare Struktur.'},
       {val:'z4',label:'Selbst\u00e4ndige in der Wachstumsphase', sub:'Wollen skalieren, wissen aber nicht wie.'},
       {val:'z5',label:'Menschen an einer Lebenskreuzung',         sub:'Ver\u00e4nderung steht an, Begleitung gesucht.'}
     ];
-    questions[13].options = [
+    questions[12].options = [
       {val:'n1',label:'Ich schaffe das alles nicht mehr.',         sub:'\u00dcberforderung durch zu viele Rollen.'},
       {val:'n2',label:'Warum f\u00fchlt sich das nicht richtig an?',sub:'Innere Leere trotz \u00e4u\u00dferem Erfolg.'},
       {val:'n3',label:'Ich stecke fest und wei\u00df nicht warum.',sub:'Blockade ohne erkennbaren Grund.'},
       {val:'n4',label:'Das kann doch nicht alles gewesen sein.',   sub:'Sehnsucht nach mehr Sinn im Leben.'},
       {val:'n5',label:'Ich muss das alleine stemmen.',             sub:'Ersch\u00f6pfung durch fehlende Unterst\u00fctzung.'}
     ];
-    questions[14].options = [
+    questions[13].options = [
       {val:'v1',label:'B\u00fccher und Podcasts',                          sub:'Alleine vorankommen, mit begrenztem Erfolg.'},
       {val:'v2',label:'Andere Coaches oder Therapeuten',                  sub:'Ohne nachhaltiges Ergebnis geblieben.'},
       {val:'v3',label:'Freunde und Familie um Rat fragen',                sub:'Gut gemeint, aber nicht ausreichend.'},
@@ -719,8 +710,20 @@ function showResult(){
         '<div class="buyer-tactics">'+tS+'</div>'+
       '</div>'+
     '</div>'+
+    '<div class="result-section">'+
+      '<p class="rs-label">Website & Kommunikation</p>'+
+      '<div class="buyer-card">'+
+        '<div class="buyer-header"><span class="buyer-badge buyer-badge-p">Gef\u00fchl</span><span class="buyer-name">'+(websiteLabels[answers.websitegefuehl]||answers.websitegefuehl||'')+ '</span></div>'+
+        '<p class="buyer-desc"><strong>Erste Botschaft:</strong> '+(erstebotschaftLabels[answers.erstebotschaft]||answers.erstebotschaft||'')+ '</p>'+
+        '<div class="buyer-why"><strong>Dein Alleinstellungsmerkmal:</strong><br>'+(unterschiedLabels[answers.unterschied]||answers.unterschied||'')+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="result-section">'+
+      '<p class="rs-label">Dein Kern-Versprechen</p>'+
+      '<div class="arch-reason">'+(getLabelFromOptions(3, answers.veraenderung, 'veraenderung_other')||'')+'</div>'+
+    '</div>'+
     '<div class="insight-box" id="insight-box">'+
-      '<p><strong>Melas Empfehlung f\u00fcr '+name+':</strong> Deine Website braucht die Energie der <strong>'+aP.name+'</strong>, kombiniert mit einer Struktur die auf die <strong>'+bP.name+'</strong> ausgerichtet ist. Dein Business \u201e'+(answers.beruf||'')+'\u201c verdient eine Website, die genau widerspiegelt wer du wirklich bist.</p>'+
+      '<p><strong>Melas Empfehlung f\u00fcr '+name+':</strong> Deine Website braucht die Energie der <strong>'+aP.name+'</strong>, kombiniert mit einer Struktur die auf die <strong>'+bP.name+'</strong> ausgerichtet ist. Deine Wunschkunden sollen sich <strong>'+(websiteLabels[answers.websitegefuehl]||'verstanden')+'</strong> f\u00fchlen. Das Erste was sie wissen sollen: <strong>'+(erstebotschaftLabels[answers.erstebotschaft]||answers.erstebotschaft||'')+'</strong>.</p>'+
     '</div>'+
     '<button class="btn btn-primary" id="pdf-btn" style="margin-top:1rem;width:100%">&#128196; Als Brandboard speichern</button>'+
     '<p class="send-status" id="send-status">Ergebnis wird \u00fcbermittelt &hellip;</p>';
@@ -733,7 +736,7 @@ function showResult(){
     // Print-CSS hinzufuegen
     var style = document.createElement('style');
     style.id = 'print-style';
-    style.textContent = '@media print{.progress-wrap,.site-header,.btn-row,.btn,.send-status,#pdf-btn{display:none!important}.shell{max-width:100%!important;padding:1rem!important}}';
+    style.textContent = '@media print{.progress-wrap,.site-header,.btn-row,.btn,.send-status,#pdf-btn{display:none!important}.shell{max-width:100%!important;padding:1rem!important}.color-swatch-big,.color-swatch-big *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}}';
     document.head.appendChild(style);
     window.print();
     // Danach wieder aufraumen
