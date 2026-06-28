@@ -145,6 +145,7 @@ var BLOCKS = [
   'Block 2 \u2013 Marken-Pers\u00f6nlichkeit',
   'Block 2 \u2013 Marken-Pers\u00f6nlichkeit',
   'Block 2 \u2013 Marken-Pers\u00f6nlichkeit',
+  'Block 2 \u2013 Marken-Pers\u00f6nlichkeit',
   'Block 3 \u2013 \u00c4sthetik & Stil',
   'Block 3 \u2013 \u00c4sthetik & Stil',
   'Block 3 \u2013 \u00c4sthetik & Stil',
@@ -191,16 +192,27 @@ var questions = [
    question:'Was ist das Gr\u00f6\u00dfte, das du f\u00fcr deine Kundinnen ver\u00e4nderst?',
    sub:'Nicht die Leistung \u2013 sondern das echte Ergebnis. Was ist danach anders in ihrem Leben?',
    dynamic:true, options:[], other:true},
-  {id:'archetyp', eyebrow:'Marken-Pers\u00f6nlichkeit',
-   question:'Wenn deine Marke eine Person w\u00e4re \u2013 welche Beschreibung trifft am ehesten zu?',
-   sub:'W\u00e4hle die, bei der du innerlich nickst \u2013 nicht die, die du sein solltest.',
+  {id:'antrieb', eyebrow:'Marken-Pers\u00f6nlichkeit',
+   question:'Was treibt dich jeden Tag aufs Neue an?',
+   sub:'Nicht was du tust \u2013 sondern warum du es tust.',
    options:[
-     {val:'creator',   label:'Die Macherin & Vision\u00e4rin',     sub:'Kreativ, innovativ, geht neue Wege.'},
-     {val:'caregiver', label:'Die Sch\u00fctzerin & Begleiterin',  sub:'F\u00fcrsorglich, empathisch, immer da.'},
-     {val:'hero',      label:'Die K\u00e4mpferin & Antreiberin',   sub:'Mutig, l\u00f6sungsorientiert, packt an.'},
-     {val:'sage',      label:'Die Weise & Expertin',              sub:'Klar, kompetent, gibt Orientierung.'},
-     {val:'explorer',  label:'Die Entdeckerin & Freigeistin',     sub:'Unkonventionell, neugierig, authentisch.'},
-     {val:'innocent',  label:'Die Optimistin & Nahbare',          sub:'Ehrlich, positiv, vertrauensw\u00fcrdig.'}
+     {val:'creator',   label:'Ich will etwas Neues erschaffen, das es so noch nicht gibt.',    sub:'Originalit\u00e4t ist mein Motor.'},
+     {val:'caregiver', label:'Ich will, dass sich Menschen wirklich aufgehoben f\u00fchlen.', sub:'F\u00fcr andere da sein gibt mir Energie.'},
+     {val:'hero',      label:'Ich will Hindernisse \u00fcberwinden und andere inspirieren.',   sub:'L\u00f6sungen finden, anstatt zu klagen.'},
+     {val:'sage',      label:'Ich will Wissen weitergeben und Klarheit schenken.',              sub:'Verstehen und verstanden werden.'},
+     {val:'explorer',  label:'Ich will neue Wege gehen und ausgetretene Pfade verlassen.',      sub:'Freiheit und Neugier leiten mich.'},
+     {val:'innocent',  label:'Ich will echte, ehrliche Verbindungen schaffen.',                 sub:'Authentizit\u00e4t vor Perfektion.'}
+   ], other:true},
+  {id:'wirkung', eyebrow:'Marken-Pers\u00f6nlichkeit',
+   question:'Stell dir vor, du betrittst einen Raum \u2013 wie sollen dich Menschen wahrnehmen?',
+   sub:'Nicht wenn du nerv\u00f6s bist \u2013 sondern wenn du ganz bei dir bist.',
+   options:[
+     {val:'creator',   label:'Als jemand mit einer klaren Vision und unverwechselbarem Stil.',   sub:'Menschen sp\u00fcren sofort: Die denkt anders.'},
+     {val:'caregiver', label:'Als jemand der zuh\u00f6rt, bevor er spricht.',                   sub:'W\u00e4rme und echtes Interesse f\u00fcr andere.'},
+     {val:'hero',      label:'Als jemand der Dinge in Bewegung bringt.',                          sub:'Energie, die andere mitrei\u00dft.'},
+     {val:'sage',      label:'Als jemand dessen Worten man vertraut.',                             sub:'Kompetenz, die man f\u00fchlt.'},
+     {val:'explorer',  label:'Als jemand der frische Luft in festgefahrene Situationen bringt.',  sub:'Perspektiven, die andere nicht sehen.'},
+     {val:'innocent',  label:'Als jemand bei dem man einfach entspannen kann.',                    sub:'Kein Druck, keine Maske.'}
    ], other:true},
   {id:'kommunikation', eyebrow:'Marken-Pers\u00f6nlichkeit',
    question:'Wie kommunizierst du, wenn du ganz du selbst bist?',
@@ -369,7 +381,9 @@ var atmLabels    = {homey:'warm und einladend',pro:'klar und professionell',crea
 
 function scoreArchetypes() {
   var s = {creator:0,caregiver:0,hero:0,sage:0,explorer:0,innocent:0};
-  if(answers.archetyp && s.hasOwnProperty(answers.archetyp)) s[answers.archetyp] += 4;
+  // antrieb und wirkung ersetzen die direkte Archetyp-Frage
+  if(answers.antrieb && s.hasOwnProperty(answers.antrieb)) s[answers.antrieb] += 3;
+  if(answers.wirkung && s.hasOwnProperty(answers.wirkung)) s[answers.wirkung] += 3;
   var km = {warm:'caregiver',direct:'hero',deep:'sage',playful:'innocent',inspiring:'creator',calm:'sage'};
   if(answers.kommunikation && km[answers.kommunikation]) s[km[answers.kommunikation]] += 2;
   var rm = {seen:'caregiver',right:'innocent',possible:'hero',best:'sage',changed:'hero',courage:'innocent'};
