@@ -422,41 +422,40 @@ function showLoading(show) {
 async function loadDynamicQuestions() {
   if(dynamicLoaded) return;
   showLoading(true);
-  var beruf = answers.beruf || 'Selbstst\u00e4ndige';
+  var beruf = answers.beruf || 'Selbst\u00e4ndige';
   var zg = {frauen:'Frauen',maenner:'M\u00e4nner',gemischt:'Frauen und M\u00e4nner',familien:'Familien und Eltern'};
   var zielgruppeText = zg[answers.zielgruppe_geschlecht] || (answers.zielgruppe_geschlecht_other||'gemischt');
-  var prompt = 'Du bist Brand-Strategin. Kontext: Eine Webdesignerin (Beruf: "' + beruf + '") arbeitet mit Kundinnen (Zielgruppe: "' + zielgruppeText + '").\\n\\nErstelle 4 Sets mit je 5 Antwortoptionen. Jede Option: label (max 10 Woerter) und sub (max 12 Woerter).\\n\\nSet 1 - veraenderung: Was veraendert sich im Leben der KUNDINNEN nach der Zusammenarbeit? Aus Sicht der Webdesignerin, z.B. "Ich helfe ihr, endlich professionell online aufzutreten."\\n\\nSet 2 - zielgruppe: Konkrete Profile der Wunschkundinnen, z.B. "Coaches ohne professionellen Online-Auftritt" oder "Selbstaendige die Wix aufgegeben haben".\\n\\nSet 3 - nachtgedanken: ACHTUNG - diese Antworten sind die inneren Gedanken der KUNDIN selbst, nicht der Webdesignerin. Die Kundin liegt nachts wach und denkt: Schreibe aus der Ich-Perspektive DER KUNDIN. Beispiele wie es sein soll: "Ich weiss nicht wie ich mich online zeigen soll.", "Meine Website sieht nicht professionell aus.", "Ich weiss nicht wo ich anfangen soll.", "Ich traue mich nicht sichtbar zu werden." NIEMALS aus Sicht der Webdesignerin formulieren.\\n\\nSet 4 - vorversuche: Was hat die KUNDIN bereits selbst ausprobiert? Aus Ich-Perspektive DER KUNDIN. Beispiele wie es sein soll: "Ich habe Wix probiert aber frustriert aufgegeben.", "Ich habe eine billige Freelancerin beauftragt und war enttaeuscht.", "Ich habe YouTube-Tutorials geschaut aber nicht fertig gemacht."\\n\\nAntworte NUR mit validem JSON ohne Markdown:\\n{"veraenderung":[{"val":"e1","label":"...","sub":"..."},{"val":"e2","label":"...","sub":"..."},{"val":"e3","label":"...","sub":"..."},{"val":"e4","label":"...","sub":"..."},{"val":"e5","label":"...","sub":"..."}],"zielgruppe":[{"val":"z1","label":"...","sub":"..."},{"val":"z2","label":"...","sub":"..."},{"val":"z3","label":"...","sub":"..."},{"val":"z4","label":"...","sub":"..."},{"val":"z5","label":"...","sub":"..."}],"nachtgedanken":[{"val":"n1","label":"...","sub":"..."},{"val":"n2","label":"...","sub":"..."},{"val":"n3","label":"...","sub":"..."},{"val":"n4","label":"...","sub":"..."},{"val":"n5","label":"...","sub":"..."}],"vorversuche":[{"val":"v1","label":"...","sub":"..."},{"val":"v2","label":"...","sub":"..."},{"val":"v3","label":"...","sub":"..."},{"val":"v4","label":"...","sub":"..."},{"val":"v5","label":"...","sub":"..."}]}';
+
+  // Kundenbegriff basierend auf Beruf und Zielgruppe
+  var kundenbegriff = 'Kunden und Kundinnen';
+  if(answers.zielgruppe_geschlecht === 'frauen') kundenbegriff = 'Kundinnen';
+  if(answers.zielgruppe_geschlecht === 'maenner') kundenbegriff = 'Kunden';
+  if(/arzt|\u00e4rztin|zahnarzt|praxis|therapeut|heilpraktik/i.test(beruf)) kundenbegriff = 'Patientinnen und Patienten';
+  if(/anwalt|anw\u00e4ltin|rechtsanwalt/i.test(beruf)) kundenbegriff = 'Mandantinnen und Mandanten';
+  if(/coach|trainer/i.test(beruf) && answers.zielgruppe_geschlecht === 'frauen') kundenbegriff = 'Klientinnen';
+
+  // Prompt 1: Veraenderung + Zielgruppe (Sicht der Unternehmerin)
+  var p1 = 'Antworte auf Deutsch mit korrekten Umlauten (\u00e4 \u00f6 \u00fc \u00df). Keine ae oe ue ss.\n\nEine Unternehmerin (Beruf: "' + beruf + '", Zielgruppe: "' + zielgruppeText + '") f\u00fcllt einen Marken-Fragebogen aus.\n\nErstelle 2 Sets mit je 5 kurzen Antwortoptionen (label max 10 W\u00f6rter, sub max 12 W\u00f6rter).\n\nSet veraenderung: Was ver\u00e4ndert sich f\u00fcr die ' + kundenbegriff + ' durch die Zusammenarbeit? Aus Ich-Sicht der Unternehmerin.\n\nSet zielgruppe: Wer sind die Wunsch' + kundenbegriff + '? Konkrete Profile.\n\nNUR JSON ohne Markdown:\n{"veraenderung":[{"val":"e1","label":"...","sub":"..."},{"val":"e2","label":"...","sub":"..."},{"val":"e3","label":"...","sub":"..."},{"val":"e4","label":"...","sub":"..."},{"val":"e5","label":"...","sub":"..."}],"zielgruppe":[{"val":"z1","label":"...","sub":"..."},{"val":"z2","label":"...","sub":"..."},{"val":"z3","label":"...","sub":"..."},{"val":"z4","label":"...","sub":"..."},{"val":"z5","label":"...","sub":"..."}]}';
+
+  // Prompt 2: Nachtgedanken + Vorversuche (Sicht der Wunschkundin)
+  var p2 = 'Antworte auf Deutsch mit korrekten Umlauten (\u00e4 \u00f6 \u00fc \u00df). Keine ae oe ue ss.\n\nEine Person (' + zielgruppeText + ') m\u00f6chte die Hilfe einer ' + beruf + ' in Anspruch nehmen, hat sie aber noch nicht kontaktiert.\n\nErstelle 2 Sets mit je 5 kurzen Antwortoptionen (label max 10 W\u00f6rter, sub max 12 W\u00f6rter). Aus Ich-Perspektive DIESER PERSON. Keine Erw\u00e4hnung der ' + beruf + '.\n\nSet nachtgedanken: Was denkt diese Person nachts? Innere Sorgen und W\u00fcnsche bez\u00fcglich ihres Problems das die ' + beruf + ' l\u00f6sen kann.\n\nSet vorversuche: Was hat diese Person bereits versucht um das Problem zu l\u00f6sen? Aus Ich-Perspektive.\n\nNUR JSON ohne Markdown:\n{"nachtgedanken":[{"val":"n1","label":"...","sub":"..."},{"val":"n2","label":"...","sub":"..."},{"val":"n3","label":"...","sub":"..."},{"val":"n4","label":"...","sub":"..."},{"val":"n5","label":"...","sub":"..."}],"vorversuche":[{"val":"v1","label":"...","sub":"..."},{"val":"v2","label":"...","sub":"..."},{"val":"v3","label":"...","sub":"..."},{"val":"v4","label":"...","sub":"..."},{"val":"v5","label":"...","sub":"..."}]}';
+
   try {
-    var res = await fetch('https://mela-api.webdesignbymela.workers.dev',{
-      method:'POST',
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1200,messages:[{role:'user',content:prompt}]})
-    });
-    var data = await res.json();
-    var text = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : '';
-    var parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
-    questions[4].options  = parsed.veraenderung  || [];
-    questions[12].options = parsed.zielgruppe    || [];
-    questions[13].options = parsed.nachtgedanken || [];
-    questions[14].options = parsed.vorversuche   || [];
-
-    // Zweiter Aufruf: Nachtgedanken und Vorversuche nochmal separat mit klarer Kundin-Perspektive
-    try {
-      var prompt2 = 'Du schreibst Antwortoptionen fuer einen Fragebogen. Die Antworten kommen von einer Unternehmerin (Beruf: "' + beruf + '", Zielgruppe: "' + zielgruppeText + '") die eine Webdesignerin beauftragt.\n\nErstelle 2 Sets mit je 5 Optionen. Jede Option: label (max 10 Woerter) und sub (max 12 Woerter).\n\nSet nachtgedanken: Was denkt diese Unternehmerin nachts BEVOR sie die Webdesignerin findet? Innere Sorgen ueber ihre eigene Online-Praesenz. Schreibe aus Ich-Perspektive der Unternehmerin. Beispiele: "Ich weiss nicht wie ich mich online zeigen soll.", "Meine Website sieht nicht professionell aus.", "Ich traue mich nicht sichtbar zu werden."\n\nSet vorversuche: Was hat diese Unternehmerin bereits versucht um ihre Website zu loesen? Aus Ich-Perspektive der Unternehmerin. Beispiele: "Ich habe Wix probiert und frustriert aufgegeben.", "Ich habe eine billige Freelancerin beauftragt.", "Ich schiebe die Website schon seit Monaten vor mir her."\n\nAntworte NUR mit validem JSON ohne Markdown:\n{"nachtgedanken":[{"val":"n1","label":"...","sub":"..."},{"val":"n2","label":"...","sub":"..."},{"val":"n3","label":"...","sub":"..."},{"val":"n4","label":"...","sub":"..."},{"val":"n5","label":"...","sub":"..."}],"vorversuche":[{"val":"v1","label":"...","sub":"..."},{"val":"v2","label":"...","sub":"..."},{"val":"v3","label":"...","sub":"..."},{"val":"v4","label":"...","sub":"..."},{"val":"v5","label":"...","sub":"..."}]}';
-      var res2 = await fetch('https://mela-api.webdesignbymela.workers.dev',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:800,messages:[{role:'user',content:prompt2}]})
-      });
-      var data2 = await res2.json();
-      var text2 = (data2.content && data2.content[0] && data2.content[0].text) ? data2.content[0].text : '';
-      var parsed2 = JSON.parse(text2.replace(/```json|```/g,'').trim());
-      if(parsed2.nachtgedanken && parsed2.nachtgedanken.length) questions[13].options = parsed2.nachtgedanken;
-      if(parsed2.vorversuche && parsed2.vorversuche.length) questions[14].options = parsed2.vorversuche;
-    } catch(e2) { /* Fallback bleibt */ }
-
-  } catch(e) {
+    var [res1, res2] = await Promise.all([
+      fetch('https://mela-api.webdesignbymela.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:p1}]})}),
+      fetch('https://mela-api.webdesignbymela.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:p2}]})})
+    ]);
+    var d1 = await res1.json();
+    var d2 = await res2.json();
+    var t1 = (d1.content&&d1.content[0]) ? d1.content[0].text : '';
+    var t2 = (d2.content&&d2.content[0]) ? d2.content[0].text : '';
+    var p1r = JSON.parse(t1.replace(/```json|```/g,'').trim());
+    var p2r = JSON.parse(t2.replace(/```json|```/g,'').trim());
+    questions[4].options  = p1r.veraenderung  || [];
+    questions[12].options = p1r.zielgruppe    || [];
+    questions[13].options = p2r.nachtgedanken || [];
+    questions[14].options = p2r.vorversuche   || [];
+    } catch(e) {
     questions[4].options = [
       {val:'e1',label:'Ich spare ihnen Zeit und Nerven',                  sub:'Sie k\u00f6nnen sich auf ihr Business konzentrieren.'},
       {val:'e2',label:'Ich helfe ihnen, professionell aufzutreten',       sub:'Sie wirken seri\u00f6s und werden ernst genommen.'},
