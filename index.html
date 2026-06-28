@@ -425,7 +425,7 @@ async function loadDynamicQuestions() {
   var beruf = answers.beruf || 'Selbstst\u00e4ndige';
   var zg = {frauen:'Frauen',maenner:'M\u00e4nner',gemischt:'Frauen und M\u00e4nner',familien:'Familien und Eltern'};
   var zielgruppeText = zg[answers.zielgruppe_geschlecht] || (answers.zielgruppe_geschlecht_other||'gemischt');
-  var prompt = 'Du bist Brand-Designer. Eine Unternehmerin f\u00fcllt einen Marken-Fragebogen aus. Ihr Beruf: "' + beruf + '", Zielgruppe: "' + zielgruppeText + '"\n\nErstelle auf Deutsch f\u00fcr JEDE der 4 Fragen genau 5 Antwortm\u00f6glichkeiten passend zu diesem Beruf. Jede Option hat einen kurzen Titel (max 8 W\u00f6rter, beginnend mit "Ich", kein "befähige") und eine Beschreibung (max 12 W\u00f6rter).\n\nAntworte NUR mit validem JSON ohne Markdown:\n{"veraenderung":[{"val":"e1","label":"Ich ...","sub":"..."},{"val":"e2","label":"Ich ...","sub":"..."},{"val":"e3","label":"Ich ...","sub":"..."},{"val":"e4","label":"Ich ...","sub":"..."},{"val":"e5","label":"Ich ...","sub":"..."}],"zielgruppe":[{"val":"z1","label":"...","sub":"..."},{"val":"z2","label":"...","sub":"..."},{"val":"z3","label":"...","sub":"..."},{"val":"z4","label":"...","sub":"..."},{"val":"z5","label":"...","sub":"..."}],"nachtgedanken":[{"val":"n1","label":"...","sub":"..."},{"val":"n2","label":"...","sub":"..."},{"val":"n3","label":"...","sub":"..."},{"val":"n4","label":"...","sub":"..."},{"val":"n5","label":"...","sub":"..."}],"vorversuche":[{"val":"v1","label":"...","sub":"..."},{"val":"v2","label":"...","sub":"..."},{"val":"v3","label":"...","sub":"..."},{"val":"v4","label":"...","sub":"..."},{"val":"v5","label":"...","sub":"..."}]}';
+  var prompt = 'Du bist Brand-Strategin. Kontext: Eine Webdesignerin (Beruf: "' + beruf + '") arbeitet mit Kundinnen (Zielgruppe: "' + zielgruppeText + '").\n\nErstelle 4 Sets mit je 5 Antwortoptionen fuer einen Marken-Fragebogen. Jede Option hat label (max 10 Woerter) und sub (max 12 Woerter).\n\nSet 1 - veraenderung: Was veraendert sich im Leben der KUNDINNEN nach der Zusammenarbeit? Formulierung: "Ich helfe ihr..." oder "Meine Kundinnen..." aus Sicht der Webdesignerin.\n\nSet 2 - zielgruppe: Wer sind die typischen Wunschkundinnen dieser Webdesignerin? Konkrete Profile, z.B. "Coaches ohne professionellen Online-Auftritt".\n\nSet 3 - nachtgedanken: Was denkt die KUNDIN selbst nachts? Innere Gedanken der Kundin in Ich-Form der KUNDIN. Beispiele: "Ich weiss nicht wie ich mich online zeigen soll.", "Ich wirke nicht professionell genug.", "Ich weiss nicht wo ich anfangen soll."\n\nSet 4 - vorversuche: Was hat die KUNDIN bereits selbst versucht? Aus Sicht der KUNDIN in Ich-Form. Beispiele: "Ich habe Wix ausprobiert aber aufgegeben.", "Ich habe eine guenstige Freelancerin beauftragt und war enttaeuscht."\n\nAntworte NUR mit validem JSON ohne Markdown:\n{"veraenderung":[{"val":"e1","label":"...","sub":"..."},{"val":"e2","label":"...","sub":"..."},{"val":"e3","label":"...","sub":"..."},{"val":"e4","label":"...","sub":"..."},{"val":"e5","label":"...","sub":"..."}],"zielgruppe":[{"val":"z1","label":"...","sub":"..."},{"val":"z2","label":"...","sub":"..."},{"val":"z3","label":"...","sub":"..."},{"val":"z4","label":"...","sub":"..."},{"val":"z5","label":"...","sub":"..."}],"nachtgedanken":[{"val":"n1","label":"...","sub":"..."},{"val":"n2","label":"...","sub":"..."},{"val":"n3","label":"...","sub":"..."},{"val":"n4","label":"...","sub":"..."},{"val":"n5","label":"...","sub":"..."}],"vorversuche":[{"val":"v1","label":"...","sub":"..."},{"val":"v2","label":"...","sub":"..."},{"val":"v3","label":"...","sub":"..."},{"val":"v4","label":"...","sub":"..."},{"val":"v5","label":"...","sub":"..."}]}';
   try {
     var res = await fetch('https://mela-api.webdesignbymela.workers.dev',{
       method:'POST',
@@ -608,6 +608,14 @@ function showResult(){
   for(var t=0;t<bP.tactics.length;t++) tP+='<span class="tactic">\u2192 '+bP.tactics[t]+'</span>';
   for(var t2=0;t2<bS.tactics.length;t2++) tS+='<span class="tactic">\u2192 '+bS.tactics[t2]+'</span>';
 
+  // Zielgruppe aus Antworten zusammenbauen
+  var zgLabel = answers.zielgruppe || answers.zielgruppe_other || '';
+  var zgGeschlecht = {frauen:'Hauptsächlich Frauen',maenner:'Hauptsächlich Männer',gemischt:'Frauen und Männer',familien:'Familien und Eltern'};
+  var zgGeschlechtText = zgGeschlecht[answers.zielgruppe_geschlecht] || answers.zielgruppe_geschlecht_other || '';
+  var nachtText = answers.nachtgedanken || answers.nachtgedanken_other || '';
+  var vorText = answers.vorversuche || answers.vorversuche_other || '';
+  var zielgruppeText = zgGeschlechtText;
+
   document.getElementById('steps').innerHTML=
     '<div class="result-hero">'+
       '<span class="result-tag">Auswertung f\u00fcr '+name+'</span>'+
@@ -623,6 +631,14 @@ function showResult(){
       '</div>'+
       '<div class="arch-reason"><strong>Warum diese Archetypen?</strong><br>'+archReason+'</div>'+
       '<div class="arch-reason" style="margin-top:8px"><strong>Sekund\u00e4r-Einfluss:</strong><br>'+aS.desc+'</div>'+
+    '</div>'+
+    '<div class="result-section">'+
+      '<p class="rs-label">Deine Zielgruppe</p>'+
+      '<div class="buyer-card">'+
+        '<div class="buyer-header"><span class="buyer-badge buyer-badge-p">Wer</span><span class="buyer-name">'+(zgLabel||zgGeschlechtText||'Deine Wunschkundin')+'</span></div>'+
+        (nachtText ? '<p class="buyer-desc"><strong>Was sie nachts bewegt:</strong><br>'+nachtText+'</p>' : '')+
+        (vorText ? '<div class="buyer-why"><strong>Was sie schon versucht hat:</strong><br>'+vorText+'</div>' : '')+
+      '</div>'+
     '</div>'+
     '<div class="result-section">'+
       '<p class="rs-label">Deine Farbpalette</p>'+
@@ -646,10 +662,45 @@ function showResult(){
         '<div class="buyer-tactics">'+tS+'</div>'+
       '</div>'+
     '</div>'+
-    '<div class="insight-box">'+
+    '<div class="insight-box" id="insight-box">'+
       '<p><strong>Melas Empfehlung f\u00fcr '+name+':</strong> Deine Website braucht die Energie der <strong>'+aP.name+'</strong>, kombiniert mit einer Struktur die auf die <strong>'+bP.name+'</strong> ausgerichtet ist. Dein Business \u201e'+(answers.beruf||'')+'\u201c verdient eine Website, die genau widerspiegelt wer du wirklich bist.</p>'+
     '</div>'+
+    '<button class="btn btn-primary" id="pdf-btn" style="margin-top:1rem;width:100%">&#128196; Als Brandboard speichern</button>'+
     '<p class="send-status" id="send-status">Ergebnis wird \u00fcbermittelt &hellip;</p>';
+
+  // PDF-Button Event
+  document.getElementById('pdf-btn').addEventListener('click', function(){
+    var win = window.open('','_blank');
+    win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Brandboard '+name+'</title>'+
+      '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">'+
+      '<style>body{font-family:"DM Sans",sans-serif;color:#1C1917;max-width:700px;margin:3rem auto;padding:2rem;line-height:1.8}'+
+      'h1{font-family:"Cormorant Garamond",serif;font-size:2rem;color:#2D6E6E;margin-bottom:0.2rem}'+
+      '.sub{color:#8A8380;font-size:0.85rem;margin-bottom:2rem;display:block}'+
+      'h2{font-family:"Cormorant Garamond",serif;font-size:1.3rem;color:#2D6E6E;margin:1.5rem 0 0.4rem;border-top:1px solid #EAE3DA;padding-top:1rem}'+
+      '.swatch{display:inline-block;width:36px;height:36px;border-radius:6px;margin-right:8px;vertical-align:middle;border:1px solid #eee}'+
+      'p{font-size:0.92rem;margin-bottom:0.5rem}@media print{body{margin:1rem}}</style></head><body>');
+    win.document.write('<h1>Brandboard: '+name+'</h1><span class="sub">Erstellt von Webdesign by Mela &#10022;</span>');
+    win.document.write('<h2>Marken-Archetyp</h2>');
+    win.document.write('<p><strong>Prim\u00e4r:</strong> '+aP.icon+' '+aP.name+' &ndash; '+aP.desc+'</p>');
+    win.document.write('<p><strong>Sekund\u00e4r:</strong> '+aS.icon+' '+aS.name+' &ndash; '+aS.desc+'</p>');
+    win.document.write('<h2>Zielgruppe</h2>');
+    win.document.write('<p><strong>Wer:</strong> '+(zgLabel||zgGeschlechtText||'')+'</p>');
+    if(nachtText) win.document.write('<p><strong>Was sie nachts bewegt:</strong> '+nachtText+'</p>');
+    if(vorText) win.document.write('<p><strong>Was sie schon versucht hat:</strong> '+vorText+'</p>');
+    win.document.write('<h2>Farbpalette</h2>');
+    palette.forEach(function(c){win.document.write('<p><span class="swatch" style="background:'+c.hex+'"></span><strong>'+c.name+'</strong> &nbsp;'+c.hex+'&nbsp; <em>'+c.role+'</em></p>');});
+    win.document.write('<h2>Typografie</h2>');
+    win.document.write('<p><strong>Headline:</strong> '+fonts.headline.name+'</p>');
+    win.document.write('<p><strong>Flie\u00dftext:</strong> '+fonts.body.name+'</p>');
+    win.document.write('<p><strong>Akzent:</strong> '+fonts.accent.name+'</p>');
+    win.document.write('<h2>K\u00e4ufertyp</h2>');
+    win.document.write('<p><strong>Prim\u00e4r:</strong> '+bP.name+' &ndash; '+bP.desc+'</p>');
+    win.document.write('<p><strong>Sekund\u00e4r:</strong> '+bS.name+' &ndash; '+bS.desc+'</p>');
+    win.document.write('<h2>Melas Empfehlung</h2>');
+    win.document.write('<p>'+archReason+'</p><p>'+buyerReason+'</p>');
+    win.document.write('<scr'+'ipt>window.onload=function(){window.print();}<\/scr'+'ipt></body></html>');
+    win.document.close();
+  });
 
   // E-Mail via EmailJS senden
   var emailMsg = 'MARKEN-AUSWERTUNG fuer ' + name + '\n\n' +
