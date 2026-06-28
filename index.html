@@ -628,8 +628,14 @@ function showResult(){
   var fontRoles=[{key:'headline',label:'Headline'},{key:'body',label:'Flie\u00dftext'},{key:'accent',label:'Akzent'}];
   var fontCards='';
   for(var j=0;j<fontRoles.length;j++){
+  // Google Fonts dynamisch laden
+  var _gfn=[fonts.headline.name,fonts.body.name,fonts.accent.name];
+  var _gfUrl='https://fonts.googleapis.com/css2?family='+_gfn.map(function(n){return n.replace(/ /g,'+')+'%3Awght%40400%3B600';}).join('&family=')+'&display=swap';
+  if(!document.getElementById('result-fonts')){var _lnk=document.createElement('link');_lnk.id='result-fonts';_lnk.rel='stylesheet';_lnk.href=_gfUrl;document.head.appendChild(_lnk);}
+
     var fr=fontRoles[j];var f=fonts[fr.key];
-    fontCards+='<div class="font-card"><span class="font-badge">'+fr.label+'</span><div><div class="font-name">'+f.name+'</div><div class="font-why">'+getFontWhy(fr.key,f.name,arch.primary,answers.kommunikation)+'</div><div class="font-preview">'+f.preview+'</div></div></div>';
+    var pvSize=fr.key==='headline'?'28px':'18px';var pvW=fr.key==='headline'?'600':'400';
+    fontCards+='<div class="font-card"><span class="font-badge">'+fr.label+'</span><div><div class="font-name">'+f.name+'</div><div class="font-why">'+getFontWhy(fr.key,f.name,arch.primary,answers.kommunikation)+'</div><div class="font-preview" style="font-family:'+JSON.stringify(f.name)+',serif;font-size:'+pvSize+';font-weight:'+pvW+'">'+f.preview+'</div></div></div>';
   }
 
   var tP='',tS='';
@@ -650,9 +656,9 @@ function showResult(){
     return val; // Fallback: val direkt anzeigen
   }
 
-  var zgLabel = getLabelFromOptions(12, answers.zielgruppe, 'zielgruppe_other');
-  var nachtText = getLabelFromOptions(13, answers.nachtgedanken, 'nachtgedanken_other');
-  var vorText = getLabelFromOptions(14, answers.vorversuche, 'vorversuche_other');
+  var zgLabel = getLabelFromOptions(11, answers.zielgruppe, 'zielgruppe_other');
+  var nachtText = getLabelFromOptions(12, answers.nachtgedanken, 'nachtgedanken_other');
+  var vorText = getLabelFromOptions(13, answers.vorversuche, 'vorversuche_other');
 
   document.getElementById('steps').innerHTML=
     '<div class="result-hero">'+
