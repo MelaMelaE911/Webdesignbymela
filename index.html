@@ -728,22 +728,43 @@ function showResult(){
     win.document.close();
   });
 
-  // E-Mail via EmailJS senden
-  var emailMsg = 'MARKEN-AUSWERTUNG fuer ' + name + '\n\n' +
-    'Archetyp Primaer: ' + aP.name + '\n' +
-    'Archetyp Sekundaer: ' + aS.name + '\n' +
-    'Kaeufertyp Primaer: ' + bP.name + '\n' +
-    'Kaeufertyp Sekundaer: ' + bS.name + '\n' +
-    'Farbwelt: ' + (farbLabels[answers.farbwelt]||answers.farbwelt||'') + '\n' +
-    'Atmosphaere: ' + (atmLabels[answers.atmosphaere]||answers.atmosphaere||'') + '\n' +
-    'Kommunikation: ' + (kommLabels[answers.kommunikation]||answers.kommunikation||'') + '\n' +
-    'Farbpalette: ' + palette.map(function(c){return c.name+' '+c.hex;}).join(' | ') + '\n' +
-    'Schriften: Headline: ' + fonts.headline.name + ' | Text: ' + fonts.body.name + ' | Akzent: ' + fonts.accent.name + '\n' +
-    'Beruf: ' + (answers.beruf||'') + '\n' +
-    'Zielgruppe: ' + (zielgruppeText||'') + '\n' +
-    'Kaufentscheidung: ' + (kaufLabels[answers.kaufentscheidung]||answers.kaufentscheidung||'') + '\n' +
-    'Kaufhuerde: ' + (hurdleLabels[answers.kaufhuerden]||answers.kaufhuerden||'') + '\n' +
-    'Ueberzeugung: ' + (convLabels[answers.kaufueberzeugung]||answers.kaufueberzeugung||'');
+  // HTML-Auswertung fuer E-Mail zusammenbauen (identisch zur Bildschirmansicht)
+  var swatchRows = palette.map(function(c){
+    var tc = isLight(c.hex) ? '#1C1917' : '#FFFFFF';
+    return '<tr><td style="padding:8px"><div style="width:60px;height:48px;border-radius:6px;background:'+c.hex+';display:inline-flex;align-items:center;justify-content:center"><span style="font-size:10px;font-family:monospace;color:'+tc+'">'+c.hex+'</span></div></td>'+
+      '<td style="padding:8px"><strong>'+c.name+'</strong> <span style="font-size:11px;color:#8A8380;text-transform:uppercase">'+c.role+'</span></td></tr>';
+  }).join('');
+
+  var emailMsg =
+    '<div style="font-family:Georgia,serif;color:#1C1917">'+
+    '<h2 style="color:#2D6E6E;font-size:1.2rem;border-bottom:1px solid #EAE3DA;padding-bottom:0.5rem">Marken-Archetyp</h2>'+
+    '<p><strong>Primär:</strong> '+aP.icon+' '+aP.name+'<br><em>'+aP.desc+'</em></p>'+
+    '<p><strong>Sekundär:</strong> '+aS.icon+' '+aS.name+'<br><em>'+aS.desc+'</em></p>'+
+    '<p style="background:#F5F0EB;padding:12px;border-radius:8px;font-size:0.9rem">'+archReason+'</p>'+
+
+    '<h2 style="color:#2D6E6E;font-size:1.2rem;border-bottom:1px solid #EAE3DA;padding-bottom:0.5rem;margin-top:1.5rem">Zielgruppe</h2>'+
+    '<p><strong>Wer:</strong> '+(zgLabel||zgGeschlechtText||'')+'</p>'+
+    (nachtText ? '<p><strong>Was sie nachts bewegt:</strong><br>'+nachtText+'</p>' : '')+
+    (vorText ? '<p><strong>Was sie schon versucht hat:</strong><br>'+vorText+'</p>' : '')+
+
+    '<h2 style="color:#2D6E6E;font-size:1.2rem;border-bottom:1px solid #EAE3DA;padding-bottom:0.5rem;margin-top:1.5rem">Farbpalette</h2>'+
+    '<table style="border-collapse:collapse">'+swatchRows+'</table>'+
+
+    '<h2 style="color:#2D6E6E;font-size:1.2rem;border-bottom:1px solid #EAE3DA;padding-bottom:0.5rem;margin-top:1.5rem">Typografie</h2>'+
+    '<p><strong>Headline:</strong> '+fonts.headline.name+'<br>'+
+    '<strong>Fließtext:</strong> '+fonts.body.name+'<br>'+
+    '<strong>Akzent:</strong> '+fonts.accent.name+'</p>'+
+
+    '<h2 style="color:#2D6E6E;font-size:1.2rem;border-bottom:1px solid #EAE3DA;padding-bottom:0.5rem;margin-top:1.5rem">Käufertyp</h2>'+
+    '<p><strong>Primär:</strong> '+bP.name+'<br><em>'+bP.desc+'</em></p>'+
+    '<p><strong>Sekundär:</strong> '+bS.name+'<br><em>'+bS.desc+'</em></p>'+
+    '<p style="background:#F5F0EB;padding:12px;border-radius:8px;font-size:0.9rem">'+buyerReason+'</p>'+
+
+    '<h2 style="color:#2D6E6E;font-size:1.2rem;border-bottom:1px solid #EAE3DA;padding-bottom:0.5rem;margin-top:1.5rem">Melas Empfehlung</h2>'+
+    '<p style="background:linear-gradient(135deg,#E8F2F2,#FEE8ED);padding:12px;border-radius:8px;font-size:0.9rem">'+
+    'Deine Website braucht die Energie der <strong>'+aP.name+'</strong>, kombiniert mit einer Struktur die auf die <strong>'+bP.name+'</strong> ausgerichtet ist. Dein Business „'+(answers.beruf||'')+'“ verdient eine Website, die genau widerspiegelt wer du wirklich bist.'+
+    '</p>'+
+    '</div>';
 
   fetch('https://api.emailjs.com/api/v1.0/email/send', {
     method: 'POST',
