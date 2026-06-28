@@ -451,10 +451,42 @@ async function loadDynamicQuestions() {
     var t2 = (d2.content&&d2.content[0]) ? d2.content[0].text : '';
     var p1r = JSON.parse(t1.replace(/```json|```/g,'').trim());
     var p2r = JSON.parse(t2.replace(/```json|```/g,'').trim());
-    questions[4].options  = p1r.veraenderung  || [];
-    questions[12].options = p1r.zielgruppe    || [];
-    questions[13].options = p2r.nachtgedanken || [];
-    questions[14].options = p2r.vorversuche   || [];
+
+    // Umlaute korrigieren: bekannte falsch-geschriebene deutsche Woerter
+    function fixUmlaute(opts) {
+      if(!opts) return [];
+      var map = {
+        'Zahnaerzte':'Zahn\u00e4rzte','zahnaerzte':'zahn\u00e4rzte',
+        'Zahnaerztin':'Zahn\u00e4rztin','zahnaerztin':'zahn\u00e4rztin',
+        'Aerzte':'\u00c4rzte','aerzte':'\u00e4rzte',
+        'Aerztin':'\u00c4rztin','aerztin':'\u00e4rztin',
+        'Gruenderinnen':'Gr\u00fcnderinnen','Gruenderin':'Gr\u00fcnderin',
+        'Selbstaendige':'Selbst\u00e4ndige','selbstaendige':'selbst\u00e4ndige',
+        'fuer ':'f\u00fcr ','Fuer ':'F\u00fcr ',
+        'ueber ':'\u00fcber ','Ueber ':'\u00dcber ',
+        'koennen':'k\u00f6nnen','moechten':'m\u00f6chten','moechte':'m\u00f6chte',
+        'moeglich':'m\u00f6glich','praesentieren':'pr\u00e4sentieren',
+        'Praesenz':'Pr\u00e4senz','praesenz':'pr\u00e4senz',
+        'staerken':'st\u00e4rken','Staerke':'St\u00e4rke',
+        'zurueck':'zur\u00fcck','Buero':'B\u00fcro',
+        'vertrauenswuerdig':'vertrauensw\u00fcrdig',
+        'Vertrauenswuerdigkeit':'Vertrauensw\u00fcrdigkeit',
+        'Glaubwuerdigkeit':'Glaubw\u00fcrdigkeit',
+        'ausserdem':'au\u00dferdem'
+      };
+      return opts.map(function(o) {
+        function fix(s) {
+          if(!s) return s;
+          Object.keys(map).forEach(function(k){ s = s.split(k).join(map[k]); });
+          return s;
+        }
+        return {val:o.val, label:fix(o.label), sub:fix(o.sub)};
+      });
+    }
+    questions[4].options  = fixUmlaute(p1r.veraenderung);
+    questions[12].options = fixUmlaute(p1r.zielgruppe);
+    questions[13].options = fixUmlaute(p2r.nachtgedanken);
+    questions[14].options = fixUmlaute(p2r.vorversuche);
     } catch(e) {
     questions[4].options = [
       {val:'e1',label:'Ich spare ihnen Zeit und Nerven',                  sub:'Sie k\u00f6nnen sich auf ihr Business konzentrieren.'},
@@ -695,14 +727,20 @@ function showResult(){
 
   // PDF-Button: Seite direkt drucken (identisch zur Bildschirm-Auswertung)
   document.getElementById('pdf-btn').addEventListener('click', function(){
+    // Dateiname setzen
+    var safeName = (answers.name || 'Brandboard').replace(/[^a-zA-Z0-9\u00e4\u00f6\u00fc\u00c4\u00d6\u00dc\u00df ]/g,'').trim();
+    document.title = 'Brandboard_' + safeName;
     // Print-CSS hinzufuegen
     var style = document.createElement('style');
     style.id = 'print-style';
     style.textContent = '@media print{.progress-wrap,.site-header,.btn-row,.btn,.send-status,#pdf-btn{display:none!important}.shell{max-width:100%!important;padding:1rem!important}}';
     document.head.appendChild(style);
     window.print();
-    // Print-CSS danach wieder entfernen
-    setTimeout(function(){ var s=document.getElementById('print-style'); if(s) s.remove(); }, 1000);
+    // Danach wieder aufraumen
+    setTimeout(function(){
+      var s=document.getElementById('print-style'); if(s) s.remove();
+      document.title = 'Marken-Fragebogen \u2013 Webdesign by Mela';
+    }, 1000);
   });
 
   // HTML-Auswertung fuer E-Mail zusammenbauen (identisch zur Bildschirmansicht)
