@@ -437,9 +437,9 @@ async function loadDynamicQuestions() {
     var text = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : '';
     var parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
     questions[4].options  = parsed.veraenderung  || [];
-    questions[11].options = parsed.zielgruppe    || [];
-    questions[12].options = parsed.nachtgedanken || [];
-    questions[13].options = parsed.vorversuche   || [];
+    questions[12].options = parsed.zielgruppe    || [];
+    questions[13].options = parsed.nachtgedanken || [];
+    questions[14].options = parsed.vorversuche   || [];
   } catch(e) {
     questions[4].options = [
       {val:'e1',label:'Ich spare ihnen Zeit und Nerven',                  sub:'Sie k\u00f6nnen sich auf ihr Business konzentrieren.'},
@@ -448,21 +448,21 @@ async function loadDynamicQuestions() {
       {val:'e4',label:'Ich helfe ihnen, mehr Kunden zu gewinnen',         sub:'Ihre Sichtbarkeit steigt, ihr Business w\u00e4chst.'},
       {val:'e5',label:'Ich nehme ihnen etwas ab, was sie selbst nicht k\u00f6nnen',sub:'Expertenwissen, das ihnen fehlt.'}
     ];
-    questions[11].options = [
+    questions[12].options = [
       {val:'z1',label:'Menschen in beruflicher Neuorientierung',  sub:'Suchen Orientierung und neue Richtung.'},
       {val:'z2',label:'Frauen, die sich selbst verloren haben',   sub:'Zwischen Rollen und Erwartungen gefangen.'},
       {val:'z3',label:'Eltern im Alltagsstress',                  sub:'Brauchen Entlastung und klare Struktur.'},
       {val:'z4',label:'Selbst\u00e4ndige in der Wachstumsphase', sub:'Wollen skalieren, wissen aber nicht wie.'},
       {val:'z5',label:'Menschen an einer Lebenskreuzung',         sub:'Ver\u00e4nderung steht an, Begleitung gesucht.'}
     ];
-    questions[12].options = [
+    questions[13].options = [
       {val:'n1',label:'Ich schaffe das alles nicht mehr.',         sub:'\u00dcberforderung durch zu viele Rollen.'},
       {val:'n2',label:'Warum f\u00fchlt sich das nicht richtig an?',sub:'Innere Leere trotz \u00e4u\u00dferem Erfolg.'},
       {val:'n3',label:'Ich stecke fest und wei\u00df nicht warum.',sub:'Blockade ohne erkennbaren Grund.'},
       {val:'n4',label:'Das kann doch nicht alles gewesen sein.',   sub:'Sehnsucht nach mehr Sinn im Leben.'},
       {val:'n5',label:'Ich muss das alleine stemmen.',             sub:'Ersch\u00f6pfung durch fehlende Unterst\u00fctzung.'}
     ];
-    questions[13].options = [
+    questions[14].options = [
       {val:'v1',label:'B\u00fccher und Podcasts',                          sub:'Alleine vorankommen, mit begrenztem Erfolg.'},
       {val:'v2',label:'Andere Coaches oder Therapeuten',                  sub:'Ohne nachhaltiges Ergebnis geblieben.'},
       {val:'v3',label:'Freunde und Familie um Rat fragen',                sub:'Gut gemeint, aber nicht ausreichend.'},
