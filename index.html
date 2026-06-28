@@ -463,8 +463,8 @@ async function loadDynamicQuestions() {
       });
     }
     questions[3].options  = fixUmlaute(p1r.veraenderung);
-    if(p1r.antrieb && p1r.antrieb.length) questions[5].options = fixUmlaute(p1r.antrieb);
-    if(p1r.wirkung && p1r.wirkung.length)  questions[6].options = fixUmlaute(p1r.wirkung);
+    if(p1r.antrieb && p1r.antrieb.length) questions[4].options = fixUmlaute(p1r.antrieb);
+    if(p1r.wirkung && p1r.wirkung.length)  questions[5].options = fixUmlaute(p1r.wirkung);
     questions[11].options = fixUmlaute(p1r.zielgruppe);
     questions[12].options = fixUmlaute(p2r.nachtgedanken);
     questions[13].options = fixUmlaute(p2r.vorversuche);
