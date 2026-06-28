@@ -782,26 +782,6 @@ function showResult(){
   .then(function(){document.getElementById('send-status').innerHTML='<span class="send-ok">\u2713 Ergebnis erfolgreich an Mela \u00fcbermittelt.</span>';})
   .catch(function(){document.getElementById('send-status').textContent='Bitte mach einen Screenshot und schick ihn an Mela.';});
 
-  // PDF-Button hinzufuegen
-  var pdfBtn = document.createElement('button');
-  pdfBtn.className = 'btn btn-primary';
-  pdfBtn.style.cssText = 'margin-top:1rem;width:100%';
-  pdfBtn.textContent = '\ud83d\udcc4 Als Brandboard speichern';
-  pdfBtn.onclick = function(){
-    var win = window.open('','_blank');
-    win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Brandboard '+name+'</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"><style>body{font-family:DM Sans,sans-serif;color:#1C1917;max-width:700px;margin:3rem auto;padding:2rem;line-height:1.8}h1{font-family:Cormorant Garamond,serif;font-size:2rem;color:#2D6E6E;margin-bottom:0.2rem}.sub{color:#8A8380;font-size:0.85rem;margin-bottom:2rem}h2{font-family:Cormorant Garamond,serif;font-size:1.3rem;color:#2D6E6E;margin:1.5rem 0 0.4rem}.swatch{display:inline-block;width:40px;height:40px;border-radius:6px;margin-right:8px;vertical-align:middle}@media print{body{margin:1rem}}</style></head><body>');
-    win.document.write('<h1>Brandboard: '+name+'</h1><div class="sub">Erstellt von Webdesign by Mela \u2756</div>');
-    win.document.write('<h2>Marken-Archetyp</h2><p><strong>Prim\u00e4r:</strong> '+aP.name+' '+aP.icon+'<br><strong>Sekund\u00e4r:</strong> '+aS.name+' '+aS.icon+'</p>');
-    win.document.write('<p>'+archReason+'</p>');
-    win.document.write('<h2>Farbpalette</h2>');
-    palette.forEach(function(c){win.document.write('<span class="swatch" style="background:'+c.hex+'"></span><strong>'+c.name+'</strong> '+c.hex+' ('+c.role+')<br>');});
-    win.document.write('<h2>Typografie</h2><p><strong>Headline:</strong> '+fonts.headline.name+'<br><strong>Flie\u00dftext:</strong> '+fonts.body.name+'<br><strong>Akzent:</strong> '+fonts.accent.name+'</p>');
-    win.document.write('<h2>K\u00e4ufertyp</h2><p><strong>Prim\u00e4r:</strong> '+bP.name+'<br><strong>Sekund\u00e4r:</strong> '+bS.name+'</p>');
-    win.document.write('<h2>Kommunikationsstil</h2><p>'+(kommLabels[answers.kommunikation]||answers.kommunikation||'')+'</p>');
-    win.document.write('<script>window.onload=function(){window.print();}<\/script></body></html>');
-    win.document.close();
-  };
-  document.querySelector('.insight-box').after(pdfBtn);
 }
 
 document.addEventListener('DOMContentLoaded',function(){
